@@ -69,6 +69,7 @@ public class Jeu {
     private void initialiserJoueurs() {
         this.joueurs = this.constructeur.initJoueur();
         this.setJoueurCourant(this.joueurs.get(0));
+
     }
 
     /**
