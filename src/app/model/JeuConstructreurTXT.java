@@ -1,6 +1,8 @@
 package app.model;
 
 import app.joueur.JoueurControlleur;
+import app.joueur.model.constructeur.IJoueurConstructeur;
+import app.joueur.model.constructeur.JoueurConstructeurTXT;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +23,15 @@ public class JeuConstructreurTXT implements JeuConstructeur {
      */
     private final Scanner sc;
 
+    /**
+     * Permet de gérer la construction des joueurs humains et IA
+     */
+    private final IJoueurConstructeur joueurConstructeur;
+
     public JeuConstructreurTXT() {
         this.sc = new Scanner(System.in);
+        this.joueurConstructeur = new JoueurConstructeurTXT();
+
     }
 
     /**
@@ -32,25 +41,36 @@ public class JeuConstructreurTXT implements JeuConstructeur {
      * @param string le texte à mettre en gras
      * @return le texte en gras
      */
-    private static String gras(String string) {
+    public static String gras(String string) {
         return JeuConstructreurTXT.CODE_TEXTE_GRAS + string + JeuConstructreurTXT.CODE_TEXTE_NEUTRE;
     }
 
     @Override
     public List<JoueurControlleur> initJoueur() {
         List<JoueurControlleur> joueurs = new ArrayList<>();
-        int nbJoueur = this.demandeNombreJoueur();
-        System.out.println("\nTrès bien, la partie va démarrer avec " + JeuConstructreurTXT.gras("" + nbJoueur) + " joueurs");
+        int nbJoueurHumain = this.demandeNombreJoueur();
+        int nbJoueurIA = this.demandeNombreJoueurIA(nbJoueurHumain);
+        System.out.println("\nTrès bien, la partie va démarrer avec " + JeuConstructreurTXT.gras("" + nbJoueurHumain) + " joueurs");
 
-        for (int i = 0; i < nbJoueur; ++i) {
-            i = i;
-            // TODO: Ajouter la prise en compte du nombre d'IA 08/11/2021
+        for (int i = 0; i < nbJoueurHumain; ++i) {
+            System.out.println("---------------");
+            System.out.println("Création du joueur numéro " + (i + 1));
+            joueurs.add(this.joueurConstructeur.creerJoueurHumain());
+            System.out.println("---------------");
+        }
+        for (int i = nbJoueurHumain; i < nbJoueurIA; ++i) {
+
+            joueurs.add(this.joueurConstructeur.creerJoueurIA());
         }
 
-
-        return null;
+        return joueurs;
     }
 
+    /**
+     * Demande le nombre de joueurs humain à ajouter à la partie
+     *
+     * @return un entier correspondant au nombre de joueurs humain
+     */
     private int demandeNombreJoueur() {
         System.out.println("Combien de joueurs êtes-vous ?");
         System.out.print("Insérez un nombre: ");
@@ -61,6 +81,20 @@ public class JeuConstructreurTXT implements JeuConstructeur {
             nbJoueur = this.sc.nextInt();
         }
         return nbJoueur;
+    }
+
+    private int demandeNombreJoueurIA(int nbJoueurHumain) {
+        if (nbJoueurHumain == 6)
+            return 0;
+        System.out.println("Combien d'" + gras("IA") + " voulez-vous dans votre partie ? (nombre maximum: " + gras("" + (6 - nbJoueurHumain)) + " )");
+        System.out.print("Insérez un nombre: ");
+        int nbJoueurIA = this.sc.nextInt();
+        while (nbJoueurIA > 6 - nbJoueurHumain) {
+            System.out.println(gras("\nLe nombre de joueur doit être compris entre 1 et " + (6 - nbJoueurHumain) + " inclus"));
+            System.out.print("Insérez un nombre: ");
+            nbJoueurIA = this.sc.nextInt();
+        }
+        return nbJoueurIA;
     }
 
     @Override

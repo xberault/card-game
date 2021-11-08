@@ -1,18 +1,29 @@
 package app.joueur;
 
+import app.joueur.model.IJoueurVue;
+import app.joueur.model.JoueurModel;
+
 public class JoueurControlleur {
 
     /**
-     * Désigne le nom du joueur
+     * Modèle du joueur
      */
-    private final String nom;
+    private JoueurModel model;
 
     /**
-     * Représente le nombre de points possédés par le joueur
+     * Vue du joueur
      */
-    private int points;
+    private IJoueurVue vue;
 
-    public JoueurControlleur(String nom) {
-        this.nom = nom;
+
+    public JoueurControlleur() {
+    }
+
+    public void setModel(JoueurModel joueurModel) {
+        this.model = joueurModel;
+    }
+
+    public void setVue(IJoueurVue vue) {
+        this.vue = vue;
     }
 }
