@@ -41,6 +41,21 @@ public class Jeu {
      */
     private JoueurControlleur joueurCourant;
 
+    /**
+     * Indique si l'on est actuelement en train de débuger l'application
+     */
+    public static boolean DEBUG = true;
+
+    /**
+     * Affiche le string passé en paramètre uniquement si le mode de déboggage est activé
+     *
+     * @param str la chaine de caractère à afficher
+     */
+    public static void printd(String str) {
+        if (DEBUG)
+            System.out.println(str);
+    }
+
     private Jeu(JeuConstructeur jeuConstructeur) {
         this.constructeur = jeuConstructeur;
     }
@@ -77,8 +92,19 @@ public class Jeu {
      */
     public void demarrer() {
         this.initialiserDefausse();
+        printd("Défausse initialisé");
         this.initialiserJoueurs();
-        //TODO this.joueurCourant.jouer()
+        printd("Les joueurs on été initialisés");
+        this.debutPartie();
+    }
+
+    /**
+     * S'occupe que tous les joueurs choisissent leur identité
+     */
+    private void debutPartie() {
+        // Les joueurs sont sélectionnés d'après leur ordre de création
+        for (JoueurControlleur j : joueurs)
+            j.commencerTour();
     }
 
     /**

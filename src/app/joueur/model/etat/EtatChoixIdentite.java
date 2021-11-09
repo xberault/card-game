@@ -11,14 +11,14 @@ public class EtatChoixIdentite implements IEtat {
      */
     private final JoueurModel joueur;
 
-    protected EtatChoixIdentite(JoueurModel joueur) {
+    public EtatChoixIdentite(JoueurModel joueur) {
         this.joueur = joueur;
     }
 
     @Override
     public void executerAction(Action action) throws ActionNonJouableException {
         this.verifieJouable(action);
-
+        this.joueur.changerEtat(this);
         // TODO: 09/11/2021 implémentation de l'action 
     }
 

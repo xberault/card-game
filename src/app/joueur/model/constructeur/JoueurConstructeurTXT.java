@@ -4,8 +4,8 @@ import app.joueur.JoueurControlleur;
 import app.joueur.JoueurHumain;
 import app.joueur.JoueurIA;
 import app.joueur.model.IJoueurVue;
-import app.joueur.model.strategie.IStrategieIA;
 import app.joueur.model.JoueurModel;
+import app.joueur.model.strategie.IStrategieIA;
 import app.joueur.model.strategie.StrategieAleatoire;
 import app.joueur.vue.JoueurVUETXT;
 import app.model.JeuConstructreurTXT;
@@ -34,9 +34,7 @@ public class JoueurConstructeurTXT implements IJoueurConstructeur {
     }
 
     @Override
-    /**
-     * S'occupe de gérer la création d'un joueur humain
-     */
+    // S'occupe de gérer la création d'un joueur humain
     public JoueurControlleur creerJoueurHumain() {
         System.out.println("Quel est le nom de votre humain ?");
         System.out.print("Entrez le nom: ");
@@ -60,6 +58,8 @@ public class JoueurConstructeurTXT implements IJoueurConstructeur {
         IJoueurVue joueurVue = new JoueurVUETXT();
         joueurControlleur.setModel(joueurModel);
         joueurControlleur.setVue(joueurVue);
+
+        joueurModel.ajouterObserverEtat(joueurControlleur);
 
         return joueurControlleur;
     }

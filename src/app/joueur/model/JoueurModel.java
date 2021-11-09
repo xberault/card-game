@@ -5,6 +5,9 @@ import app.joueur.model.etat.EtatChoixIdentite;
 import app.joueur.model.etat.IEtat;
 import app.model.Role;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
 public abstract class JoueurModel {
 
     /**
@@ -29,10 +32,31 @@ public abstract class JoueurModel {
      */
     private IEtat etatActuel;
 
+    /**
+     * contient "l'id" de la propriété du changement d'état d'un joueur
+     */
+    public static String PCHANGEMENTETAT = "changementEtat";
+
+    /**
+     * Remplace l'implémentation de Observable (qui est maintenant deprecated)
+     */
+    private final PropertyChangeSupport pcs;
+
     protected JoueurModel(String nom) {
         this.nom = nom;
         this.role = Role.INDEFINI;
         this.etatActuel = new EtatAttente(this);
+
+        this.pcs = new PropertyChangeSupport(this);
+    }
+
+    /**
+     * L'observeur ajouté sera notifié lorsque l'etat du joueur change
+     *
+     * @param l l'observeur en question
+     */
+    public void ajouterObserverEtat(PropertyChangeListener l) {
+        pcs.addPropertyChangeListener(PCHANGEMENTETAT, l);
     }
 
     /**
@@ -42,8 +66,9 @@ public abstract class JoueurModel {
      * @param etat le nouvel etat à mettre
      */
     public void changerEtat(IEtat etat) {
+        IEtat etatAvant = this.etatActuel;
         this.etatActuel = etat;
-        notifyAll();
+        this.pcs.firePropertyChange(PCHANGEMENTETAT, etatAvant, etatActuel);
     }
 
     /**
