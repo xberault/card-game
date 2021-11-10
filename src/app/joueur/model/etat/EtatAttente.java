@@ -4,6 +4,8 @@ import app.joueur.model.JoueurModel;
 import app.model.Action;
 import app.model.ActionNonJouableException;
 
+import java.util.Objects;
+
 /**
  * Etat dans lequel le joueur ne peut effectuer aucune action ne serait-ce qu'attendre de changer d'état
  */
@@ -52,5 +54,23 @@ public class EtatAttente implements IEtat {
         System.out.println("Nouvel état pour le joueur: " + nouvelEtat);
         return nouvelEtat;
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof EtatAttente)) return false;
+        EtatAttente that = (EtatAttente) o;
+        return Objects.equals(joueur, that.joueur);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(joueur);
+    }
+
+    @Override
+    public String toString() {
+        return "EtatAttente{}";
     }
 }

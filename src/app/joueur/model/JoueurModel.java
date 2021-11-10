@@ -8,8 +8,10 @@ import app.model.Role;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.Objects;
 
 public abstract class JoueurModel {
+
 
     /**
      * Désigne le nom du joueur
@@ -89,5 +91,20 @@ public abstract class JoueurModel {
     public Action[] getActionsDisponibles() {
         return this.etatActuel.getActionsDisponibles();
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof JoueurModel)) return false;
+        JoueurModel that = (JoueurModel) o;
+        return points == that.points && Objects.equals(nom, that.nom) && role == that.role && etatActuel.equals(that.etatActuel) && Objects.equals(pcs, that.pcs);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nom, points, role, etatActuel, pcs);
+    }
+
 
 }

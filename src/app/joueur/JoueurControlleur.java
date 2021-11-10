@@ -42,6 +42,7 @@ public class JoueurControlleur implements PropertyChangeListener {
      */
     public void commencerTour() {
         this.model.changerEtat(new EtatChoixIdentite(this.model));
+        // TODO: 10/11/2021 CHECK que tout le monde ne joue pas le même role 
     }
 
     @Override

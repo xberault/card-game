@@ -42,4 +42,5 @@ public interface IEtat {
         if (!jouable)
             throw new ActionNonJouableException();
     }
+
 }
