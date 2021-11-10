@@ -3,6 +3,7 @@ package app.joueur.model;
 import app.joueur.model.etat.EtatAttente;
 import app.joueur.model.etat.EtatChoixIdentite;
 import app.joueur.model.etat.IEtat;
+import app.model.Action;
 import app.model.Role;
 
 import java.beans.PropertyChangeListener;
@@ -81,4 +82,12 @@ public abstract class JoueurModel {
         if (this.etatActuel instanceof EtatChoixIdentite)
             this.role = role;
     }
+
+    /**
+     * @return un tableau contenant toutes les actions actuellement disponibles pour le joueur
+     */
+    public Action[] getActionsDisponibles() {
+        return this.etatActuel.getActionsDisponibles();
+    }
+
 }
