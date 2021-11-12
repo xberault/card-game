@@ -1,5 +1,6 @@
 package app.joueur.model;
 
+import app.cartes.CarteRumeur;
 import app.joueur.model.etat.EtatAttente;
 import app.joueur.model.etat.EtatChoixIdentite;
 import app.joueur.model.etat.IEtat;
@@ -8,6 +9,8 @@ import app.model.Role;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public abstract class JoueurModel {
@@ -45,11 +48,17 @@ public abstract class JoueurModel {
      */
     private final PropertyChangeSupport pcs;
 
+    /**
+     * Les cartes possédées pour la partie
+     */
+    private final List<CarteRumeur> lesCartes;
+
     protected JoueurModel(String nom) {
         this.points = 0;
         this.nom = nom;
         this.role = Role.INDEFINI;
         this.etatActuel = new EtatAttente(this);
+        this.lesCartes = new ArrayList<>();
 
         this.pcs = new PropertyChangeSupport(this);
     }
@@ -123,5 +132,19 @@ public abstract class JoueurModel {
                 ", points=" + points +
                 ", role=" + role +
                 '}';
+    }
+
+    public CarteRumeur[] getCartes() {
+        return this.lesCartes.toArray(new CarteRumeur[0]);
+    }
+
+
+    /**
+     * Ajoute une carte rumeur dans la main du joueur
+     *
+     * @param carteRumeur la carte à ajouter
+     */
+    public void ajouterCarteRumeur(CarteRumeur carteRumeur) {
+        this.lesCartes.add(carteRumeur);
     }
 }

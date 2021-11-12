@@ -1,5 +1,6 @@
 package app.joueur.vue;
 
+import app.cartes.CarteRumeur;
 import app.joueur.model.IJoueurVue;
 import app.model.Action;
 import app.model.JeuConstructreurTXT;
@@ -38,6 +39,12 @@ public class JoueurVUETXT implements IJoueurVue {
         return (Role) this.obtenirObject(lesRolesDisponibles);
     }
 
+    /**
+     * Permet de demander à l'utilisateur quel objet du tableau il souhaite choisir
+     *
+     * @param objects le tableau qui contient les objets à disposition de l'utilisateur
+     * @return l'objet choisi
+     */
     private Object obtenirObject(Object[] objects) {
         String msgErreur = "La réponse choisi est incorrect; vous devez entrer un nombre compris entre  1 et " + objects.length;
 
@@ -59,6 +66,7 @@ public class JoueurVUETXT implements IJoueurVue {
      *
      * @param lesRoles tous les roles disponibles
      */
+    @Deprecated
     private void afficherRolesDisponibles(Role[] lesRoles) {
         System.out.println("Quel rôle désirez-vous jouer ?");
         this.afficherContenuObjetListe(lesRoles);
@@ -86,6 +94,11 @@ public class JoueurVUETXT implements IJoueurVue {
 
     @Override
     public void faireAttendre() {
+
+    }
+
+    @Override
+    public void afficherCartes(CarteRumeur[] cartes) {
 
     }
 }

@@ -58,10 +58,8 @@ public class JeuConstructreurTXT implements JeuConstructeur {
             joueurs.add(this.joueurConstructeur.creerJoueurHumain());
             System.out.println("---------------");
         }
-        for (int i = nbJoueurHumain; i < nbJoueurIA; ++i) {
-
+        for (int i = nbJoueurHumain; i < nbJoueurIA; ++i)
             joueurs.add(this.joueurConstructeur.creerJoueurIA());
-        }
 
         return joueurs;
     }

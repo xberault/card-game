@@ -1,14 +1,16 @@
 package app;
 
-import app.cartes.models.CarteRumeur;
+import app.cartes.CarteRumeur;
 import app.joueur.JoueurControlleur;
 import app.model.JeuConstructeur;
 import app.model.JeuConstructreurTXT;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+
 
 public class Jeu {
 
@@ -17,6 +19,11 @@ public class Jeu {
      * Il peut y avoir qu'un seul jeu à la fois
      */
     private static Jeu instance;
+
+    /**
+     * Nombre de cartes rumeur au total dans la partie
+     */
+    private static int nbCartesRumeur;
 
     /**
      * Contient toutes les cartes défaussées au cours de la partie
@@ -77,7 +84,16 @@ public class Jeu {
         this.joueurCourant = joueur;
     }
 
+    public static void main(String[] args) {
 
+        Jeu.DEBUG = Arrays.stream(args).anyMatch("debug"::equalsIgnoreCase);
+
+        Jeu.printd("Le jeu est lancé en mode de débogage");
+
+
+        Jeu jeu = Jeu.getInstance(new JeuConstructreurTXT());
+        jeu.demarrer();
+    }
 
     /**
      * Initialise les joueurs de la partie
@@ -85,6 +101,7 @@ public class Jeu {
      */
     private void initialiserJoueurs() {
         this.joueurs = this.constructeur.initJoueur();
+        this.initialiserCartesJoueurs();
         this.setJoueurCourant(this.joueurs.get(0));
 
     }
@@ -100,15 +117,28 @@ public class Jeu {
         this.debutPartie();
     }
 
-    public static void main(String[] args) {
+    /**
+     * Initialise les cartes dans la main des joueurs
+     */
+    private void initialiserCartesJoueurs() {
+        int nbCartes = Jeu.nbCartesRumeur / this.joueurs.size();
 
-        Jeu.DEBUG = Arrays.stream(args).anyMatch("debug"::equals);
+        // obligé de transformer en liste puisque les set sont pseudo aléatoire donc on aurait rapidement des redondances
+        /**
+         * On aurait pu assigner dynamiquement le joueur à la carte, ce qui évite tout ce code
+         */
 
-        Jeu.printd("Le jeu est lancé en mode de débogage");
+        List<CarteRumeur> lesCartes = new ArrayList<>(CarteRumeur.obtenirToutesLesCartes().stream().toList());
+        Collections.shuffle(lesCartes);
+        for (int i = 0; i < nbCartes; ++i)
+            for (int j = 0; j < this.joueurs.size(); ++j) {
+                // TODO: 12/11/2021 check s'il faut utiliser le controlleur ou le modèle pour les cartes
+                JoueurControlleur joueur = this.joueurs.get(j);
+                CarteRumeur carteRumeur = lesCartes.get(i * this.joueurs.size() + j);
+                joueur.getModel().ajouterCarteRumeur(carteRumeur);
+                carteRumeur.setJoueur(joueur);
+            }
 
-
-        Jeu jeu = Jeu.getInstance(new JeuConstructreurTXT());
-        jeu.demarrer();
     }
 
     /**
@@ -151,4 +181,5 @@ public class Jeu {
         this.joueurCourant = this.joueurs.get(index);
         Jeu.printd("Nouveau joueur courant: (" + index + " ; " + joueurCourant + " )");
     }
+
 }

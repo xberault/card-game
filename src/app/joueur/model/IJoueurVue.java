@@ -1,5 +1,6 @@
 package app.joueur.model;
 
+import app.cartes.CarteRumeur;
 import app.model.Action;
 import app.model.Role;
 
@@ -34,4 +35,11 @@ public interface IJoueurVue {
      * A voir pendant l'implémentation, cette méthode ne sera peut-être pas utile
      */
     void faireAttendre();
+
+    /**
+     * Affiche les cartes passées en paramètres
+     *
+     * @param cartes un tableau contenant les cartes à afficher
+     */
+    void afficherCartes(CarteRumeur[] cartes);
 }

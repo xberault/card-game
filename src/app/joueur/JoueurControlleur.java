@@ -3,7 +3,11 @@ package app.joueur;
 import app.Jeu;
 import app.joueur.model.IJoueurVue;
 import app.joueur.model.JoueurModel;
-import app.joueur.model.etat.*;
+import app.joueur.model.etat.EtatAccusation;
+import app.joueur.model.etat.EtatAttente;
+import app.joueur.model.etat.EtatChoixIdentite;
+import app.joueur.model.etat.EtatTourDeJeu;
+import app.joueur.model.etat.IEtat;
 import app.model.Action;
 import app.model.Role;
 
@@ -23,7 +27,6 @@ public class JoueurControlleur implements PropertyChangeListener {
      * Vue du joueur
      */
     private IJoueurVue vue;
-
 
     public JoueurControlleur() {
     }
@@ -98,6 +101,7 @@ public class JoueurControlleur implements PropertyChangeListener {
     private void gererTourDeJeu() {
         Jeu.printd("Le joueur " + this.model + " va jouer son tour");
         Action action = this.vue.demanderTourDeJeu(this.model.getActionsDisponibles());
+        this.vue.afficherCartes(this.model.getCartes());
     }
 
     /**
@@ -111,5 +115,9 @@ public class JoueurControlleur implements PropertyChangeListener {
 
     public int getPoints() {
         return this.model.getPoints();
+    }
+
+    public JoueurModel getModel() {
+        return model;
     }
 }
