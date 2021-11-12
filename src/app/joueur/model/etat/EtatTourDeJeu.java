@@ -10,7 +10,7 @@ public class EtatTourDeJeu implements IEtat {
 
     private final JoueurModel joueur;
 
-    protected EtatTourDeJeu(JoueurModel joueur) {
+    public EtatTourDeJeu(JoueurModel joueur) {
         this.joueur = joueur;
     }
 

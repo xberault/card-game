@@ -21,7 +21,7 @@ public abstract class JoueurModel {
     /**
      * Représente le nombre de points possédés par le joueur
      */
-    private int points;
+    private final int points;
 
     /**
      * Représente le rôle du joueur pour la partie actuelle
@@ -46,6 +46,7 @@ public abstract class JoueurModel {
     private final PropertyChangeSupport pcs;
 
     protected JoueurModel(String nom) {
+        this.points = 0;
         this.nom = nom;
         this.role = Role.INDEFINI;
         this.etatActuel = new EtatAttente(this);
@@ -98,13 +99,29 @@ public abstract class JoueurModel {
         if (this == o) return true;
         if (!(o instanceof JoueurModel)) return false;
         JoueurModel that = (JoueurModel) o;
-        return points == that.points && Objects.equals(nom, that.nom) && role == that.role && etatActuel.equals(that.etatActuel) && Objects.equals(pcs, that.pcs);
+        return points == that.points && Objects.equals(nom, that.nom) && role == that.role && Objects.equals(pcs, that.pcs);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nom, points, role, etatActuel, pcs);
+        return Objects.hash(nom, points, role, pcs);
+    }
+
+    public Role getRole() {
+        return this.role;
     }
 
 
+    public int getPoints() {
+        return this.points;
+    }
+
+    @Override
+    public String toString() {
+        return "JoueurModel{" +
+                "nom='" + nom + '\'' +
+                ", points=" + points +
+                ", role=" + role +
+                '}';
+    }
 }

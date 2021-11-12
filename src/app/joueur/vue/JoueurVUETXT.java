@@ -22,11 +22,10 @@ public class JoueurVUETXT implements IJoueurVue {
     @Override
     public Role demanderIdentite() {
         Role[] lesRolesDisponibles = Role.getRolesJouables();
-        Role rep = this.obtenirRole(lesRolesDisponibles);
+        // Role rep = this.obtenirRole(lesRolesDisponibles);
+        // System.out.println("Vous avez choisi d'incarner " + JeuConstructreurTXT.gras(rep.name()) + " pour la partie à venir");
 
-        System.out.println("Vous avez choisi d'incarner " + JeuConstructreurTXT.gras(rep.name()) + " pour la partie à venir");
-
-        return rep;
+        return this.obtenirRole(lesRolesDisponibles);
     }
 
     /**
@@ -36,16 +35,23 @@ public class JoueurVUETXT implements IJoueurVue {
      * @return le role sélectionné par l'utilisateur
      */
     private Role obtenirRole(Role[] lesRolesDisponibles) {
-        int rep = 0;
+        return (Role) this.obtenirObject(lesRolesDisponibles);
+    }
 
-        while (rep < 1 | rep > lesRolesDisponibles.length) {
+    private Object obtenirObject(Object[] objects) {
+        String msgErreur = "La réponse choisi est incorrect; vous devez entrer un nombre compris entre  1 et " + objects.length;
+
+        Integer rep = null; // un int ne peut être null, un integer si
+        while (Objects.isNull(rep) || (rep < 1 | rep > objects.length)) {
             if (Objects.nonNull(rep))
-                System.out.println("\n\nLa réponse choisi est incorrect; vous devez entrer un nombre compris entre  1 et " + lesRolesDisponibles.length);
-            this.afficherRolesDisponibles(lesRolesDisponibles);
-            System.out.print("Entrez le numéro du role désiré: ");
+                System.out.println("\n\n" + msgErreur);
+            this.afficherContenuObjetListe(objects);
+            System.out.print("Entrez le numéro de votre réponse: ");
             rep = sc.nextInt();
         }
-        return lesRolesDisponibles[rep - 1];
+        System.out.println("Vous avez choisi: " + JeuConstructreurTXT.gras("" + objects[rep - 1]));
+
+        return objects[rep - 1];
     }
 
     /**
@@ -55,19 +61,27 @@ public class JoueurVUETXT implements IJoueurVue {
      */
     private void afficherRolesDisponibles(Role[] lesRoles) {
         System.out.println("Quel rôle désirez-vous jouer ?");
-        for (int i = 0; i < lesRoles.length; ++i)
-            System.out.print(" ---  " + (i + 1) + ": " + lesRoles[i].toString()); // TODO: 10/11/2021 mettre uniquement la première lettre en maj
+        this.afficherContenuObjetListe(lesRoles);
+    }
+
+    private void afficherContenuObjetListe(Object[] objects) {
+        for (int i = 0; i < objects.length; ++i)
+            System.out.print(" ---  " + JeuConstructreurTXT.gras("" + (i + 1)) + ": " + objects[i].toString()); // TODO: 10/11/2021 mettre uniquement la première lettre en maj
         System.out.print("\n");
     }
 
+
     @Override
     public Action demanderTourDeJeu(Action[] actionsDisponibles) {
-        return null;
+        System.out.println("Quelle action désirez-vous effectuer ?");
+        return (Action) this.obtenirObject(actionsDisponibles);
+
     }
 
     @Override
     public Action repondreAccusasion(Action[] actionsDisponibles) {
-        return null;
+        System.out.println("Vous venez d'être accusé, quelle action désirez-vous effectuer ?");
+        return (Action) this.obtenirObject(actionsDisponibles);
     }
 
     @Override

@@ -38,12 +38,15 @@ public class JoueurControlleur implements PropertyChangeListener {
 
     /**
      * Permet de commencer le tour du joueur
-     * Est utile au début de la partie
+     * Au cas où son rôle est indéfini, il leur fera choisir leur identité
      */
     public void commencerTour() {
-        this.model.changerEtat(new EtatChoixIdentite(this.model));
-        // TODO: 10/11/2021 CHECK que tout le monde ne joue pas le même role 
+        if (this.model.getRole() == Role.INDEFINI)         // TODO: 10/11/2021 CHECK que tout le monde ne joue pas le même role
+            this.model.changerEtat(new EtatChoixIdentite(this.model));
+        else
+            this.model.changerEtat(new EtatTourDeJeu(this.model));
     }
+
 
     @Override
     /**
@@ -71,19 +74,19 @@ public class JoueurControlleur implements PropertyChangeListener {
     }
 
     private void gererChoixIdentite() {
-        Jeu.printd("Le joueur va choisir son identité");
+        Jeu.printd("Le joueur " + this.model + " va choisir son identité");
         Role role = this.vue.demanderIdentite();
         this.model.changerRole(role);
     }
 
     private void gererAttente() {
-        Jeu.printd("Le joueur est en train d'attendre");
+        Jeu.printd("Le joueur " + this.model + "est en train d'attendre");
         this.vue.faireAttendre();
 
     }
 
     private void gererAccusation() {
-        Jeu.printd("Le joueur vient d'être accusé");
+        Jeu.printd("Le joueur " + this.model + " vient d'être accusé");
         // TODO: 10/11/2021 Peut-être créer une classe association(record java14+) pour représenter une accusation entre deux joueurs
         // cette accusation on la ferait Jeu.register(accusation) ? into un jeu.pop(accusation) lors du get
         Action action = this.vue.repondreAccusasion(this.model.getActionsDisponibles());
@@ -93,7 +96,7 @@ public class JoueurControlleur implements PropertyChangeListener {
      * Transmet l'action soumise par le joueur pour son tour de jeu
      */
     private void gererTourDeJeu() {
-        Jeu.printd("Le joueur va jouer son tour");
+        Jeu.printd("Le joueur " + this.model + " va jouer son tour");
         Action action = this.vue.demanderTourDeJeu(this.model.getActionsDisponibles());
     }
 
@@ -106,4 +109,7 @@ public class JoueurControlleur implements PropertyChangeListener {
         return this.model instanceof JoueurHumain;
     }
 
+    public int getPoints() {
+        return this.model.getPoints();
+    }
 }

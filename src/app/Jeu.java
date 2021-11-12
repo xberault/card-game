@@ -6,6 +6,7 @@ import app.model.JeuConstructeur;
 import app.model.JeuConstructreurTXT;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -44,7 +45,7 @@ public class Jeu {
     /**
      * Indique si l'on est actuelement en train de débuger l'application
      */
-    public static boolean DEBUG = true;
+    public static boolean DEBUG = false;
 
     /**
      * Affiche le string passé en paramètre uniquement si le mode de déboggage est activé
@@ -77,6 +78,7 @@ public class Jeu {
     }
 
 
+
     /**
      * Initialise les joueurs de la partie
      * Permet également de définir le premier joueur
@@ -98,6 +100,17 @@ public class Jeu {
         this.debutPartie();
     }
 
+    public static void main(String[] args) {
+
+        Jeu.DEBUG = Arrays.stream(args).anyMatch("debug"::equals);
+
+        Jeu.printd("Le jeu est lancé en mode de débogage");
+
+
+        Jeu jeu = Jeu.getInstance(new JeuConstructreurTXT());
+        jeu.demarrer();
+    }
+
     /**
      * S'occupe que tous les joueurs choisissent leur identité
      */
@@ -105,6 +118,22 @@ public class Jeu {
         // Les joueurs sont sélectionnés d'après leur ordre de création
         for (JoueurControlleur j : joueurs)
             j.commencerTour();
+        this.mainLoop();
+    }
+
+    /**
+     * Effectue le tour du joueur courant tant que la partie n'est pas finie
+     */
+    private void mainLoop() {
+        while (!this.partieFinie())
+            this.joueurCourant.commencerTour();
+    }
+
+    private boolean partieFinie() {
+        for (JoueurControlleur j : this.joueurs)
+            if (j.getPoints() > 5)
+                return true;
+        return false;
     }
 
     /**
@@ -114,8 +143,12 @@ public class Jeu {
         this.defausse = new ArrayList<>();
     }
 
-    public static void main(String[] args) {
-        Jeu jeu = Jeu.getInstance(new JeuConstructreurTXT());
-        jeu.demarrer();
+    /**
+     * Permet de passer au prochain joueur
+     */
+    public void joueurSuivant() {
+        int index = (this.joueurs.indexOf(this.joueurCourant) + 1) % this.joueurs.size();
+        this.joueurCourant = this.joueurs.get(index);
+        Jeu.printd("Nouveau joueur courant: (" + index + " ; " + joueurCourant + " )");
     }
 }
