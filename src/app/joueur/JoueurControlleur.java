@@ -101,6 +101,7 @@ public class JoueurControlleur implements PropertyChangeListener {
     private void gererTourDeJeu() {
         Jeu.printd("Le joueur " + this.model + " va jouer son tour");
         Action action = this.vue.demanderTourDeJeu(this.model.getActionsDisponibles());
+        System.out.println(this.model.getCartes().length);
         this.vue.afficherCartes(this.model.getCartes());
     }
 

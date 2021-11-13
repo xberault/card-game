@@ -53,6 +53,11 @@ public abstract class JoueurModel {
      */
     private final List<CarteRumeur> lesCartes;
 
+    /**
+     * Indique si le joueur est revele ou non
+     */
+    private boolean identiteRevele;
+
     protected JoueurModel(String nom) {
         this.points = 0;
         this.nom = nom;
@@ -60,6 +65,7 @@ public abstract class JoueurModel {
         this.etatActuel = new EtatAttente(this);
         this.lesCartes = new ArrayList<>();
 
+        this.identiteRevele = false;
         this.pcs = new PropertyChangeSupport(this);
     }
 
@@ -93,6 +99,14 @@ public abstract class JoueurModel {
         // vérification que le joueur ait la possibilité de changer de role
         if (this.etatActuel instanceof EtatChoixIdentite)
             this.role = role;
+    }
+
+    /**
+     * Le joueur révèle son identité aux autres joueurs
+     */
+    public void seRevele() {
+        // TODO: 13/11/2021 Peut-être mettre un observer sur ce booléen; à voir
+        this.identiteRevele = true;
     }
 
     /**
@@ -146,5 +160,21 @@ public abstract class JoueurModel {
      */
     public void ajouterCarteRumeur(CarteRumeur carteRumeur) {
         this.lesCartes.add(carteRumeur);
+    }
+
+    public String getNom() {
+        return this.nom;
+    }
+
+    public CarteRumeur[] getCartesRumeursRevelees() {
+        List<CarteRumeur> cartesRevelees = new ArrayList<>();
+        for (CarteRumeur carte : this.lesCartes)
+            if (carte.estRevelee())
+                cartesRevelees.add(carte);
+        return cartesRevelees.toArray(new CarteRumeur[0]);
+    }
+
+    public boolean estRevele() {
+        return this.identiteRevele;
     }
 }

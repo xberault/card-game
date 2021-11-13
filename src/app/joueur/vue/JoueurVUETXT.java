@@ -1,11 +1,13 @@
 package app.joueur.vue;
 
+import app.Jeu;
 import app.cartes.CarteRumeur;
 import app.joueur.model.IJoueurVue;
 import app.model.Action;
 import app.model.JeuConstructreurTXT;
 import app.model.Role;
 
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -22,6 +24,9 @@ public class JoueurVUETXT implements IJoueurVue {
 
     @Override
     public Role demanderIdentite() {
+        this.afficherJoueurActuel();
+
+
         Role[] lesRolesDisponibles = Role.getRolesJouables();
         // Role rep = this.obtenirRole(lesRolesDisponibles);
         // System.out.println("Vous avez choisi d'incarner " + JeuConstructreurTXT.gras(rep.name()) + " pour la partie à venir");
@@ -81,6 +86,7 @@ public class JoueurVUETXT implements IJoueurVue {
 
     @Override
     public Action demanderTourDeJeu(Action[] actionsDisponibles) {
+        this.afficherJoueurActuel();
         System.out.println("Quelle action désirez-vous effectuer ?");
         return (Action) this.obtenirObject(actionsDisponibles);
 
@@ -88,6 +94,7 @@ public class JoueurVUETXT implements IJoueurVue {
 
     @Override
     public Action repondreAccusasion(Action[] actionsDisponibles) {
+        this.afficherJoueurActuel();
         System.out.println("Vous venez d'être accusé, quelle action désirez-vous effectuer ?");
         return (Action) this.obtenirObject(actionsDisponibles);
     }
@@ -99,6 +106,19 @@ public class JoueurVUETXT implements IJoueurVue {
 
     @Override
     public void afficherCartes(CarteRumeur[] cartes) {
+        System.out.println("Vous possédez actuellement les cartes suivantes:");
+        this.afficherContenuObjetListe(Arrays.stream(cartes).map(CarteRumeur::getNom).toArray());
+        // TODO: 13/11/2021 demander action sur une carte -- regarder pour avoir des infos -- activer effet hunt de la carte  
+        // TODO: 13/11/2021 ou demander s'il veut faire retour en arrière et accuser à nouveau 
+    }
 
+    /**
+     * Affiche la personne à qui c'est actuellement le tour
+     * Vide également l'affichage de la console
+     */
+    private void afficherJoueurActuel() {
+        JeuConstructreurTXT.viderConsole();
+        String nomJoueur = JeuConstructreurTXT.gras(Jeu.getInstance().getJoueurCourant().getNom());
+        System.out.println("Au tour de " + nomJoueur + " de jouer son tour...");
     }
 }

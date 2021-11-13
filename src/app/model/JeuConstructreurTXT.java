@@ -45,12 +45,20 @@ public class JeuConstructreurTXT implements JeuConstructeur {
         return JeuConstructreurTXT.CODE_TEXTE_GRAS + string + JeuConstructreurTXT.CODE_TEXTE_NEUTRE;
     }
 
+    /**
+     * Permet de vider l'affichage de System.out
+     */
+    public static void viderConsole() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
     @Override
     public List<JoueurControlleur> initJoueur() {
         List<JoueurControlleur> joueurs = new ArrayList<>();
         int nbJoueurHumain = this.demandeNombreJoueur();
         int nbJoueurIA = this.demandeNombreJoueurIA(nbJoueurHumain);
-        System.out.println("\nTrès bien, la partie va démarrer avec " + JeuConstructreurTXT.gras("" + nbJoueurHumain) + " joueurs");
+        System.out.println("\nTrès bien, la partie va démarrer avec " + JeuConstructreurTXT.gras("" + nbJoueurHumain) + " joueurs et " + nbJoueurIA + " IA");
 
         for (int i = 0; i < nbJoueurHumain; ++i) {
             System.out.println("---------------");
@@ -70,7 +78,7 @@ public class JeuConstructreurTXT implements JeuConstructeur {
      * @return un entier correspondant au nombre de joueurs humain
      */
     private int demandeNombreJoueur() {
-        System.out.println("Combien de joueurs êtes-vous ?");
+        System.out.println("Combien de joueurs êtes-vous ?\nLe jeu se joue de 3 à 6 joueurs");
         System.out.print("Insérez un nombre: ");
         int nbJoueur = this.sc.nextInt();
         while (nbJoueur < 3 || nbJoueur > 6) {

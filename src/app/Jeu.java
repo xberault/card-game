@@ -2,6 +2,7 @@ package app;
 
 import app.cartes.CarteRumeur;
 import app.joueur.JoueurControlleur;
+import app.joueur.model.JoueurModel;
 import app.model.JeuConstructeur;
 import app.model.JeuConstructreurTXT;
 
@@ -23,7 +24,7 @@ public class Jeu {
     /**
      * Nombre de cartes rumeur au total dans la partie
      */
-    private static int nbCartesRumeur;
+    private static final int nbCartesRumeur = 12;
 
     /**
      * Contient toutes les cartes défaussées au cours de la partie
@@ -76,7 +77,17 @@ public class Jeu {
      */
     public static Jeu getInstance(JeuConstructeur jeuConstructeur) {
         if (Objects.isNull(Jeu.instance))
-            return new Jeu(jeuConstructeur);
+            Jeu.instance = new Jeu(jeuConstructeur);
+        return Jeu.instance;
+    }
+
+    /**
+     * Permet d'obtenir la partie existante
+     * Si elle n'existe pas, elle ne sera pas créée
+     *
+     * @return Retourne la seule et unique instance de jeu
+     */
+    public static Jeu getInstance() {
         return Jeu.instance;
     }
 
@@ -137,6 +148,7 @@ public class Jeu {
                 CarteRumeur carteRumeur = lesCartes.get(i * this.joueurs.size() + j);
                 joueur.getModel().ajouterCarteRumeur(carteRumeur);
                 carteRumeur.setJoueur(joueur);
+                Jeu.printd("Ajout carte " + carteRumeur + " au joueur: " + joueur);
             }
 
     }
@@ -146,8 +158,12 @@ public class Jeu {
      */
     private void debutPartie() {
         // Les joueurs sont sélectionnés d'après leur ordre de création
-        for (JoueurControlleur j : joueurs)
+        for (JoueurControlleur j : joueurs) {
+            joueurCourant = j;
             j.commencerTour();
+
+        }
+        this.joueurSuivant();
         this.mainLoop();
     }
 
@@ -182,4 +198,7 @@ public class Jeu {
         Jeu.printd("Nouveau joueur courant: (" + index + " ; " + joueurCourant + " )");
     }
 
+    public JoueurModel getJoueurCourant() {
+        return this.joueurCourant.getModel();
+    }
 }
