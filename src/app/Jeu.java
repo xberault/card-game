@@ -148,7 +148,6 @@ public class Jeu {
                 CarteRumeur carteRumeur = lesCartes.get(i * this.joueurs.size() + j);
                 joueur.getModel().ajouterCarteRumeur(carteRumeur);
                 carteRumeur.setJoueur(joueur);
-                Jeu.printd("Ajout carte " + carteRumeur + " au joueur: " + joueur);
             }
 
     }

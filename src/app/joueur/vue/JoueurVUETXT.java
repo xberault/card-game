@@ -41,6 +41,7 @@ public class JoueurVUETXT implements IJoueurVue {
      * @return le role sélectionné par l'utilisateur
      */
     private Role obtenirRole(Role[] lesRolesDisponibles) {
+        System.out.println("Veuillez choisir le rôle que vous souhaitez jouer pour la partie");
         return (Role) this.obtenirObject(lesRolesDisponibles);
     }
 
