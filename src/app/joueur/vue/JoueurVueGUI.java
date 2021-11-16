@@ -2,8 +2,8 @@ package app.joueur.vue;
 
 import app.cartes.CarteRumeur;
 import app.joueur.model.IJoueurVue;
-import app.model.Action;
 import app.model.Role;
+import app.model.action.Action;
 
 public class JoueurVueGUI implements IJoueurVue {
     @Override

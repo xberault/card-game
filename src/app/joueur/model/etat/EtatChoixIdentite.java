@@ -1,8 +1,9 @@
 package app.joueur.model.etat;
 
 import app.joueur.model.JoueurModel;
-import app.model.Action;
 import app.model.ActionNonJouableException;
+import app.model.action.Action;
+import app.model.action.action2.ChoisirIdentite;
 
 import java.util.Objects;
 
@@ -27,7 +28,7 @@ public class EtatChoixIdentite implements IEtat {
     @Override
     public Action[] getActionsDisponibles() {
 
-        return new Action[]{Action.CHOISIRIDENTITE};
+        return new Action[]{new ChoisirIdentite(joueur)};
     }
 
     @Override

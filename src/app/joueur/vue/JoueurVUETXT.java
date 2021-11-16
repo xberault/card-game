@@ -3,9 +3,9 @@ package app.joueur.vue;
 import app.Jeu;
 import app.cartes.CarteRumeur;
 import app.joueur.model.IJoueurVue;
-import app.model.Action;
 import app.model.JeuConstructreurTXT;
 import app.model.Role;
+import app.model.action.Action;
 
 import java.util.Arrays;
 import java.util.Objects;

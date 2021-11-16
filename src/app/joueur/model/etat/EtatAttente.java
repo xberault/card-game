@@ -1,8 +1,12 @@
 package app.joueur.model.etat;
 
 import app.joueur.model.JoueurModel;
-import app.model.Action;
 import app.model.ActionNonJouableException;
+import app.model.action.Action;
+import app.model.action.action2.Accusation;
+import app.model.action.action2.ChoisirIdentite;
+import app.model.action.action2.JouerCarteHunt;
+import app.model.action.action2.JouerCarteWitch;
 
 import java.util.Objects;
 
@@ -44,16 +48,19 @@ public class EtatAttente implements IEtat {
         // TODO: 09/11/2021 Pas sûr que ce code soit utile :: possiblement enlever certain constructeurs de protected -> public
         // puisque c'est un getter particulier à l'état d'attente et qui demande une action
         IEtat nouvelEtat;
-        switch (action) {
-            case ACCUSATION -> nouvelEtat = new EtatAccusation(this.joueur);
-            case JOUERCARTEHUNT -> nouvelEtat = new EtatTourDeJeu(this.joueur);
-            case CHOISIRIDENTITE -> nouvelEtat = new EtatChoixIdentite(this.joueur);
-            case JOUERCARTEWITCH -> nouvelEtat = new EtatAccusation(this.joueur);
-            default -> nouvelEtat = this; // ne devrait pas arriver
+        if (action instanceof Accusation) {
+            nouvelEtat = new EtatAccusation(this.joueur);
+        } else if (action instanceof JouerCarteHunt) {
+            nouvelEtat = new EtatTourDeJeu(this.joueur);
+        } else if (action instanceof ChoisirIdentite) {
+            nouvelEtat = new EtatChoixIdentite(this.joueur);
+        } else if (action instanceof JouerCarteWitch) {
+            nouvelEtat = new EtatAccusation(this.joueur);
+        } else {
+            nouvelEtat = this; // ne devrait pas arriver
         }
         System.out.println("Nouvel état pour le joueur: " + nouvelEtat);
         return nouvelEtat;
-
     }
 
     @Override

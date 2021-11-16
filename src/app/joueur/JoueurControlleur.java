@@ -8,8 +8,8 @@ import app.joueur.model.etat.EtatAttente;
 import app.joueur.model.etat.EtatChoixIdentite;
 import app.joueur.model.etat.EtatTourDeJeu;
 import app.joueur.model.etat.IEtat;
-import app.model.Action;
 import app.model.Role;
+import app.model.action.Action;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -101,6 +101,7 @@ public class JoueurControlleur implements PropertyChangeListener {
     private void gererTourDeJeu() {
         Jeu.printd("Le joueur " + this.model + " va jouer son tour");
         Action action = this.vue.demanderTourDeJeu(this.model.getActionsDisponibles());
+        // TODO: 16/11/2021 mettre executer action ici 
         this.vue.afficherCartes(this.model.getCartes());
     }
 

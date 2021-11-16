@@ -1,8 +1,8 @@
 package app.joueur.model;
 
 import app.cartes.CarteRumeur;
-import app.model.Action;
 import app.model.Role;
+import app.model.action.Action;
 
 
 public interface IJoueurVue {

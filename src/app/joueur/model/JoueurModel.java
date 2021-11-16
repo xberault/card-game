@@ -4,8 +4,8 @@ import app.cartes.CarteRumeur;
 import app.joueur.model.etat.EtatAttente;
 import app.joueur.model.etat.EtatChoixIdentite;
 import app.joueur.model.etat.IEtat;
-import app.model.Action;
 import app.model.Role;
+import app.model.action.Action;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

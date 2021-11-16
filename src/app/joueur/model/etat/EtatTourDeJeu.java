@@ -1,8 +1,10 @@
 package app.joueur.model.etat;
 
 import app.joueur.model.JoueurModel;
-import app.model.Action;
 import app.model.ActionNonJouableException;
+import app.model.action.Action;
+import app.model.action.action2.Accusation;
+import app.model.action.action2.JouerCarteHunt;
 
 import java.util.Objects;
 
@@ -25,7 +27,7 @@ public class EtatTourDeJeu implements IEtat {
     @Override
     public Action[] getActionsDisponibles() {
         return new Action[]{
-                Action.JOUERCARTEHUNT, Action.ACCUSATION
+                new JouerCarteHunt(joueur), new Accusation(joueur)
         };
     }
 

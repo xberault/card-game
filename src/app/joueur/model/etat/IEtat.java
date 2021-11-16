@@ -1,7 +1,7 @@
 package app.joueur.model.etat;
 
-import app.model.Action;
 import app.model.ActionNonJouableException;
+import app.model.action.Action;
 
 import java.util.Arrays;
 
