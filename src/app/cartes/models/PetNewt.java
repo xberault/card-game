@@ -1,6 +1,7 @@
 package app.cartes.models;
 
 import app.cartes.CarteRumeur;
+import app.model.Couleur;
 
 public class PetNewt extends CarteRumeur {
 
@@ -10,5 +11,10 @@ public class PetNewt extends CarteRumeur {
 
     public PetNewt() {
         super("Triton apprivoisé", descriptionHunt, descriptionWitch);
+    }
+
+    @Override
+    public Couleur getColor() {
+        return Couleur.CYAN_BOLD;
     }
 }

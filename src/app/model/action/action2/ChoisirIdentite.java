@@ -9,7 +9,7 @@ import app.model.action.Action2;
  */
 public class ChoisirIdentite extends Action2 {
     public ChoisirIdentite(JoueurModel joueur) {
-        super(joueur);
+        super(joueur, "choisir son identité");
     }
 
     @Override

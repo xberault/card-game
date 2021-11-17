@@ -200,4 +200,17 @@ public class Jeu {
     public JoueurModel getJoueurCourant() {
         return this.joueurCourant.getModel();
     }
+
+
+    /**
+     * Permet d'obtenir les joueurs présents dans la partie
+     *
+     * @return un tableau contenant ces joueurs
+     */
+    public JoueurModel[] getLesJoueurs() {
+        List<JoueurModel> res = new ArrayList<>();
+        for (JoueurControlleur j : this.joueurs)
+            res.add(j.getModel());
+        return res.toArray(new JoueurModel[0]);
+    }
 }

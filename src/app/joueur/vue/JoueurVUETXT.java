@@ -3,13 +3,14 @@ package app.joueur.vue;
 import app.Jeu;
 import app.cartes.CarteRumeur;
 import app.joueur.model.IJoueurVue;
+import app.joueur.model.JoueurModel;
 import app.model.JeuConstructreurTXT;
 import app.model.Role;
 import app.model.action.Action;
 
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.Scanner;
+
 
 public class JoueurVUETXT implements IJoueurVue {
 
@@ -88,6 +89,7 @@ public class JoueurVUETXT implements IJoueurVue {
     @Override
     public Action demanderTourDeJeu(Action[] actionsDisponibles) {
         this.afficherJoueurActuel();
+        this.afficherLesJoueurs();
         System.out.println("Quelle action désirez-vous effectuer ?");
         return (Action) this.obtenirObject(actionsDisponibles);
 
@@ -96,6 +98,7 @@ public class JoueurVUETXT implements IJoueurVue {
     @Override
     public Action repondreAccusasion(Action[] actionsDisponibles) {
         this.afficherJoueurActuel();
+        this.afficherLesJoueurs();
         System.out.println("Vous venez d'être accusé, quelle action désirez-vous effectuer ?");
         return (Action) this.obtenirObject(actionsDisponibles);
     }
@@ -108,8 +111,15 @@ public class JoueurVUETXT implements IJoueurVue {
     @Override
     public void afficherCartes(CarteRumeur[] cartes) {
         System.out.println("Vous possédez actuellement les cartes suivantes:");
-        this.afficherContenuObjetListe(Arrays.stream(cartes).map(CarteRumeur::getNom).toArray());
-        // TODO: 13/11/2021 demander action sur une carte -- regarder pour avoir des infos -- activer effet hunt de la carte  
+        for (int i = 0; i < cartes.length; ++i) {
+            CarteRumeur carte = cartes[i];
+            System.out.println("" + (i + 1) + ": " +
+                    JeuConstructreurTXT.couleur(cartes[i], carte.getNom()) + "\n" +
+                    "Effet Hunt: " + carte.getDescriptionHunt() + "\n" +
+                    "Effet Witch: " + carte.getDescriptionWitch() + "\n"
+            );
+        }
+        // TODO: 13/11/2021 demander action sur une carte -- regarder pour avoir des infos -- activer effet hunt de la carte
         // TODO: 13/11/2021 ou demander s'il veut faire retour en arrière et accuser à nouveau 
     }
 
@@ -121,5 +131,36 @@ public class JoueurVUETXT implements IJoueurVue {
         JeuConstructreurTXT.viderConsole();
         String nomJoueur = JeuConstructreurTXT.gras(Jeu.getInstance().getJoueurCourant().getNom());
         System.out.println("Au tour de " + nomJoueur + " de jouer son tour...");
+    }
+
+    /**
+     * affiche les joueurs associés à leur rôle
+     */
+    private void afficherLesJoueurs() {
+        System.out.println("Joueurs présents dans la partie:");
+        for (JoueurModel joueur : Jeu.getInstance().getLesJoueurs()) {
+            this.affichageJoueur(joueur);
+        }
+    }
+
+    /**
+     * Permet l'affichage d'un seul joueur
+     *
+     * @param joueur celui qu'on veut afficher
+     */
+    private void affichageJoueur(JoueurModel joueur) {
+        if (joueur.equals(Jeu.getInstance().getJoueurCourant())) {
+            System.out.println(JeuConstructreurTXT.gras("Vous: " + joueur.getRole()) +
+                    (joueur.estRevele() ? " identité révélée" : " identité cachée")
+            );
+        } else {
+            System.out.println(
+                    joueur.getNom() + " " +
+                            (joueur.estRevele() ?
+                                    "en tant que: " + JeuConstructreurTXT.gras(joueur.getRole().name())
+                                    : JeuConstructreurTXT.gras("ROLE INCONNU")
+                            )
+            );
+        }
     }
 }

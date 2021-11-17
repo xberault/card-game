@@ -14,8 +14,14 @@ public abstract class Action2 implements Action {
      */
     protected JoueurModel joueur;
 
-    protected Action2(JoueurModel joueur) {
+    /**
+     * Le nom décrivant l'action
+     */
+    private final String nom;
+
+    protected Action2(JoueurModel joueur, String nom) {
         this.joueur = joueur;
+        this.nom = nom;
     }
 
     @Override
@@ -24,4 +30,9 @@ public abstract class Action2 implements Action {
     }
 
     protected abstract void executerAction(Object cible);
+
+    @Override
+    public String toString() {
+        return this.nom;
+    }
 }

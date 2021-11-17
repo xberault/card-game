@@ -9,16 +9,17 @@ import app.cartes.models.DuckingStool;
 import app.cartes.models.EvilEye;
 import app.cartes.models.HookedNose;
 import app.cartes.models.PetNewt;
-import app.cartes.models.PointedHate;
+import app.cartes.models.PointedHat;
 import app.cartes.models.TheInquisition;
 import app.cartes.models.Toad;
 import app.cartes.models.Wart;
 import app.joueur.JoueurControlleur;
+import app.model.IColorable;
 
 import java.util.Objects;
 import java.util.Set;
 
-public abstract class CarteRumeur {
+public abstract class CarteRumeur implements IColorable {
 
     // TODO: 13/11/2021 ajouter les conditions préalables des fois / effets connexes des cartes
     /**
@@ -76,7 +77,7 @@ public abstract class CarteRumeur {
                 new EvilEye(),
                 new HookedNose(),
                 new PetNewt(),
-                new PointedHate(),
+                new PointedHat(),
                 new TheInquisition(),
                 new Toad(),
                 new Wart()

@@ -9,7 +9,7 @@ import app.model.action.Action2;
  */
 public class Accusation extends Action2 {
     public Accusation(JoueurModel joueur) {
-        super(joueur);
+        super(joueur, "accuser un joueur");
     }
 
     @Override

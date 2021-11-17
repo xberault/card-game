@@ -1,6 +1,7 @@
 package app.cartes.models;
 
 import app.cartes.CarteRumeur;
+import app.model.Couleur;
 
 public class EvilEye extends CarteRumeur {
 
@@ -11,5 +12,10 @@ public class EvilEye extends CarteRumeur {
 
     public EvilEye() {
         super("Oeil maléfique", descriptionHunt, descriptionWitch);
+    }
+
+    @Override
+    public Couleur getColor() {
+        return Couleur.RED_BOLD;
     }
 }

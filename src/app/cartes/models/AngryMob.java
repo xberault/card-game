@@ -1,6 +1,7 @@
 package app.cartes.models;
 
 import app.cartes.CarteRumeur;
+import app.model.Couleur;
 
 public class AngryMob extends CarteRumeur {
 
@@ -11,5 +12,10 @@ public class AngryMob extends CarteRumeur {
 
     public AngryMob() {
         super("Foule en colère", descriptionHunt, descriptionWitch);
+    }
+
+    @Override
+    public Couleur getColor() {
+        return Couleur.RED;
     }
 }

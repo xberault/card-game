@@ -1,14 +1,20 @@
 package app.cartes.models;
 
 import app.cartes.CarteRumeur;
+import app.model.Couleur;
 
-public class PointedHate extends CarteRumeur {
+public class PointedHat extends CarteRumeur {
 
     private static final String descriptionHunt = "Remettez une carte de votre défausse dans la main\n" +
             "Vous choisissez le prochain joueur";
     private static final String descriptionWitch = descriptionHunt;
 
-    public PointedHate() {
-        super("Haine ciblée", descriptionHunt, descriptionWitch);
+    public PointedHat() {
+        super("Chapeau pointu", descriptionHunt, descriptionWitch);
+    }
+
+    @Override
+    public Couleur getColor() {
+        return Couleur.YELLOW_BOLD;
     }
 }

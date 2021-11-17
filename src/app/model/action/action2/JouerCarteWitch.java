@@ -9,7 +9,7 @@ import app.model.action.Action2;
  */
 public class JouerCarteWitch extends Action2 {
     public JouerCarteWitch(JoueurModel joueur) {
-        super(joueur);
+        super(joueur, "jouer l'effet witch d'une carte");
     }
 
     @Override

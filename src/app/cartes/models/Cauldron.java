@@ -1,6 +1,7 @@
 package app.cartes.models;
 
 import app.cartes.CarteRumeur;
+import app.model.Couleur;
 
 public class Cauldron extends CarteRumeur {
     private static final String descriptionHunt = "Révèle votre identité\n" +
@@ -10,5 +11,10 @@ public class Cauldron extends CarteRumeur {
 
     public Cauldron() {
         super("Chaudron", descriptionHunt, descriptionWitch);
+    }
+
+    @Override
+    public Couleur getColor() {
+        return Couleur.MAGENTA;
     }
 }

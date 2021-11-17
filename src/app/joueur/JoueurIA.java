@@ -9,12 +9,17 @@ import app.joueur.model.strategie.IStrategieIA;
 public class JoueurIA extends JoueurModel {
 
     /**
+     * identifiant d'une IA
+     */
+    private static int ID;
+
+    /**
      * Stratégie que l'IA va adopter durant la partie
      */
     private final IStrategieIA strategie;
 
     public JoueurIA(IStrategieIA strategieIA) {
-        super("ia");
+        super("IA" + ++JoueurIA.ID);
         this.strategie = strategieIA;
     }
 }

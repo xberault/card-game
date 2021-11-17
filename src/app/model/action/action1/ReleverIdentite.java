@@ -6,7 +6,7 @@ import app.model.action.Action1;
 public class ReleverIdentite extends Action1 {
 
     public ReleverIdentite(JoueurModel joueur) {
-        super(joueur);
+        super(joueur, "Reveler son identité");
     }
 
     @Override

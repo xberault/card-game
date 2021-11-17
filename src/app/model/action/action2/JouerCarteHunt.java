@@ -10,7 +10,7 @@ import app.model.action.Action2;
 public class JouerCarteHunt extends Action2 {
 
     public JouerCarteHunt(JoueurModel joueur) {
-        super(joueur);
+        super(joueur, "jouer l'effet Hunt d'une carte");
     }
 
     @Override

@@ -1,6 +1,7 @@
 package app.cartes.models;
 
 import app.cartes.CarteRumeur;
+import app.model.Couleur;
 
 public class BlackCat extends CarteRumeur {
     private static final String descriptionHunt = "Vous reprenez une carte de votre défausse. Défaussez BlackCat";
@@ -8,5 +9,10 @@ public class BlackCat extends CarteRumeur {
 
     public BlackCat() {
         super("Chat noir", descriptionHunt, descriptionWitch);
+    }
+
+    @Override
+    public Couleur getColor() {
+        return Couleur.BLACK_BOLD;
     }
 }

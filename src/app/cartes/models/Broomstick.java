@@ -1,6 +1,7 @@
 package app.cartes.models;
 
 import app.cartes.CarteRumeur;
+import app.model.Couleur;
 
 public class Broomstick extends CarteRumeur {
     private static final String descriptionHunt = "Tant que révélé, vous ne pouvez être la cible de Foule en colère\n" +
@@ -9,5 +10,10 @@ public class Broomstick extends CarteRumeur {
 
     public Broomstick() {
         super("Balai", descriptionHunt, descriptionWitch);
+    }
+
+    @Override
+    public Couleur getColor() {
+        return Couleur.GREEN_BOLD;
     }
 }

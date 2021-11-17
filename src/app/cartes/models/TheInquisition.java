@@ -1,6 +1,7 @@
 package app.cartes.models;
 
 import app.cartes.CarteRumeur;
+import app.model.Couleur;
 
 public class TheInquisition extends CarteRumeur {
 
@@ -9,5 +10,10 @@ public class TheInquisition extends CarteRumeur {
 
     public TheInquisition() {
         super("L'inquisition", descriptionHunt, descriptionWitch);
+    }
+
+    @Override
+    public Couleur getColor() {
+        return Couleur.YELLOW;
     }
 }

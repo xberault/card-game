@@ -1,6 +1,7 @@
 package app.cartes.models;
 
 import app.cartes.CarteRumeur;
+import app.model.Couleur;
 
 public class Toad extends CarteRumeur {
 
@@ -11,5 +12,10 @@ public class Toad extends CarteRumeur {
 
     public Toad() {
         super("crapaud", descriptionHunt, descriptionWitch);
+    }
+
+    @Override
+    public Couleur getColor() {
+        return Couleur.GREEN_BOLD;
     }
 }

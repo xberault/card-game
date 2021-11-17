@@ -1,6 +1,7 @@
 package app.cartes.models;
 
 import app.cartes.CarteRumeur;
+import app.model.Couleur;
 
 public class HookedNose extends CarteRumeur {
 
@@ -11,5 +12,10 @@ public class HookedNose extends CarteRumeur {
 
     public HookedNose() {
         super("Nez crochu", descriptionHunt, descriptionWitch);
+    }
+
+    @Override
+    public Couleur getColor() {
+        return Couleur.MAGENTA_BOLD;
     }
 }

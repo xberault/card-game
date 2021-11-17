@@ -1,5 +1,6 @@
 package app.model;
 
+import app.Jeu;
 import app.joueur.JoueurControlleur;
 import app.joueur.model.constructeur.IJoueurConstructeur;
 import app.joueur.model.constructeur.JoueurConstructeurTXT;
@@ -45,6 +46,13 @@ public class JeuConstructreurTXT implements JeuConstructeur {
         return JeuConstructreurTXT.CODE_TEXTE_GRAS + string + JeuConstructreurTXT.CODE_TEXTE_NEUTRE;
     }
 
+    public static String couleur(Object obj, String aColoriser) {
+        if (obj instanceof IColorable)
+            return ((IColorable) obj).getStringColore(aColoriser);
+        Jeu.printd("Couleur de " + obj.getClass() + " n'est pas implémentée");
+        return aColoriser;
+    }
+
     /**
      * Permet de vider l'affichage de System.out
      */
@@ -66,7 +74,7 @@ public class JeuConstructreurTXT implements JeuConstructeur {
             joueurs.add(this.joueurConstructeur.creerJoueurHumain());
             System.out.println("---------------");
         }
-        for (int i = nbJoueurHumain; i < nbJoueurIA; ++i)
+        for (int i = nbJoueurHumain; i < nbJoueurIA + nbJoueurHumain; ++i)
             joueurs.add(this.joueurConstructeur.creerJoueurIA());
 
         return joueurs;

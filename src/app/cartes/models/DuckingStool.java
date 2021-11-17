@@ -1,6 +1,7 @@
 package app.cartes.models;
 
 import app.cartes.CarteRumeur;
+import app.model.Couleur;
 
 public class DuckingStool extends CarteRumeur {
 
@@ -13,5 +14,10 @@ public class DuckingStool extends CarteRumeur {
 
     public DuckingStool() {
         super("Siège à plongeon", descriptionHunt, descriptionWitch);
+    }
+
+    @Override
+    public Couleur getColor() {
+        return Couleur.BLUE_BOLD;
     }
 }
