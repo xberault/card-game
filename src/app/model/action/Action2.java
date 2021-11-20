@@ -29,7 +29,7 @@ public abstract class Action2 implements Action {
         this.executerAction(this.cible);
     }
 
-    protected abstract void executerAction(Object cible);
+    public abstract void executerAction(Object cible);
 
     @Override
     public String toString() {

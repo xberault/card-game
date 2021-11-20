@@ -16,4 +16,14 @@ public class Wart extends CarteRumeur {
     public Couleur getColor() {
         return Couleur.MAGENTA;
     }
+
+    @Override
+    protected void pActiverEffetWitch() {
+
+    }
+
+    @Override
+    protected void pActiverEffetHunt() {
+
+    }
 }

@@ -24,7 +24,7 @@ public abstract class Condition {
     }
 
     /**
-     * Indique si la condition est remplie pour le joueuyr
+     * Indique si la condition est remplie pour le joueur
      *
      * @return un booléen qui indique l'état de la condition
      */

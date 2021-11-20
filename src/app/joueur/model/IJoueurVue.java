@@ -1,11 +1,12 @@
 package app.joueur.model;
 
 import app.cartes.CarteRumeur;
+import app.joueur.model.vue.IEffetVue;
 import app.model.Role;
 import app.model.action.Action;
 
 
-public interface IJoueurVue {
+public interface IJoueurVue extends IEffetVue {
 
     /**
      * Demande à l'utilisateur quelle role il souhaite jouer pour cette partie
@@ -42,4 +43,24 @@ public interface IJoueurVue {
      * @param cartes un tableau contenant les cartes à afficher
      */
     void afficherCartes(CarteRumeur[] cartes);
+
+    /**
+     * Demande à l'utilisateur la carte qu'il choisi
+     *
+     * @param cartes un tableau contenant toutes les cartes disponibles au joueur
+     * @return la carte sélectionnée par le joueur
+     */
+    CarteRumeur demanderCarte(CarteRumeur[] cartes);
+
+    /**
+     * Demande à l'utilisateur quel joueur il souhaite cibler
+     *
+     * @return le joueur sélectionné par l'utilisateur
+     */
+    JoueurModel demanderCibleAccusation();
+
+    /**
+     * Permet d'afficher les joueurs présents dans la partie
+     */
+    void afficherJoueurs();
 }

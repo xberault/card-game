@@ -17,4 +17,14 @@ public class PointedHat extends CarteRumeur {
     public Couleur getColor() {
         return Couleur.YELLOW_BOLD;
     }
+
+    @Override
+    protected void pActiverEffetWitch() {
+
+    }
+
+    @Override
+    protected void pActiverEffetHunt() {
+
+    }
 }

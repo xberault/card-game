@@ -1,9 +1,10 @@
-package app.model;
+package app.model.constructeur;
 
 import app.Jeu;
 import app.joueur.JoueurControlleur;
 import app.joueur.model.constructeur.IJoueurConstructeur;
 import app.joueur.model.constructeur.JoueurConstructeurTXT;
+import app.model.IColorable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,11 +47,19 @@ public class JeuConstructreurTXT implements JeuConstructeur {
         return JeuConstructreurTXT.CODE_TEXTE_GRAS + string + JeuConstructreurTXT.CODE_TEXTE_NEUTRE;
     }
 
+    /**
+     * Permet de coloriser un texte
+     * Si celui-ci n'en est pas capable, il sera afficher en gras
+     *
+     * @param obj        l'objet qui est concerné par l'affichage
+     * @param aColoriser le texte que l'on veut mettre en couleur
+     * @return un texte contenant les codes adéquats pour l'affichage
+     */
     public static String couleur(Object obj, String aColoriser) {
         if (obj instanceof IColorable)
             return ((IColorable) obj).getStringColore(aColoriser);
         Jeu.printd("Couleur de " + obj.getClass() + " n'est pas implémentée");
-        return aColoriser;
+        return gras(aColoriser);
     }
 
     /**

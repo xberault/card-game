@@ -1,16 +1,18 @@
-package app.joueur.vue;
+package app.joueur.model.vue;
 
 import app.Jeu;
 import app.cartes.CarteRumeur;
+import app.joueur.JoueurControlleur;
 import app.joueur.model.IJoueurVue;
 import app.joueur.model.JoueurModel;
-import app.model.JeuConstructreurTXT;
 import app.model.Role;
 import app.model.action.Action;
+import app.model.constructeur.JeuConstructreurTXT;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
-
 
 public class JoueurVUETXT implements IJoueurVue {
 
@@ -63,7 +65,7 @@ public class JoueurVUETXT implements IJoueurVue {
             System.out.print("Entrez le numéro de votre réponse: ");
             rep = sc.nextInt();
         }
-        System.out.println("Vous avez choisi: " + JeuConstructreurTXT.gras("" + objects[rep - 1]));
+        System.out.println("Vous avez choisi: " + JeuConstructreurTXT.couleur(objects[rep - 1], "" + objects[rep - 1]));
 
         return objects[rep - 1];
     }
@@ -123,6 +125,30 @@ public class JoueurVUETXT implements IJoueurVue {
         // TODO: 13/11/2021 ou demander s'il veut faire retour en arrière et accuser à nouveau 
     }
 
+    @Override
+    public CarteRumeur demanderCarte(CarteRumeur[] cartes) {
+        // TODO: 17/11/2021 améliorer affichage?
+        return (CarteRumeur) this.obtenirObject(cartes);
+    }
+
+    @Override
+    public JoueurModel demanderCibleAccusation() {
+        // get tous les joueurs
+        // enlever le joueur actuel
+        List<JoueurModel> lesJoueurs = List.of(Jeu.getInstance().getLesJoueurs());
+        lesJoueurs = new ArrayList<>(lesJoueurs); // on effectue une copie des joueurs pour s'assurer de ne pas modifier des valeurs qu'on de devrait pas
+        lesJoueurs.remove(Jeu.getInstance().getJoueurCourant());
+        System.out.println("Quel joueur souhaitez-vous accuser ?");
+        JoueurModel joueur = (JoueurModel) this.obtenirObject(lesJoueurs.toArray());
+        return joueur;
+    }
+
+    @Override
+    public void afficherJoueurs() {
+        // TODO: 17/11/2021 peut-être factoriser cette fonction
+        this.afficherJoueurActuel();
+    }
+
     /**
      * Affiche la personne à qui c'est actuellement le tour
      * Vide également l'affichage de la console
@@ -162,5 +188,25 @@ public class JoueurVUETXT implements IJoueurVue {
                             )
             );
         }
+    }
+
+    @Override
+    public JoueurControlleur demanderProchainJoueur() {
+        return null;
+    }
+
+    @Override
+    public void afficherProchainJoueur() {
+
+    }
+
+    @Override
+    public CarteRumeur demanderDefausseCarte() {
+        return null;
+    }
+
+    @Override
+    public CarteRumeur demanderRepriseCarte(CarteRumeur[] lesCartesDisponibless) {
+        return null;
     }
 }

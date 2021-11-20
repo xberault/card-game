@@ -18,4 +18,14 @@ public class AngryMob extends CarteRumeur {
     public Couleur getColor() {
         return Couleur.RED;
     }
+
+    @Override
+    protected void pActiverEffetWitch() {
+
+    }
+
+    @Override
+    protected void pActiverEffetHunt() {
+
+    }
 }

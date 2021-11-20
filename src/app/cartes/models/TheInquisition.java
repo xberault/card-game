@@ -16,4 +16,14 @@ public class TheInquisition extends CarteRumeur {
     public Couleur getColor() {
         return Couleur.YELLOW;
     }
+
+    @Override
+    protected void pActiverEffetWitch() {
+
+    }
+
+    @Override
+    protected void pActiverEffetHunt() {
+
+    }
 }

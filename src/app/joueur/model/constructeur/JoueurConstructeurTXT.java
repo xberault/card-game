@@ -7,8 +7,8 @@ import app.joueur.model.IJoueurVue;
 import app.joueur.model.JoueurModel;
 import app.joueur.model.strategie.IStrategieIA;
 import app.joueur.model.strategie.StrategieAleatoire;
-import app.joueur.vue.JoueurVUETXT;
-import app.model.JeuConstructreurTXT;
+import app.joueur.model.vue.JoueurVUETXT;
+import app.model.constructeur.JeuConstructreurTXT;
 
 import java.util.Scanner;
 

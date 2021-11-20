@@ -18,4 +18,14 @@ public class Toad extends CarteRumeur {
     public Couleur getColor() {
         return Couleur.GREEN_BOLD;
     }
+
+    @Override
+    protected void pActiverEffetWitch() {
+
+    }
+
+    @Override
+    protected void pActiverEffetHunt() {
+
+    }
 }

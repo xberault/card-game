@@ -35,7 +35,7 @@ public abstract class CarteRumeur implements IColorable {
     /**
      * Booléen qui indique si la carte a déjà été jouéé
      */
-    private final boolean estJouee;
+    private boolean estJouee;
     /**
      * Nom de la carte
      */
@@ -133,7 +133,12 @@ public abstract class CarteRumeur implements IColorable {
         verifieJouee();
         if (!this.conditionHunt.estActivable())
             throw new EffetNonJouableException();
-        // TODO: 13/11/2021 activer l'effet 
+        this.pActiverEffetHunt();
+        this.setEstJouee(true);
+        // TODO: 13/11/2021 activer l'effet
+
+        // TODO: 20/11/2021 peut-être créer une classe effet mais ça fait beaucoup
+        // je pense plutot implémenter dans l'interface toutes les méthodes correspondants aux effets utiles.
     }
 
     /**
@@ -146,8 +151,22 @@ public abstract class CarteRumeur implements IColorable {
         verifieJouee();
         if (!this.conditionWitch.estActivable())
             throw new EffetNonJouableException();
+        this.pActiverEffetWitch();
+        this.setEstJouee(true);
         // TODO: 13/11/2021 activer l'effet
     }
+
+    /**
+     * Partie à imlémenter pour les cartes
+     * Permet l'activation réelle de l'effet witch
+     */
+    protected abstract void pActiverEffetWitch();
+
+    /**
+     * Partie à implémenter pour les cartes
+     * Permet l'activation réelle de l'effet hunt
+     */
+    protected abstract void pActiverEffetHunt();
 
     /**
      * Vérifie si la carte a déjà été joué
@@ -178,6 +197,15 @@ public abstract class CarteRumeur implements IColorable {
         return this.nom;
     }
 
+    /**
+     * Permet d'indiquer si la carte a été jouée ou non cad si elle est défaussée
+     *
+     * @param estJouee le booléen qui est à true est elle vient d'être joué
+     */
+    public void setEstJouee(boolean estJouee) {
+        this.estJouee = estJouee;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -193,13 +221,18 @@ public abstract class CarteRumeur implements IColorable {
 
     @Override
     public String toString() {
-        return "CarteRumeur{" +
-                " nom='" + this.getNom() + '\'' +
-                ", descriptionWitch='" + descriptionWitch + '\'' +
-                ", descriptionHunt='" + descriptionHunt + '\'' +
-                ", conditionHunt=" + conditionHunt +
-                ", conditionWitch=" + conditionWitch +
-                ", estJouee=" + estJouee +
-                '}';
+        return this.nom;
+    }
+
+    /**
+     * Permet de changer le propriétaire d'une carte
+     * Effectue également le changement dans la main du joueur
+     *
+     * @param joueur le nouveau propriétaire
+     */
+    public void changerProprietaire(JoueurControlleur joueur) {
+        this.joueur.getModel().retirerCarte(this);
+        this.joueur = joueur;
+        joueur.getModel().ajouterCarteRumeur(this);
     }
 }

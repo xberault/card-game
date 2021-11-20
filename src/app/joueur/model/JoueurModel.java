@@ -148,8 +148,15 @@ public abstract class JoueurModel {
                 '}';
     }
 
-    public CarteRumeur[] getCartes() {
-        return this.lesCartes.toArray(new CarteRumeur[0]);
+    /**
+     * Permet d'obtenir toutes les cartes encore dans la main du joueur
+     *
+     * @return un tableau contenant toutes ces cartes
+     */
+    public CarteRumeur[] getCartesMain() {
+        List<CarteRumeur> lesCartesMain = new ArrayList<>(this.lesCartes); // on fait une copie
+        lesCartesMain.removeAll(List.of(this.getCartesRumeursRevelees()));
+        return lesCartesMain.toArray(new CarteRumeur[0]);
     }
 
 
@@ -166,6 +173,11 @@ public abstract class JoueurModel {
         return this.nom;
     }
 
+    /**
+     * Permet d'obtenir toutes les cartes dans la défausse du joueur
+     *
+     * @return un tableau contenant toutes ces cartes
+     */
     public CarteRumeur[] getCartesRumeursRevelees() {
         List<CarteRumeur> cartesRevelees = new ArrayList<>();
         for (CarteRumeur carte : this.lesCartes)
@@ -174,7 +186,26 @@ public abstract class JoueurModel {
         return cartesRevelees.toArray(new CarteRumeur[0]);
     }
 
+
     public boolean estRevele() {
         return this.identiteRevele;
+    }
+
+    /**
+     * Permet de mettre une carte dans la défausse du joueur
+     *
+     * @param carte la carte à défausser
+     */
+    public void defausserCarte(CarteRumeur carte) {
+        carte.setEstJouee(true);
+    }
+
+    /**
+     * Permet de retirer une carte spécifique à la fois de la défausse du joueur et de sa main
+     *
+     * @param carteRumeur la carte à retirer
+     */
+    public void retirerCarte(CarteRumeur carteRumeur) {
+        this.lesCartes.remove(carteRumeur);
     }
 }

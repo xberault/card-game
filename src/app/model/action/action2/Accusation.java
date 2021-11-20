@@ -13,7 +13,7 @@ public class Accusation extends Action2 {
     }
 
     @Override
-    protected void executerAction(Object cible) {
+    public void executerAction(Object cible) {
         // TODO: 16/11/2021
     }
 }

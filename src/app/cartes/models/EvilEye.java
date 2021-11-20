@@ -18,4 +18,14 @@ public class EvilEye extends CarteRumeur {
     public Couleur getColor() {
         return Couleur.RED_BOLD;
     }
+
+    @Override
+    protected void pActiverEffetWitch() {
+        // TODO: 20/11/2021  voir comment implémenter une telle condition
+    }
+
+    @Override
+    protected void pActiverEffetHunt() {
+        this.pActiverEffetWitch();
+    }
 }

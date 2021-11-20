@@ -10,6 +10,7 @@ import app.joueur.model.etat.EtatTourDeJeu;
 import app.joueur.model.etat.IEtat;
 import app.model.Role;
 import app.model.action.Action;
+import app.model.action.Action2;
 import app.model.action.action2.Accusation;
 import app.model.action.action2.JouerCarteHunt;
 
@@ -94,6 +95,9 @@ public class JoueurControlleur implements PropertyChangeListener {
         Jeu.printd("Le joueur " + this.model + " vient d'être accusé");
         // TODO: 10/11/2021 Peut-être créer une classe association(record java14+) pour représenter une accusation entre deux joueurs
         // cette accusation on la ferait Jeu.register(accusation) ? into un jeu.pop(accusation) lors du get
+
+        // edit 17/11/2021 la classe Accuser de Action représente maintenant cela
+
         Action action = this.vue.repondreAccusasion(this.model.getActionsDisponibles());
     }
 
@@ -103,11 +107,18 @@ public class JoueurControlleur implements PropertyChangeListener {
     private void gererTourDeJeu() {
         Jeu.printd("Le joueur " + this.model + " va jouer son tour");
         Action action = this.vue.demanderTourDeJeu(this.model.getActionsDisponibles());
-        // TODO: 16/11/2021 mettre executer action ici 
-        if (action instanceof JouerCarteHunt)
-            this.vue.afficherCartes(this.model.getCartes());
-        else if (action instanceof Accusation)
+        // TODO: 16/11/2021 mettre executer action ici
+
+        Object target = null; // objet cible de l'action
+        if (action instanceof JouerCarteHunt) {
+            this.vue.afficherCartes(this.model.getCartesMain());
+            target = this.vue.demanderCarte(this.model.getCartesMain());
+        } else if (action instanceof Accusation) {
             Jeu.printd("Choix d'accuser");
+            this.vue.afficherJoueurs();
+            target = this.vue.demanderCibleAccusation();
+        }
+        ((Action2) action).executerAction(target);
     }
 
     /**
@@ -125,5 +136,9 @@ public class JoueurControlleur implements PropertyChangeListener {
 
     public JoueurModel getModel() {
         return model;
+    }
+
+    public IJoueurVue getJoueurVue() {
+        return this.vue;
     }
 }

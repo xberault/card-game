@@ -10,6 +10,8 @@ public class DuckingStool extends CarteRumeur {
             "Villageois: vous perdez 1 point; il joue le prochain tour\n" +
             "Defausse: il joue le prochain tour";
 
+    // TODO: 20/11/2021 voir comment implémenter ce choix d'action
+
     private static final String descriptionWitch = "Vous choisissez le prochain joueur";
 
     public DuckingStool() {
@@ -19,5 +21,15 @@ public class DuckingStool extends CarteRumeur {
     @Override
     public Couleur getColor() {
         return Couleur.BLUE_BOLD;
+    }
+
+    @Override
+    protected void pActiverEffetWitch() {
+        // TODO: 20/11/2021
+    }
+
+    @Override
+    protected void pActiverEffetHunt() {
+        this.pActiverEffetWitch();
     }
 }

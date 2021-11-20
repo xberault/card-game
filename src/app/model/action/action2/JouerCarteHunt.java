@@ -1,5 +1,8 @@
 package app.model.action.action2;
 
+import app.cartes.CarteDejaJoueeException;
+import app.cartes.CarteRumeur;
+import app.cartes.EffetNonJouableException;
 import app.joueur.model.JoueurModel;
 import app.model.action.Action2;
 
@@ -14,7 +17,12 @@ public class JouerCarteHunt extends Action2 {
     }
 
     @Override
-    protected void executerAction(Object cible) {
-        // TODO: 16/11/2021  
+    public void executerAction(Object cible) {
+        CarteRumeur carte = (CarteRumeur) cible;
+        try {
+            carte.activerEffetHunt();
+        } catch (CarteDejaJoueeException | EffetNonJouableException e) {
+            e.printStackTrace();
+        }
     }
 }

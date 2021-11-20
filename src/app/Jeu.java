@@ -3,8 +3,8 @@ package app;
 import app.cartes.CarteRumeur;
 import app.joueur.JoueurControlleur;
 import app.joueur.model.JoueurModel;
-import app.model.JeuConstructeur;
-import app.model.JeuConstructreurTXT;
+import app.model.constructeur.JeuConstructeur;
+import app.model.constructeur.JeuConstructreurTXT;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -212,5 +212,17 @@ public class Jeu {
         for (JoueurControlleur j : this.joueurs)
             res.add(j.getModel());
         return res.toArray(new JoueurModel[0]);
+    }
+
+    /**
+     * Permet de choisir manuellement le prochain joueur
+     *
+     * @param joueur le joueur qui doit jouer son prochain tour
+     */
+    public void setProchainJoueur(JoueurControlleur joueur) {
+        // Doit prendre en compte l'éxécution de #joueurSuivant() à chaque tour
+        // on choisit donc le joueur avant lui
+        int index = (this.joueurs.indexOf(joueur) - 1) % this.joueurs.size();
+        this.joueurCourant = this.joueurs.get(index);
     }
 }
