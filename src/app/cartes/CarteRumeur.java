@@ -97,7 +97,7 @@ public abstract class CarteRumeur implements IColorable {
      */
     public boolean effetWitchJouable() {
         if (Objects.nonNull(this.conditionWitch))
-            return this.conditionWitch.estActivable();
+            return this.conditionWitch.estActivable(this.joueur.getModel());
         return true;
     }
 
@@ -109,17 +109,19 @@ public abstract class CarteRumeur implements IColorable {
      */
     public boolean effetHuntJouable() {
         if (Objects.nonNull(this.conditionHunt))
-            return this.conditionHunt.estActivable();
+            return this.conditionHunt.estActivable(this.joueur.getModel());
         return true;
     }
 
     public String getDescriptionHunt() {
         if (Objects.nonNull(this.conditionHunt))
-            return "" + this.conditionHunt + this.descriptionHunt;
+            return "" + this.descriptionHunt + "\n" + this.conditionHunt;
         return this.descriptionHunt;
     }
 
     public String getDescriptionWitch() {
+        if (Objects.nonNull(this.conditionWitch))
+            return "" + this.descriptionWitch + "\n" + this.descriptionWitch;
         return this.descriptionWitch;
     }
 
@@ -131,7 +133,7 @@ public abstract class CarteRumeur implements IColorable {
      */
     public void activerEffetHunt() throws CarteDejaJoueeException, EffetNonJouableException {
         verifieJouee();
-        if (!this.conditionHunt.estActivable())
+        if (!this.effetHuntJouable())
             throw new EffetNonJouableException();
         this.pActiverEffetHunt();
         this.setEstJouee(true);
@@ -149,7 +151,7 @@ public abstract class CarteRumeur implements IColorable {
      */
     public void activerEffetWitch() throws CarteDejaJoueeException, EffetNonJouableException {
         verifieJouee();
-        if (!this.conditionWitch.estActivable())
+        if (!this.effetWitchJouable())
             throw new EffetNonJouableException();
         this.pActiverEffetWitch();
         this.setEstJouee(true);

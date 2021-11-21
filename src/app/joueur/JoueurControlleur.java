@@ -1,6 +1,7 @@
 package app.joueur;
 
 import app.Jeu;
+import app.cartes.EffetNonJouableException;
 import app.joueur.model.IJoueurVue;
 import app.joueur.model.JoueurModel;
 import app.joueur.model.etat.EtatAccusation;
@@ -10,6 +11,7 @@ import app.joueur.model.etat.EtatTourDeJeu;
 import app.joueur.model.etat.IEtat;
 import app.model.Role;
 import app.model.action.Action;
+import app.model.action.Action1;
 import app.model.action.Action2;
 import app.model.action.action2.Accusation;
 import app.model.action.action2.JouerCarteHunt;
@@ -102,23 +104,35 @@ public class JoueurControlleur implements PropertyChangeListener {
     }
 
     /**
+     * Permet d'obtenir le controlleur du modèle passé en paramètre
+     *
+     * @param model le modèle dont on veut retrouver le controlleur
+     * @return le controlleur associé au modèle.
+     */
+    public static JoueurControlleur getControllerFromModel(JoueurModel model) {
+        for (JoueurControlleur jc : Jeu.getInstance().getLesJoueursControlleurs())
+            if (jc.getModel().equals(model))
+                return jc;
+        return null;
+    }
+
+    /**
      * Transmet l'action soumise par le joueur pour son tour de jeu
      */
     private void gererTourDeJeu() {
         Jeu.printd("Le joueur " + this.model + " va jouer son tour");
         Action action = this.vue.demanderTourDeJeu(this.model.getActionsDisponibles());
-        // TODO: 16/11/2021 mettre executer action ici
 
-        Object target = null; // objet cible de l'action
-        if (action instanceof JouerCarteHunt) {
-            this.vue.afficherCartes(this.model.getCartesMain());
-            target = this.vue.demanderCarte(this.model.getCartesMain());
-        } else if (action instanceof Accusation) {
-            Jeu.printd("Choix d'accuser");
-            this.vue.afficherJoueurs();
-            target = this.vue.demanderCibleAccusation();
+        try {
+            gererAction(action);
+        } catch (EffetNonJouableException e) {
+            // TODO: 21/11/2021 ne pas faire recommencer le tour mais simplement le choix
+            vue.informerErreur("Les conditions requises pour jouer cette cartes ne sont pas remplies, merci de recommencer votre tour");
+            this.gererTourDeJeu();
+            return;
         }
-        ((Action2) action).executerAction(target);
+
+        Jeu.getInstance().joueurSuivant();
     }
 
     /**
@@ -140,5 +154,27 @@ public class JoueurControlleur implements PropertyChangeListener {
 
     public IJoueurVue getJoueurVue() {
         return this.vue;
+    }
+
+    /**
+     * Permet de gérer l'action que le joueur a demandé d'effectuer
+     *
+     * @param action l'action qu'il a désiré effectué
+     * @throws EffetNonJouableException quand sa carte ne remplit pas les conditions nécessaires
+     */
+    private void gererAction(Action action) throws EffetNonJouableException {
+        Object target = null; // objet cible de l'action
+        if (action instanceof JouerCarteHunt) {
+            this.vue.afficherCartes(this.model.getCartesMain());
+            target = this.vue.demanderCarte(this.model.getCartesMain());
+        } else if (action instanceof Accusation) {
+            Jeu.printd("Choix d'accuser");
+            this.vue.afficherJoueurs();
+            target = this.vue.demanderCibleAccusation();
+        }
+        if (action instanceof Action2)
+            ((Action2) action).executerAction(target);
+        else if (action instanceof Action1)
+            action.executerAction();
     }
 }

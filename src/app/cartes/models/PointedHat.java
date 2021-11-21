@@ -1,6 +1,8 @@
 package app.cartes.models;
 
 import app.cartes.CarteRumeur;
+import app.cartes.condition.Condition;
+import app.cartes.condition.ConditionCarteDefausse;
 import app.model.Couleur;
 
 public class PointedHat extends CarteRumeur {
@@ -11,6 +13,9 @@ public class PointedHat extends CarteRumeur {
 
     public PointedHat() {
         super("Chapeau pointu", descriptionHunt, descriptionWitch);
+        Condition cdt = new ConditionCarteDefausse();
+        super.ajouterConditionHunt(cdt);
+        super.ajouterConditionWitch(cdt);
     }
 
     @Override

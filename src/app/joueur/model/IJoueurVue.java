@@ -63,4 +63,11 @@ public interface IJoueurVue extends IEffetVue {
      * Permet d'afficher les joueurs présents dans la partie
      */
     void afficherJoueurs();
+
+    /**
+     * Informe le joueur d'une erreur
+     *
+     * @param msgErreur le message à lui afficher
+     */
+    void informerErreur(String msgErreur);
 }

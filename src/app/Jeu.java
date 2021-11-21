@@ -91,7 +91,7 @@ public class Jeu {
         return Jeu.instance;
     }
 
-    public void setJoueurCourant(JoueurControlleur joueur) {
+    private void setJoueurCourant(JoueurControlleur joueur) {
         this.joueurCourant = joueur;
     }
 
@@ -212,6 +212,32 @@ public class Jeu {
         for (JoueurControlleur j : this.joueurs)
             res.add(j.getModel());
         return res.toArray(new JoueurModel[0]);
+    }
+
+    /**
+     * Permet d'obtenir le controlleur de tous les joueurs présents dans la partie
+     *
+     * @return un tableau contenant tous ces joueurs
+     */
+    public JoueurControlleur[] getLesJoueursControlleurs() {
+        return this.joueurs.toArray(new JoueurControlleur[this.joueurs.size()]);
+    }
+
+    /**
+     * Permet d'obtenir le joueur avant celui passé en paramètre
+     *
+     * @param joueur le joueur en question
+     * @return le joueur qui joue avant
+     */
+    public JoueurControlleur getJoueurAvant(JoueurControlleur joueur) {
+        JoueurControlleur prev = null;
+        for (JoueurControlleur j : this.joueurs) {
+            if (Objects.nonNull(prev) && joueur.equals(j))
+                return prev;
+            prev = j;
+        }
+        // si le joueur n'a pas été trouvé dans la boucle, il s'agit du premier joueur
+        return this.joueurs.get(0);
     }
 
     /**

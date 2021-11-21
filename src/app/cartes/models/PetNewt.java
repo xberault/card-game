@@ -15,6 +15,8 @@ public class PetNewt extends CarteRumeur {
     private static final String descriptionWitch = "Vous jouez le prochain tour";
 
     public PetNewt() {
+        // TODO: 21/11/2021 ajouter condition que tous les joueurs doivent avoir joué au moins 1 carte
+        // cad l'effet hunt ne peut etre jouée en première carte de la partie
         super("Triton apprivoisé", descriptionHunt, descriptionWitch);
     }
 
@@ -34,7 +36,7 @@ public class PetNewt extends CarteRumeur {
         JoueurModel[] lesJoueurs = Jeu.getInstance().getLesJoueurs();
         for (JoueurModel joueur : lesJoueurs)
             lesCartesDefausses.addAll(List.of(joueur.getCartesRumeursRevelees()));
-        CarteRumeur choix = this.joueur.getJoueurVue().demanderRepriseCarte((CarteRumeur[]) lesCartesDefausses.toArray());
+        CarteRumeur choix = this.joueur.getJoueurVue().demanderRepriseCarte(lesCartesDefausses.toArray(new CarteRumeur[lesCartesDefausses.size()]));
         choix.changerProprietaire(this.joueur);
     }
 }

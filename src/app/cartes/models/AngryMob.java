@@ -1,6 +1,7 @@
 package app.cartes.models;
 
 import app.cartes.CarteRumeur;
+import app.cartes.condition.ConditionVillageois;
 import app.model.Couleur;
 
 public class AngryMob extends CarteRumeur {
@@ -12,6 +13,7 @@ public class AngryMob extends CarteRumeur {
 
     public AngryMob() {
         super("Foule en colère", descriptionHunt, descriptionWitch);
+        super.ajouterConditionHunt(new ConditionVillageois());
     }
 
     @Override

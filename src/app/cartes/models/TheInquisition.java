@@ -1,6 +1,9 @@
 package app.cartes.models;
 
+import app.Jeu;
 import app.cartes.CarteRumeur;
+import app.cartes.condition.ConditionVillageois;
+import app.joueur.JoueurControlleur;
 import app.model.Couleur;
 
 public class TheInquisition extends CarteRumeur {
@@ -10,6 +13,7 @@ public class TheInquisition extends CarteRumeur {
 
     public TheInquisition() {
         super("L'inquisition", descriptionHunt, descriptionWitch);
+        super.ajouterConditionHunt(new ConditionVillageois());
     }
 
     @Override
@@ -19,11 +23,16 @@ public class TheInquisition extends CarteRumeur {
 
     @Override
     protected void pActiverEffetWitch() {
-
+        CarteRumeur aDefausse = super.joueur.getJoueurVue().demanderDefausseCarte();
+        super.joueur.getModel().retirerCarte(aDefausse);
+        Jeu.getInstance().setProchainJoueur(super.joueur);
     }
 
     @Override
     protected void pActiverEffetHunt() {
+        JoueurControlleur cible = joueur.getJoueurVue().demanderProchainJoueur();
+        joueur.getJoueurVue().afficherRoleJoueur(cible.getModel());
+        Jeu.getInstance().setProchainJoueur(cible);
 
     }
 }

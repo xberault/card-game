@@ -2,6 +2,7 @@ package app.cartes.models;
 
 import app.Jeu;
 import app.cartes.CarteRumeur;
+import app.cartes.condition.ConditionCarteDefausse;
 import app.model.Couleur;
 
 public class BlackCat extends CarteRumeur {
@@ -10,6 +11,7 @@ public class BlackCat extends CarteRumeur {
 
     public BlackCat() {
         super("Chat noir", descriptionHunt, descriptionWitch);
+        super.ajouterConditionHunt(new ConditionCarteDefausse());
     }
 
     @Override

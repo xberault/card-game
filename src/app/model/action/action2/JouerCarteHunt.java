@@ -17,11 +17,11 @@ public class JouerCarteHunt extends Action2 {
     }
 
     @Override
-    public void executerAction(Object cible) {
+    public void executerAction(Object cible) throws EffetNonJouableException {
         CarteRumeur carte = (CarteRumeur) cible;
         try {
             carte.activerEffetHunt();
-        } catch (CarteDejaJoueeException | EffetNonJouableException e) {
+        } catch (CarteDejaJoueeException e) {
             e.printStackTrace();
         }
     }

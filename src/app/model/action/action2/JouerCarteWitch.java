@@ -1,5 +1,8 @@
 package app.model.action.action2;
 
+import app.cartes.CarteDejaJoueeException;
+import app.cartes.CarteRumeur;
+import app.cartes.EffetNonJouableException;
 import app.joueur.model.JoueurModel;
 import app.model.action.Action2;
 
@@ -14,6 +17,11 @@ public class JouerCarteWitch extends Action2 {
 
     @Override
     public void executerAction(Object cible) {
-        // TODO: 16/11/2021
+        CarteRumeur carte = (CarteRumeur) cible;
+        try {
+            carte.activerEffetWitch();
+        } catch (CarteDejaJoueeException | EffetNonJouableException e) {
+            e.printStackTrace();
+        }
     }
 }

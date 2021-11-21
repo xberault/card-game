@@ -1,6 +1,8 @@
 package app.cartes.models;
 
+import app.Jeu;
 import app.cartes.CarteRumeur;
+import app.joueur.JoueurControlleur;
 import app.model.Couleur;
 
 public class Toad extends CarteRumeur {
@@ -21,7 +23,22 @@ public class Toad extends CarteRumeur {
 
     @Override
     protected void pActiverEffetWitch() {
-
+        super.joueur.getModel().seRevele();
+        switch (super.joueur.getModel().getRole()) {
+            case VILLAGEOIS -> {
+                JoueurControlleur cible = super.joueur.getJoueurVue().demanderProchainJoueur();
+                super.joueur.getJoueurVue().afficherProchainJoueurTour(cible.getModel());
+                Jeu.getInstance().setProchainJoueur(cible);
+            }
+            case SORCIERE -> {
+                JoueurControlleur joueur = Jeu.getInstance().getJoueurAvant(super.joueur);
+                Jeu.getInstance().setProchainJoueur(joueur);
+                super.joueur.getJoueurVue().afficherProchainJoueurTour(joueur.getModel());
+            }
+            default -> {
+                Jeu.printd("Toad.pActtiverEffetWitch() case default activé avec joueur: " + joueur);
+            }
+        }
     }
 
     @Override

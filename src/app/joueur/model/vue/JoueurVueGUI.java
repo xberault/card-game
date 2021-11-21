@@ -49,12 +49,17 @@ public class JoueurVueGUI implements IJoueurVue {
     }
 
     @Override
+    public void informerErreur(String msgErreur) {
+
+    }
+
+    @Override
     public JoueurControlleur demanderProchainJoueur() {
         return null;
     }
 
     @Override
-    public void afficherProchainJoueur() {
+    public void afficherProchainJoueurTour(JoueurModel joueur) {
 
     }
 
@@ -66,5 +71,10 @@ public class JoueurVueGUI implements IJoueurVue {
     @Override
     public CarteRumeur demanderRepriseCarte(CarteRumeur[] lesCartesDisponibles) {
         return null;
+    }
+
+    @Override
+    public void afficherRoleJoueur(JoueurModel joueur) {
+
     }
 }

@@ -1,5 +1,6 @@
 package app.model.action;
 
+import app.cartes.EffetNonJouableException;
 import app.joueur.model.JoueurModel;
 
 public abstract class Action2 implements Action {
@@ -25,11 +26,11 @@ public abstract class Action2 implements Action {
     }
 
     @Override
-    public void executerAction() {
+    public void executerAction() throws EffetNonJouableException {
         this.executerAction(this.cible);
     }
 
-    public abstract void executerAction(Object cible);
+    public abstract void executerAction(Object cible) throws EffetNonJouableException;
 
     @Override
     public String toString() {

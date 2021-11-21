@@ -25,7 +25,7 @@ public class Broomstick extends CarteRumeur {
     @Override
     protected void pActiverEffetWitch() {
         Jeu.getInstance().setProchainJoueur(this.joueur);
-        this.joueur.getJoueurVue().afficherProchainJoueur();
+        this.joueur.getJoueurVue().afficherProchainJoueurTour(joueur.getModel());
     }
 
     @Override

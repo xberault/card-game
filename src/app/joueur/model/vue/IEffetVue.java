@@ -2,6 +2,7 @@ package app.joueur.model.vue;
 
 import app.cartes.CarteRumeur;
 import app.joueur.JoueurControlleur;
+import app.joueur.model.JoueurModel;
 
 /**
  * Contient toutes les méthodes susceptibles d'être utilisées par les effets des cartes
@@ -17,9 +18,11 @@ public interface IEffetVue {
     JoueurControlleur demanderProchainJoueur();
 
     /**
-     * Permet l'affichage au joueur qu'il jouera effectivement le prochain tour
+     * Permet la confirmation que le joueur passé en paramètre sera bien le prochain joueur à jouer
+     *
+     * @param joueur le joueur dont il sera le tour
      */
-    void afficherProchainJoueur();
+    void afficherProchainJoueurTour(JoueurModel joueur);
 
     /**
      * Demande à l'utilisateur quelle carte il souhaite défausser de sa main
@@ -29,13 +32,21 @@ public interface IEffetVue {
     CarteRumeur demanderDefausseCarte();
 
     /**
-     * Demande à l'utilisateur quelle carte il souhaite parti les cartes défaussées
+     * Demande à l'utilisateur quelle carte il souhaite parmi les cartes défaussées
      * Cette fonction peut être utilisée lorsqu'un joueur reprend des cartes de sa défausse personnelle ou celle d'un autre
      *
      * @param lesCartesDisponibles un tableau contenant toutes les cartes disponibles à la reprise
      * @return la carte qu'il souhaite reprendre
      */
     CarteRumeur demanderRepriseCarte(CarteRumeur[] lesCartesDisponibles);
+
+    /**
+     * Permet d'afficher le role du joueur passé en paramètre
+     * Celui-ci reste confidentiel avec le joueur ayant effectué cette demande
+     *
+     * @param joueur le joueur dont on souhaite afficher le role
+     */
+    void afficherRoleJoueur(JoueurModel joueur);
 
 
 }

@@ -9,6 +9,7 @@ import app.model.Role;
 import app.model.action.Action;
 import app.model.constructeur.JeuConstructreurTXT;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -33,8 +34,10 @@ public class JoueurVUETXT implements IJoueurVue {
         Role[] lesRolesDisponibles = Role.getRolesJouables();
         // Role rep = this.obtenirRole(lesRolesDisponibles);
         // System.out.println("Vous avez choisi d'incarner " + JeuConstructreurTXT.gras(rep.name()) + " pour la partie à venir");
+        Role choix = this.obtenirRole(lesRolesDisponibles);
 
-        return this.obtenirRole(lesRolesDisponibles);
+        this.demanderContinuation();
+        return choix;
     }
 
     /**
@@ -102,6 +105,7 @@ public class JoueurVUETXT implements IJoueurVue {
         this.afficherJoueurActuel();
         this.afficherLesJoueurs();
         System.out.println("Vous venez d'être accusé, quelle action désirez-vous effectuer ?");
+        demanderContinuation();
         return (Action) this.obtenirObject(actionsDisponibles);
     }
 
@@ -135,18 +139,35 @@ public class JoueurVUETXT implements IJoueurVue {
     public JoueurModel demanderCibleAccusation() {
         // get tous les joueurs
         // enlever le joueur actuel
+        JoueurModel[] lesJoueurs = getLesJoueursSansCourant();
+        System.out.println("Quel joueur souhaitez-vous accuser ?");
+        JoueurModel joueur = (JoueurModel) this.obtenirObject(lesJoueurs);
+        demanderContinuation();
+        return joueur;
+    }
+
+    /**
+     * Permet d'obtenir tous les joueurs de la partie excepté du joueur courant
+     *
+     * @return un tableau contenant ces dits joueurs
+     */
+    private JoueurModel[] getLesJoueursSansCourant() {
         List<JoueurModel> lesJoueurs = List.of(Jeu.getInstance().getLesJoueurs());
         lesJoueurs = new ArrayList<>(lesJoueurs); // on effectue une copie des joueurs pour s'assurer de ne pas modifier des valeurs qu'on de devrait pas
         lesJoueurs.remove(Jeu.getInstance().getJoueurCourant());
-        System.out.println("Quel joueur souhaitez-vous accuser ?");
-        JoueurModel joueur = (JoueurModel) this.obtenirObject(lesJoueurs.toArray());
-        return joueur;
+        return lesJoueurs.toArray(new JoueurModel[lesJoueurs.size()]);
     }
 
     @Override
     public void afficherJoueurs() {
         // TODO: 17/11/2021 peut-être factoriser cette fonction
         this.afficherJoueurActuel();
+    }
+
+    @Override
+    public void informerErreur(String msgErreur) {
+        System.out.println(msgErreur);
+        this.demanderContinuation();
     }
 
     /**
@@ -192,21 +213,47 @@ public class JoueurVUETXT implements IJoueurVue {
 
     @Override
     public JoueurControlleur demanderProchainJoueur() {
-        return null;
+        JoueurModel[] lesJoueurs = getLesJoueursSansCourant();
+        System.out.println("Quel joueur souhaitez-vous sélectionner ?");
+        JoueurModel cible = (JoueurModel) this.obtenirObject(lesJoueurs);
+        return JoueurControlleur.getControllerFromModel(cible);
     }
 
     @Override
-    public void afficherProchainJoueur() {
-
+    public void afficherProchainJoueurTour(JoueurModel joueur) {
+        System.out.println(JeuConstructreurTXT.gras(joueur.getNom()) + " sera bien le prochain joueur à jouer son tour");
+        this.demanderContinuation();
     }
 
     @Override
     public CarteRumeur demanderDefausseCarte() {
-        return null;
+        System.out.println("Quelle carte souhaitez-vous défausser de votre main ?");
+        CarteRumeur[] cartesDisponibles = Jeu.getInstance().getJoueurCourant().getCartesMain();
+        return (CarteRumeur) this.obtenirObject(cartesDisponibles);
     }
 
     @Override
-    public CarteRumeur demanderRepriseCarte(CarteRumeur[] lesCartesDisponibless) {
-        return null;
+    public CarteRumeur demanderRepriseCarte(CarteRumeur[] lesCartesDisponibles) {
+        System.out.println("Quelle carte souhaitez-vous reprendre parmi les suivantes ?");
+        return (CarteRumeur) this.obtenirObject(lesCartesDisponibles);
+    }
+
+    @Override
+    public void afficherRoleJoueur(JoueurModel joueur) {
+        System.out.println("Le rôle de " + JeuConstructreurTXT.gras(joueur.getNom()) + " est " +
+                JeuConstructreurTXT.couleur(joueur.getRole(), joueur.getRole().toString()));
+        this.demanderContinuation();
+
+    }
+
+    /**
+     * Permet de faire attendre le joueur avant de terminer son tour
+     */
+    private void demanderContinuation() {
+        System.out.print("Appuyez sur entrée pour terminer votre tour...");
+        try {
+            System.in.read();
+        } catch (IOException e) {
+        }
     }
 }

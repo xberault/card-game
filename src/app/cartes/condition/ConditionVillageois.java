@@ -7,14 +7,12 @@ public class ConditionVillageois extends Condition {
 
     private static final String description = "vous avez été révélé en tant que villageois";
 
-    protected ConditionVillageois(JoueurModel joueur) {
+    public ConditionVillageois() {
         super(description);
-        super.setJoueur(joueur);
     }
 
-
     @Override
-    public boolean estActivable() {
-        return super.joueur.estRevele() && super.joueur.getRole().equals(Role.VILLAGEOIS);
+    public boolean estActivable(JoueurModel joueur) {
+        return joueur.estRevele() && joueur.getRole().equals(Role.VILLAGEOIS);
     }
 }
