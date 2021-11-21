@@ -8,11 +8,14 @@ import app.model.action.action2.JouerCarteWitch;
 
 import java.util.Objects;
 
+/**
+ * Lorsque le joueur vient de se faire accuser
+ */
 public class EtatAccusation implements IEtat {
 
     private final JoueurModel joueur;
 
-    protected EtatAccusation(JoueurModel joueur) {
+    public EtatAccusation(JoueurModel joueur) {
         this.joueur = joueur;
     }
 

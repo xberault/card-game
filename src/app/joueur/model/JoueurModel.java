@@ -1,6 +1,7 @@
 package app.joueur.model;
 
 import app.cartes.CarteRumeur;
+import app.cartes.effet.IEffet;
 import app.joueur.model.etat.EtatAttente;
 import app.joueur.model.etat.EtatChoixIdentite;
 import app.joueur.model.etat.IEtat;
@@ -58,6 +59,12 @@ public abstract class JoueurModel {
      */
     private boolean identiteRevele;
 
+    /**
+     * Tous les effets à vérifier à chaque changement d'état
+     * ceux-ci sont ajoutés par l'activation des cartes
+     */
+    List<IEffet> effetsChangementEtat;
+
     protected JoueurModel(String nom) {
         this.points = 0;
         this.nom = nom;
@@ -83,11 +90,29 @@ public abstract class JoueurModel {
      * Réveille ensuite tous les threads en attentes
      *
      * @param etat le nouvel etat à mettre
+     * @param args tous les paramètres éventuels permettant le déclenchement des effets
      */
-    public void changerEtat(IEtat etat) {
+    public void changerEtat(IEtat etat, Object... args) {
         IEtat etatAvant = this.etatActuel;
         this.etatActuel = etat;
+        this.triggerEffets(etatAvant, etatActuel, args);
         this.pcs.firePropertyChange(PCHANGEMENTETAT, etatAvant, etatActuel);
+    }
+
+    /**
+     * Active tous les effets possédés par le joueur si les conditions sont remplies
+     *
+     * @param etatAvant   l'ancien état du joueur
+     * @param etatNouveau le nouvel etat du joueur
+     * @param args        tous les paramètres éventuels permettant le déclenchement des effets
+     */
+    private void triggerEffets(IEtat etatAvant, IEtat etatNouveau, Object... args) {
+        for (IEffet effet : this.effetsChangementEtat) {
+            if (effet.estActivable(etatAvant, etatNouveau)) {
+                this.effetsChangementEtat.remove(effet);
+                effet.activer(args);
+            }
+        }
     }
 
     /**
@@ -207,5 +232,14 @@ public abstract class JoueurModel {
      */
     public void retirerCarte(CarteRumeur carteRumeur) {
         this.lesCartes.remove(carteRumeur);
+    }
+
+    /**
+     * Ajoute un effet
+     *
+     * @param effet l'effet à ajouter au joueur
+     */
+    public void ajouterEffetChangementEtat(IEffet effet) {
+        this.effetsChangementEtat.add(effet);
     }
 }

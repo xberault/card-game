@@ -1,6 +1,9 @@
 package app.cartes.models;
 
+import app.Jeu;
 import app.cartes.CarteRumeur;
+import app.cartes.effet.EffetNonAccusation;
+import app.joueur.JoueurControlleur;
 import app.model.Couleur;
 
 public class EvilEye extends CarteRumeur {
@@ -21,6 +24,12 @@ public class EvilEye extends CarteRumeur {
 
     @Override
     protected void pActiverEffetWitch() {
+        JoueurControlleur cible = super.joueur.getJoueurVue().demanderProchainJoueur();
+        super.joueur.getJoueurVue().afficherProchainJoueurTour(cible.getModel());
+        Jeu.getInstance().setProchainJoueur(cible);
+        cible.getModel().ajouterEffetChangementEtat(
+                new EffetNonAccusation(joueur.getModel(), cible.getModel()) // TODO: 21/11/2021 check l'ordre des joueurs
+        );
         // TODO: 20/11/2021  voir comment implémenter une telle condition
     }
 

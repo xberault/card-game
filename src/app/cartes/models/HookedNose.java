@@ -2,6 +2,7 @@ package app.cartes.models;
 
 import app.Jeu;
 import app.cartes.CarteRumeur;
+import app.cartes.effet.EffetPriseCarte;
 import app.joueur.JoueurControlleur;
 import app.model.Couleur;
 
@@ -25,15 +26,19 @@ public class HookedNose extends CarteRumeur {
 
     @Override
     protected void pActiverEffetWitch() {
-        // TODO: 20/11/2021 première partie de l'effet
+        joueur.getModel().ajouterEffetChangementEtat(new EffetPriseCarte(joueur.getModel()));
         Jeu.getInstance().setProchainJoueur(this.joueur);
     }
 
     @Override
     protected void pActiverEffetHunt() {
         JoueurControlleur prochainJoueur = this.joueur.getJoueurVue().demanderProchainJoueur();
-        Jeu.getInstance().setProchainJoueur(prochainJoueur);
-        // TODO: 20/11/2021 implementer dernière partie de l'effet
 
+        Jeu.getInstance().setProchainJoueur(prochainJoueur);
+
+        CarteRumeur cartePrise = joueur.getJoueurVue().demanderRepriseCarte(prochainJoueur.getModel().getCartesMain());
+        cartePrise.changerProprietaire(super.joueur);
+
+        joueur.getJoueurVue().afficherProchainJoueurTour(prochainJoueur.getModel());
     }
 }

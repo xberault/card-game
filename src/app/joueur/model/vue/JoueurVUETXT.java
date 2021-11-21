@@ -111,7 +111,6 @@ public class JoueurVUETXT implements IJoueurVue {
 
     @Override
     public void faireAttendre() {
-
     }
 
     @Override
@@ -235,7 +234,9 @@ public class JoueurVUETXT implements IJoueurVue {
     @Override
     public CarteRumeur demanderRepriseCarte(CarteRumeur[] lesCartesDisponibles) {
         System.out.println("Quelle carte souhaitez-vous reprendre parmi les suivantes ?");
-        return (CarteRumeur) this.obtenirObject(lesCartesDisponibles);
+        CarteRumeur cartePrise = (CarteRumeur) this.obtenirObject(lesCartesDisponibles);
+        this.demanderContinuation();
+        return cartePrise;
     }
 
     @Override

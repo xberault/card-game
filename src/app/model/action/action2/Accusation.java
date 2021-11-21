@@ -1,6 +1,7 @@
 package app.model.action.action2;
 
 import app.joueur.model.JoueurModel;
+import app.joueur.model.etat.EtatAccusation;
 import app.model.action.Action2;
 
 /**
@@ -14,6 +15,7 @@ public class Accusation extends Action2 {
 
     @Override
     public void executerAction(Object cible) {
-        // TODO: 16/11/2021
+        JoueurModel jCible = (JoueurModel) cible;
+        jCible.changerEtat(new EtatAccusation(jCible), jCible, super.joueur);
     }
 }

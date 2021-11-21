@@ -27,7 +27,8 @@ public class PetNewt extends CarteRumeur {
 
     @Override
     protected void pActiverEffetWitch() {
-        Jeu.getInstance().setProchainJoueur(this.joueur);
+        Jeu.getInstance().setProchainJoueur(super.joueur);
+        super.joueur.getJoueurVue().afficherProchainJoueurTour(super.joueur.getModel());
     }
 
     @Override
@@ -36,7 +37,7 @@ public class PetNewt extends CarteRumeur {
         JoueurModel[] lesJoueurs = Jeu.getInstance().getLesJoueurs();
         for (JoueurModel joueur : lesJoueurs)
             lesCartesDefausses.addAll(List.of(joueur.getCartesRumeursRevelees()));
-        CarteRumeur choix = this.joueur.getJoueurVue().demanderRepriseCarte(lesCartesDefausses.toArray(new CarteRumeur[lesCartesDefausses.size()]));
-        choix.changerProprietaire(this.joueur);
+        CarteRumeur choix = super.joueur.getJoueurVue().demanderRepriseCarte(lesCartesDefausses.toArray(new CarteRumeur[lesCartesDefausses.size()]));
+        choix.changerProprietaire(super.joueur);
     }
 }

@@ -23,6 +23,12 @@ public class Toad extends CarteRumeur {
 
     @Override
     protected void pActiverEffetWitch() {
+        super.joueur.getJoueurVue().afficherProchainJoueurTour(joueur.getModel());
+        Jeu.getInstance().setProchainJoueur(joueur);
+    }
+
+    @Override
+    protected void pActiverEffetHunt() {
         super.joueur.getModel().seRevele();
         switch (super.joueur.getModel().getRole()) {
             case VILLAGEOIS -> {
@@ -35,14 +41,7 @@ public class Toad extends CarteRumeur {
                 Jeu.getInstance().setProchainJoueur(joueur);
                 super.joueur.getJoueurVue().afficherProchainJoueurTour(joueur.getModel());
             }
-            default -> {
-                Jeu.printd("Toad.pActtiverEffetWitch() case default activé avec joueur: " + joueur);
-            }
+            default -> Jeu.printd("Toad.pActtiverEffetWitch() case default activé avec joueur: " + joueur);
         }
-    }
-
-    @Override
-    protected void pActiverEffetHunt() {
-
     }
 }
