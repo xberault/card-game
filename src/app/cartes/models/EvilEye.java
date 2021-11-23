@@ -30,7 +30,6 @@ public class EvilEye extends CarteRumeur {
         cible.getModel().ajouterEffetChangementEtat(
                 new EffetNonAccusation(joueur.getModel(), cible.getModel()) // TODO: 21/11/2021 check l'ordre des joueurs
         );
-        // TODO: 20/11/2021  voir comment implémenter une telle condition
     }
 
     @Override

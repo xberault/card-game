@@ -2,6 +2,7 @@ package app.joueur;
 
 import app.Jeu;
 import app.cartes.EffetNonJouableException;
+import app.joueur.model.ChangementEtatException;
 import app.joueur.model.IJoueurVue;
 import app.joueur.model.JoueurModel;
 import app.joueur.model.etat.EtatAccusation;
@@ -49,10 +50,16 @@ public class JoueurControlleur implements PropertyChangeListener {
      * Au cas où son rôle est indéfini, il leur fera choisir leur identité
      */
     public void commencerTour() {
-        if (this.model.getRole() == Role.INDEFINI)         // TODO: 10/11/2021 CHECK que tout le monde ne joue pas le même role
-            this.model.changerEtat(new EtatChoixIdentite(this.model));
-        else
-            this.model.changerEtat(new EtatTourDeJeu(this.model));
+        try {
+            if (this.model.getRole() == Role.INDEFINI)         // TODO: 10/11/2021 CHECK que tout le monde ne joue pas le même role
+                this.model.changerEtat(new EtatChoixIdentite(this.model));
+            else
+                this.model.changerEtat(new EtatTourDeJeu(this.model));
+        } catch (ChangementEtatException e) {
+            Jeu.printd("Erreur changement d'etat");
+            e.printStackTrace();
+            // TODO: 23/11/2021 handle mais ne devrait pas arriver actuellement
+        }
     }
 
 
@@ -65,6 +72,10 @@ public class JoueurControlleur implements PropertyChangeListener {
         Jeu.printd("Changement d'etat: ");
         IEtat etat = (IEtat) evt.getNewValue();
         Jeu.printd("Nouvel etat: " + etat.toString());
+        if (evt.getOldValue() instanceof EtatChoixIdentite) {
+            Jeu.printd(model + " a fini de choisir son role");
+            return;
+        }
         // cette méthode permet d'imposer les actions disponibles au joueur en fonction de son état
         if (EtatChoixIdentite.class.equals(etat.getClass())) {
             this.gererChoixIdentite();
@@ -77,6 +88,7 @@ public class JoueurControlleur implements PropertyChangeListener {
         } else {
             System.out.println("JoueurControlleur.propertyChange etat: " + etat.getClass().getName() + " n'est pas implémenté");
         }
+        this.model.prochainEtat();
         // TODO: 09/11/2021 Implémenter les actions dans des méthodes individuelles
 
     }
@@ -93,14 +105,27 @@ public class JoueurControlleur implements PropertyChangeListener {
 
     }
 
+    @Override
+    public String toString() {
+        return "JoueurControlleur{" +
+                "model=" + model +
+                ", vue=" + vue +
+                '}';
+    }
+
     private void gererAccusation() {
         Jeu.printd("Le joueur " + this.model + " vient d'être accusé");
         // TODO: 10/11/2021 Peut-être créer une classe association(record java14+) pour représenter une accusation entre deux joueurs
         // cette accusation on la ferait Jeu.register(accusation) ? into un jeu.pop(accusation) lors du get
 
         // edit 17/11/2021 la classe Accuser de Action représente maintenant cela
-
+        // TODO: 23/11/2021 ici à implémenter mtn
         Action action = this.vue.repondreAccusasion(this.model.getActionsDisponibles());
+        try {
+            this.gererAction(action);
+        } catch (EffetNonJouableException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -177,4 +202,5 @@ public class JoueurControlleur implements PropertyChangeListener {
         else if (action instanceof Action1)
             action.executerAction();
     }
+
 }

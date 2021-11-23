@@ -38,7 +38,13 @@ public class EtatAttente implements IEtat {
 
     @Override
     public IEtat getProchainEtat() {
-        return null;
+        // TODO: 23/11/2021 peut-être check quand le joueur est accusé ici
+        return new EtatTourDeJeu(this.joueur);
+    }
+
+    @Override
+    public JoueurModel getJoueur() {
+        return this.joueur;
     }
 
     /**
@@ -66,8 +72,7 @@ public class EtatAttente implements IEtat {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof EtatAttente)) return false;
-        EtatAttente that = (EtatAttente) o;
+        if (!(o instanceof EtatAttente that)) return false;
         return Objects.equals(joueur, that.joueur);
     }
 

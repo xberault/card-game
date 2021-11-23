@@ -39,5 +39,7 @@ public class PetNewt extends CarteRumeur {
             lesCartesDefausses.addAll(List.of(joueur.getCartesRumeursRevelees()));
         CarteRumeur choix = super.joueur.getJoueurVue().demanderRepriseCarte(lesCartesDefausses.toArray(new CarteRumeur[lesCartesDefausses.size()]));
         choix.changerProprietaire(super.joueur);
+
+        super.choixProchainJoueur();
     }
 }

@@ -40,10 +40,14 @@ public class EtatAccusation implements IEtat {
     }
 
     @Override
+    public JoueurModel getJoueur() {
+        return this.joueur;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof EtatAccusation)) return false;
-        EtatAccusation that = (EtatAccusation) o;
+        if (!(o instanceof EtatAccusation that)) return false;
         return Objects.equals(joueur, that.joueur);
     }
 

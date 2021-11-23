@@ -73,24 +73,24 @@ public class JeuConstructreurTXT implements JeuConstructeur {
     @Override
     public List<JoueurControlleur> initJoueur() {
         List<JoueurControlleur> joueurs = new ArrayList<>();
-        int nbJoueurHumain = this.demandeNombreJoueur();
-        int nbJoueurIA = this.demandeNombreJoueurIA(nbJoueurHumain);
-        System.out.println("\nTrès bien, la partie va démarrer avec " + JeuConstructreurTXT.gras("" + nbJoueurHumain) + " joueurs et " + nbJoueurIA + " IA");
+        int nbJoueur = this.demandeNombreJoueur();
+        int nbJoueurIA = this.demandeNombreJoueurIA(nbJoueur);
+        System.out.println("\nTrès bien, la partie va démarrer avec " + JeuConstructreurTXT.gras("" + nbJoueur) + " joueurs dont " + nbJoueurIA + " IA");
 
-        for (int i = 0; i < nbJoueurHumain; ++i) {
+        for (int i = 0; i < nbJoueur - nbJoueurIA; ++i) {
             System.out.println("---------------");
             System.out.println("Création du joueur numéro " + (i + 1));
             joueurs.add(this.joueurConstructeur.creerJoueurHumain());
             System.out.println("---------------");
         }
-        for (int i = nbJoueurHumain; i < nbJoueurIA + nbJoueurHumain; ++i)
+        for (int i = 0; i < nbJoueurIA; ++i)
             joueurs.add(this.joueurConstructeur.creerJoueurIA());
 
         return joueurs;
     }
 
     /**
-     * Demande le nombre de joueurs humain à ajouter à la partie
+     * Demande le nombre de joueurs à mettre à la partie
      *
      * @return un entier correspondant au nombre de joueurs humain
      */
@@ -109,11 +109,12 @@ public class JeuConstructreurTXT implements JeuConstructeur {
     private int demandeNombreJoueurIA(int nbJoueurHumain) {
         if (nbJoueurHumain == 6)
             return 0;
-        System.out.println("Combien d'" + gras("IA") + " voulez-vous dans votre partie ? (nombre maximum: " + gras("" + (6 - nbJoueurHumain)) + " )");
+        int nbMinimumJoueur = nbJoueurHumain > 2 ? 0 : 3 - nbJoueurHumain;
+        System.out.println("Combien d'" + gras("IA") + " voulez-vous dans votre partie ? (compris entre " + gras("" + nbMinimumJoueur) + " et " + gras("" + (6 - nbJoueurHumain)) + " )");
         System.out.print("Insérez un nombre: ");
         int nbJoueurIA = this.sc.nextInt();
         while (nbJoueurIA > 6 - nbJoueurHumain) {
-            System.out.println(gras("\nLe nombre de joueur doit être compris entre 1 et " + (6 - nbJoueurHumain) + " inclus"));
+            System.out.println(gras("\nLe nombre de joueur doit être compris entre " + nbMinimumJoueur + " et " + (6 - nbJoueurHumain) + " inclus"));
             System.out.print("Insérez un nombre: ");
             nbJoueurIA = this.sc.nextInt();
         }

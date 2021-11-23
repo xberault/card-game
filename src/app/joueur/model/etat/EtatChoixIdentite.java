@@ -1,5 +1,7 @@
 package app.joueur.model.etat;
 
+import app.Jeu;
+import app.joueur.model.ChangementEtatException;
 import app.joueur.model.JoueurModel;
 import app.model.ActionNonJouableException;
 import app.model.action.Action;
@@ -21,7 +23,12 @@ public class EtatChoixIdentite implements IEtat {
     @Override
     public void executerAction(Action action) throws ActionNonJouableException {
         this.verifieJouable(action);
-        this.joueur.changerEtat(this);
+        try {
+            this.joueur.changerEtat(this);
+        } catch (ChangementEtatException e) {
+            Jeu.printd("Changement d'etat impossible EtatChoixIdentite.executerAction");
+            throw new ActionNonJouableException();
+        }
         // TODO: 09/11/2021 implémentation de l'action 
     }
 
@@ -37,10 +44,14 @@ public class EtatChoixIdentite implements IEtat {
     }
 
     @Override
+    public JoueurModel getJoueur() {
+        return this.joueur;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof EtatChoixIdentite)) return false;
-        EtatChoixIdentite that = (EtatChoixIdentite) o;
+        if (!(o instanceof EtatChoixIdentite that)) return false;
         return Objects.equals(joueur, that.joueur);
     }
 

@@ -3,6 +3,7 @@ package app;
 import app.cartes.CarteRumeur;
 import app.joueur.JoueurControlleur;
 import app.joueur.model.JoueurModel;
+import app.model.Role;
 import app.model.constructeur.JeuConstructeur;
 import app.model.constructeur.JeuConstructreurTXT;
 
@@ -124,7 +125,7 @@ public class Jeu {
         this.initialiserDefausse();
         printd("Défausse initialisé");
         this.initialiserJoueurs();
-        printd("Les joueurs on été initialisés");
+        printd("Les joueurs ont été initialisés");
         this.debutPartie();
     }
 
@@ -160,9 +161,7 @@ public class Jeu {
         for (JoueurControlleur j : joueurs) {
             joueurCourant = j;
             j.commencerTour();
-
         }
-        this.joueurSuivant();
         this.mainLoop();
     }
 
@@ -170,15 +169,22 @@ public class Jeu {
      * Effectue le tour du joueur courant tant que la partie n'est pas finie
      */
     private void mainLoop() {
-        while (!this.partieFinie())
+        while (!this.partieFinie()) {
+            this.joueurSuivant(); // TODO: 23/11/2021 que le joueur suivant soit celui accusé 
+            // TODO: 23/11/2021 devrait se faire automatiquement avec l'observer 
             this.joueurCourant.commencerTour();
+        }
     }
 
     private boolean partieFinie() {
-        for (JoueurControlleur j : this.joueurs)
+        int nbReveles = 0;
+        for (JoueurControlleur j : this.joueurs) {
             if (j.getPoints() > 5)
                 return true;
-        return false;
+            if (j.getModel().estRevele())
+                ++nbReveles;
+        }
+        return nbReveles == (this.joueurs.size() - 1);
     }
 
     /**
@@ -189,12 +195,30 @@ public class Jeu {
     }
 
     /**
+     * Permet d'obtenir tous les joueurs encore présents dans la partie
+     * Ceci implique qu'aucune sorcière s'étant révélée se soit présent
+     *
+     * @return une liste contenant tous ces joueurs non sorcieres révélées
+     */
+    public List<JoueurControlleur> getJoueursNonSorcieres() {
+        List<JoueurControlleur> lesJoueursNonSorciers = new ArrayList<>();
+        for (JoueurControlleur j : this.joueurs)
+            if (!((j.getModel().estRevele()) && j.getModel().getRole().equals(Role.SORCIERE)))
+                lesJoueursNonSorciers.add(j);
+        return lesJoueursNonSorciers;
+    }
+
+    /**
      * Permet de passer au prochain joueur
      */
     public void joueurSuivant() {
-        int index = (this.joueurs.indexOf(this.joueurCourant) + 1) % this.joueurs.size();
-        this.joueurCourant = this.joueurs.get(index);
+
+        List<JoueurControlleur> lesJoueursNonSorciers = this.getJoueursNonSorcieres();
+
+        int index = Math.floorMod(lesJoueursNonSorciers.indexOf(this.joueurCourant) + 1, lesJoueursNonSorciers.size());
+        this.joueurCourant = lesJoueursNonSorciers.get(index);
         Jeu.printd("Nouveau joueur courant: (" + index + " ; " + joueurCourant + " )");
+        // TODO: 23/11/2021  implémenter que joueur sorcière ne peut pas jouer son tour
     }
 
     public JoueurModel getJoueurCourant() {
@@ -230,14 +254,15 @@ public class Jeu {
      * @return le joueur qui joue avant
      */
     public JoueurControlleur getJoueurAvant(JoueurControlleur joueur) {
+        List<JoueurControlleur> lesJoueursNonSorcieres = this.getJoueursNonSorcieres();
         JoueurControlleur prev = null;
-        for (JoueurControlleur j : this.joueurs) {
+        for (JoueurControlleur j : lesJoueursNonSorcieres) {
             if (Objects.nonNull(prev) && joueur.equals(j))
                 return prev;
             prev = j;
         }
         // si le joueur n'a pas été trouvé dans la boucle, il s'agit du premier joueur
-        return this.joueurs.get(0);
+        return lesJoueursNonSorcieres.get(0);
     }
 
     /**
@@ -248,7 +273,8 @@ public class Jeu {
     public void setProchainJoueur(JoueurControlleur joueur) {
         // Doit prendre en compte l'éxécution de #joueurSuivant() à chaque tour
         // on choisit donc le joueur avant lui
-        int index = (this.joueurs.indexOf(joueur) - 1) % this.joueurs.size();
-        this.joueurCourant = this.joueurs.get(index);
+        List<JoueurControlleur> lesJoueursNonSorcieres = this.getJoueursNonSorcieres();
+        int index = Math.floorMod(lesJoueursNonSorcieres.indexOf(joueur) - 1, lesJoueursNonSorcieres.size());
+        this.joueurCourant = lesJoueursNonSorcieres.get(index);
     }
 }

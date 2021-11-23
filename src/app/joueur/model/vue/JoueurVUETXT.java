@@ -74,6 +74,27 @@ public class JoueurVUETXT implements IJoueurVue {
     }
 
     /**
+     * Permet d'obtenir un joueur à partir d'une liste de joueurs
+     *
+     * @param lesJoueurs un tableau contenant les modèles joueurs à représenter
+     * @return le modèle du joueur choisi
+     */
+    private JoueurModel obtenirObjetJoueurs(JoueurModel[] lesJoueurs) {
+        String[] affichageJoueurs = new String[lesJoueurs.length];
+        for (int i = 0; i < lesJoueurs.length; ++i)
+            affichageJoueurs[i] = "nom: " + JeuConstructreurTXT.gras(lesJoueurs[i].getNom())
+                    + " identité : "
+                    + (lesJoueurs[i].estRevele() ? lesJoueurs[i].getRole().toString() : "INCONNUE")
+                    + " " + lesJoueurs[i].getPoints() + " points";
+
+
+        String descCible = (String) this.obtenirObject(affichageJoueurs);
+
+        int idCible = List.of(affichageJoueurs).indexOf(descCible);
+        return lesJoueurs[idCible];
+    }
+
+    /**
      * Affiche à l'utilisateur les rôles qu'il peut choisir
      *
      * @param lesRoles tous les roles disponibles
@@ -105,8 +126,12 @@ public class JoueurVUETXT implements IJoueurVue {
         this.afficherJoueurActuel();
         this.afficherLesJoueurs();
         System.out.println("Vous venez d'être accusé, quelle action désirez-vous effectuer ?");
+
+        Action choix = (Action) this.obtenirObject(actionsDisponibles);
+
         demanderContinuation();
-        return (Action) this.obtenirObject(actionsDisponibles);
+
+        return choix;
     }
 
     @Override
@@ -140,7 +165,9 @@ public class JoueurVUETXT implements IJoueurVue {
         // enlever le joueur actuel
         JoueurModel[] lesJoueurs = getLesJoueursSansCourant();
         System.out.println("Quel joueur souhaitez-vous accuser ?");
-        JoueurModel joueur = (JoueurModel) this.obtenirObject(lesJoueurs);
+
+
+        JoueurModel joueur = this.obtenirObjetJoueurs(lesJoueurs);
         demanderContinuation();
         return joueur;
     }
@@ -151,10 +178,10 @@ public class JoueurVUETXT implements IJoueurVue {
      * @return un tableau contenant ces dits joueurs
      */
     private JoueurModel[] getLesJoueursSansCourant() {
-        List<JoueurModel> lesJoueurs = List.of(Jeu.getInstance().getLesJoueurs());
+        List<JoueurControlleur> lesJoueurs = Jeu.getInstance().getJoueursNonSorcieres();
         lesJoueurs = new ArrayList<>(lesJoueurs); // on effectue une copie des joueurs pour s'assurer de ne pas modifier des valeurs qu'on de devrait pas
-        lesJoueurs.remove(Jeu.getInstance().getJoueurCourant());
-        return lesJoueurs.toArray(new JoueurModel[lesJoueurs.size()]);
+        lesJoueurs.remove(JoueurControlleur.getControllerFromModel(Jeu.getInstance().getJoueurCourant()));
+        return lesJoueurs.stream().map(JoueurControlleur::getModel).toArray(JoueurModel[]::new);
     }
 
     @Override
@@ -198,6 +225,7 @@ public class JoueurVUETXT implements IJoueurVue {
         if (joueur.equals(Jeu.getInstance().getJoueurCourant())) {
             System.out.println(JeuConstructreurTXT.gras("Vous: " + joueur.getRole()) +
                     (joueur.estRevele() ? " identité révélée" : " identité cachée")
+                    + " et vous avez " + JeuConstructreurTXT.gras("" + joueur.getPoints()) + " points"
             );
         } else {
             System.out.println(
@@ -205,7 +233,7 @@ public class JoueurVUETXT implements IJoueurVue {
                             (joueur.estRevele() ?
                                     "en tant que: " + JeuConstructreurTXT.gras(joueur.getRole().name())
                                     : JeuConstructreurTXT.gras("ROLE INCONNU")
-                            )
+                            ) + " possède " + joueur.getPoints() + " points"
             );
         }
     }
@@ -214,7 +242,9 @@ public class JoueurVUETXT implements IJoueurVue {
     public JoueurControlleur demanderProchainJoueur() {
         JoueurModel[] lesJoueurs = getLesJoueursSansCourant();
         System.out.println("Quel joueur souhaitez-vous sélectionner ?");
-        JoueurModel cible = (JoueurModel) this.obtenirObject(lesJoueurs);
+
+        JoueurModel cible = obtenirObjetJoueurs(lesJoueurs);
+
         return JoueurControlleur.getControllerFromModel(cible);
     }
 
@@ -251,7 +281,7 @@ public class JoueurVUETXT implements IJoueurVue {
      * Permet de faire attendre le joueur avant de terminer son tour
      */
     private void demanderContinuation() {
-        System.out.print("Appuyez sur entrée pour terminer votre tour...");
+        System.out.print("Appuyez sur entrée pour continuer...");
         try {
             System.in.read();
         } catch (IOException e) {

@@ -7,9 +7,10 @@ import app.model.Couleur;
 
 public class Toad extends CarteRumeur {
 
-    private static final String descriptionHunt = "Révélez votre identité\n" +
-            "Sorcière: le joueur avant vous est le prochain joueur\n" +
-            "Villageois: vous choisissez le prochain joueur";
+    private static final String descriptionHunt = """
+            Révélez votre identité
+            Sorcière: le joueur avant vous est le prochain joueur
+            Villageois: vous choisissez le prochain joueur""";
     private static final String descriptionWitch = "Vous jouez le prochain tour";
 
     public Toad() {
@@ -31,11 +32,7 @@ public class Toad extends CarteRumeur {
     protected void pActiverEffetHunt() {
         super.joueur.getModel().seRevele();
         switch (super.joueur.getModel().getRole()) {
-            case VILLAGEOIS -> {
-                JoueurControlleur cible = super.joueur.getJoueurVue().demanderProchainJoueur();
-                super.joueur.getJoueurVue().afficherProchainJoueurTour(cible.getModel());
-                Jeu.getInstance().setProchainJoueur(cible);
-            }
+            case VILLAGEOIS -> super.choixProchainJoueur();
             case SORCIERE -> {
                 JoueurControlleur joueur = Jeu.getInstance().getJoueurAvant(super.joueur);
                 Jeu.getInstance().setProchainJoueur(joueur);

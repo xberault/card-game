@@ -2,6 +2,7 @@ package app.joueur.model;
 
 import app.cartes.CarteRumeur;
 import app.cartes.effet.IEffet;
+import app.cartes.effet.NePeutPasEtreAccuseException;
 import app.joueur.model.etat.EtatAttente;
 import app.joueur.model.etat.EtatChoixIdentite;
 import app.joueur.model.etat.IEtat;
@@ -25,7 +26,7 @@ public abstract class JoueurModel {
     /**
      * Représente le nombre de points possédés par le joueur
      */
-    private final int points;
+    private int points;
 
     /**
      * Représente le rôle du joueur pour la partie actuelle
@@ -71,6 +72,7 @@ public abstract class JoueurModel {
         this.role = Role.INDEFINI;
         this.etatActuel = new EtatAttente(this);
         this.lesCartes = new ArrayList<>();
+        this.effetsChangementEtat = new ArrayList<>();
 
         this.identiteRevele = false;
         this.pcs = new PropertyChangeSupport(this);
@@ -88,14 +90,21 @@ public abstract class JoueurModel {
     /**
      * Permet de changer l'état actuel du joueur
      * Réveille ensuite tous les threads en attentes
+     * <p>
+     * Si l'état n'est
      *
      * @param etat le nouvel etat à mettre
      * @param args tous les paramètres éventuels permettant le déclenchement des effets
+     * @throws ChangementEtatException quand l'etat d'accusation n'est pas atteignable
      */
-    public void changerEtat(IEtat etat, Object... args) {
+    public void changerEtat(IEtat etat, Object... args) throws ChangementEtatException {
         IEtat etatAvant = this.etatActuel;
+        try {
+            this.triggerEffets(etatAvant, etat, args);
+        } catch (NePeutPasEtreAccuseException e) {
+            throw new ChangementEtatException("L'état d'accusation n'est pas atteignable pour le joueur1");
+        }
         this.etatActuel = etat;
-        this.triggerEffets(etatAvant, etatActuel, args);
         this.pcs.firePropertyChange(PCHANGEMENTETAT, etatAvant, etatActuel);
     }
 
@@ -106,7 +115,7 @@ public abstract class JoueurModel {
      * @param etatNouveau le nouvel etat du joueur
      * @param args        tous les paramètres éventuels permettant le déclenchement des effets
      */
-    private void triggerEffets(IEtat etatAvant, IEtat etatNouveau, Object... args) {
+    private void triggerEffets(IEtat etatAvant, IEtat etatNouveau, Object... args) throws NePeutPasEtreAccuseException {
         for (IEffet effet : this.effetsChangementEtat) {
             if (effet.estActivable(etatAvant, etatNouveau)) {
                 this.effetsChangementEtat.remove(effet);
@@ -145,8 +154,7 @@ public abstract class JoueurModel {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof JoueurModel)) return false;
-        JoueurModel that = (JoueurModel) o;
+        if (!(o instanceof JoueurModel that)) return false;
         return points == that.points && Objects.equals(nom, that.nom) && role == that.role && Objects.equals(pcs, that.pcs);
     }
 
@@ -164,12 +172,14 @@ public abstract class JoueurModel {
         return this.points;
     }
 
+
     @Override
     public String toString() {
         return "JoueurModel{" +
                 "nom='" + nom + '\'' +
                 ", points=" + points +
                 ", role=" + role +
+                ", identiteRevele=" + identiteRevele +
                 '}';
     }
 
@@ -241,5 +251,26 @@ public abstract class JoueurModel {
      */
     public void ajouterEffetChangementEtat(IEffet effet) {
         this.effetsChangementEtat.add(effet);
+    }
+
+    /**
+     * Ajoute le nombre de points au joueur
+     * Si ce nombre est négatif, lui retire
+     *
+     * @param nbPoints le nombre de point à ajouter
+     */
+    public void ajouterPoints(int nbPoints) {
+        this.points += nbPoints;
+    }
+
+    /**
+     * Passe le joueur dans son prochain etat de jeu
+     */
+    public void prochainEtat() {
+        try {
+            this.changerEtat(this.etatActuel.getProchainEtat());
+        } catch (ChangementEtatException e) {
+            e.printStackTrace();
+        }
     }
 }

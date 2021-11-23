@@ -26,7 +26,7 @@ public abstract class Effet2 extends Effet1 {
     }
 
     @Override
-    public void activer(Object... args) {
+    public void activer(Object... args) throws NePeutPasEtreAccuseException {
         // les destinataires étant déjà connus, nous n'avons pas besoin de spécifier des conditions dessus
         this.pActiver(this.jCible, this.jEmmeteur);
     }

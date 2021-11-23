@@ -1,6 +1,7 @@
 package app.cartes.effet;
 
 import app.joueur.model.JoueurModel;
+import app.joueur.model.etat.EtatAccusation;
 import app.joueur.model.etat.IEtat;
 
 /**
@@ -13,13 +14,13 @@ public class EffetNonAccusation extends Effet2 {
     }
 
     @Override
-    protected void pActiver(JoueurModel jCible, JoueurModel jEmmetteur) {
+    protected void pActiver(JoueurModel jCible, JoueurModel jEmmetteur) throws NePeutPasEtreAccuseException {
         // TODO: 21/11/2021
     }
 
     @Override
     public boolean estActivable(IEtat etatAvant, IEtat etatNouveau) {
-        // TODO: 21/11/2021
-        return false;
+        // l'etat doit être une accusation et le joueur de l'accusation le joueur ciblé par l'effet
+        return etatNouveau instanceof EtatAccusation && jEmmeteur.equals(etatNouveau.getJoueur());
     }
 }

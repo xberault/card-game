@@ -1,5 +1,6 @@
 package app.cartes;
 
+import app.Jeu;
 import app.cartes.condition.Condition;
 import app.cartes.models.AngryMob;
 import app.cartes.models.BlackCat;
@@ -211,8 +212,7 @@ public abstract class CarteRumeur implements IColorable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof CarteRumeur)) return false;
-        CarteRumeur that = (CarteRumeur) o;
+        if (!(o instanceof CarteRumeur that)) return false;
         return descriptionWitch.equals(that.descriptionWitch) && descriptionHunt.equals(that.descriptionHunt) && Objects.equals(conditionHunt, that.conditionHunt) && Objects.equals(conditionWitch, that.conditionWitch);
     }
 
@@ -236,5 +236,17 @@ public abstract class CarteRumeur implements IColorable {
         this.joueur.getModel().retirerCarte(this);
         this.joueur = joueur;
         joueur.getModel().ajouterCarteRumeur(this);
+    }
+
+    /**
+     * Permet de demander au joueur le joueur qu'il souhaite voir jouer le prochain tour
+     *
+     * @return le controlleur du prochain joueur qui va jouer
+     */
+    protected JoueurControlleur choixProchainJoueur() {
+        JoueurControlleur cible = joueur.getJoueurVue().demanderProchainJoueur();
+        joueur.getJoueurVue().afficherProchainJoueurTour(cible.getModel());
+        Jeu.getInstance().setProchainJoueur(cible);
+        return cible;
     }
 }

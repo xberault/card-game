@@ -1,10 +1,8 @@
 package app.cartes.models;
 
-import app.Jeu;
 import app.cartes.CarteRumeur;
 import app.cartes.condition.Condition;
 import app.cartes.condition.ConditionCarteDefausse;
-import app.joueur.JoueurControlleur;
 import app.model.Couleur;
 
 public class PointedHat extends CarteRumeur {
@@ -28,9 +26,7 @@ public class PointedHat extends CarteRumeur {
     @Override
     protected void pActiverEffetWitch() {
         super.joueur.getJoueurVue().demanderRepriseCarte(joueur.getModel().getCartesRumeursRevelees());
-        JoueurControlleur cible = super.joueur.getJoueurVue().demanderProchainJoueur();
-        super.joueur.getJoueurVue().afficherProchainJoueurTour(cible.getModel());
-        Jeu.getInstance().setProchainJoueur(cible);
+        super.choixProchainJoueur();
     }
 
     @Override

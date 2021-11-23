@@ -12,7 +12,7 @@ public interface IEffet {
      *
      * @param args tous les paramètres possibles pour les effets
      */
-    void activer(Object... args);
+    void activer(Object... args) throws NePeutPasEtreAccuseException;
 
     /**
      * Vérifie si les conditions d'activations de l'effet son réunies

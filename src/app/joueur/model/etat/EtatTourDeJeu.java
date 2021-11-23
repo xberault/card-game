@@ -37,10 +37,14 @@ public class EtatTourDeJeu implements IEtat {
     }
 
     @Override
+    public JoueurModel getJoueur() {
+        return this.joueur;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof EtatTourDeJeu)) return false;
-        EtatTourDeJeu that = (EtatTourDeJeu) o;
+        if (!(o instanceof EtatTourDeJeu that)) return false;
         return Objects.equals(joueur, that.joueur);
     }
 

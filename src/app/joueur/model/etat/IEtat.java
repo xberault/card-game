@@ -1,5 +1,6 @@
 package app.joueur.model.etat;
 
+import app.joueur.model.JoueurModel;
 import app.model.ActionNonJouableException;
 import app.model.action.Action;
 
@@ -42,5 +43,12 @@ public interface IEtat {
         if (!jouable)
             throw new ActionNonJouableException();
     }
+
+    /**
+     * Permet d'obtenir le joueur correspondant à l'etat
+     *
+     * @return le joueurmodel représenté par l'état
+     */
+    JoueurModel getJoueur();
 
 }

@@ -36,7 +36,7 @@ public abstract class Effet1 implements IEffet {
     }
 
     @Override
-    public void activer(Object... args) {
+    public void activer(Object... args) throws NePeutPasEtreAccuseException {
         // l'effet n'aurait jamais du etre activé
         if (args.length < 2)
             return;
@@ -49,14 +49,13 @@ public abstract class Effet1 implements IEffet {
      * @param jCible     le joueur recevant l'effet
      * @param jEmmetteur le joueur ayant déclanché l'activation de l'effet
      */
-    abstract protected void pActiver(JoueurModel jCible, JoueurModel jEmmetteur);
+    abstract protected void pActiver(JoueurModel jCible, JoueurModel jEmmetteur) throws NePeutPasEtreAccuseException;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Effet1)) return false;
-        Effet1 effet1 = (Effet1) o;
-        return id == effet1.id;
+        if (!(o instanceof Effet1 that)) return false;
+        return id == that.id;
     }
 
     @Override
