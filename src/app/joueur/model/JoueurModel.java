@@ -116,6 +116,8 @@ public abstract class JoueurModel {
      * @param args        tous les paramètres éventuels permettant le déclenchement des effets
      */
     private void triggerEffets(IEtat etatAvant, IEtat etatNouveau, Object... args) throws NePeutPasEtreAccuseException {
+        if (this.effetsChangementEtat.isEmpty())
+            return;
         for (IEffet effet : this.effetsChangementEtat) {
             if (effet.estActivable(etatAvant, etatNouveau)) {
                 this.effetsChangementEtat.remove(effet);

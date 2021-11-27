@@ -28,8 +28,12 @@ public class EtatAccusation implements IEtat {
 
     @Override
     public IAction[] getActionsDisponibles() {
+        if (this.joueur.getCartesMain().length > 0)
+            return new IAction[]{
+                    new JouerCarteWitch(joueur),
+                    new ReleverIdentite(joueur)
+            };
         return new IAction[]{
-                new JouerCarteWitch(joueur),
                 new ReleverIdentite(joueur)
         };
     }

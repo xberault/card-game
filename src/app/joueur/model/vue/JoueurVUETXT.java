@@ -280,7 +280,7 @@ public class JoueurVUETXT implements IJoueurVue {
     /**
      * Permet de faire attendre le joueur avant de terminer son tour
      */
-    private void demanderContinuation() {
+    protected void demanderContinuation() {
         System.out.print("Appuyez sur entrée pour continuer...");
         try {
             System.in.read();

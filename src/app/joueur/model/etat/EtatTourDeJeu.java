@@ -26,8 +26,12 @@ public class EtatTourDeJeu implements IEtat {
 
     @Override
     public IAction[] getActionsDisponibles() {
+        if (this.joueur.getCartesMain().length > 0)
+            return new IAction[]{
+                    new JouerCarteHunt(joueur), new Accusation(joueur)
+            };
         return new IAction[]{
-                new JouerCarteHunt(joueur), new Accusation(joueur)
+                new Accusation(joueur)
         };
     }
 
