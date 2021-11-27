@@ -1,6 +1,7 @@
 package app.model.action.action2;
 
 import app.joueur.model.JoueurModel;
+import app.model.Role;
 import app.model.action.Action2;
 
 /**
@@ -14,6 +15,7 @@ public class ChoisirIdentite extends Action2 {
 
     @Override
     public void executerAction(Object cible) {
-        // TODO: 16/11/2021
+        Role identite = (Role) cible;
+        super.joueur.changerRole(identite);
     }
 }

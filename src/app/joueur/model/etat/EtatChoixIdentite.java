@@ -4,7 +4,7 @@ import app.Jeu;
 import app.joueur.model.ChangementEtatException;
 import app.joueur.model.JoueurModel;
 import app.model.ActionNonJouableException;
-import app.model.action.Action;
+import app.model.action.IAction;
 import app.model.action.action2.ChoisirIdentite;
 
 import java.util.Objects;
@@ -21,8 +21,8 @@ public class EtatChoixIdentite implements IEtat {
     }
 
     @Override
-    public void executerAction(Action action) throws ActionNonJouableException {
-        this.verifieJouable(action);
+    public void executerAction(IAction IAction) throws ActionNonJouableException {
+        this.verifieJouable(IAction);
         try {
             this.joueur.changerEtat(this);
         } catch (ChangementEtatException e) {
@@ -33,9 +33,9 @@ public class EtatChoixIdentite implements IEtat {
     }
 
     @Override
-    public Action[] getActionsDisponibles() {
+    public IAction[] getActionsDisponibles() {
 
-        return new Action[]{new ChoisirIdentite(joueur)};
+        return new IAction[]{new ChoisirIdentite(joueur)};
     }
 
     @Override

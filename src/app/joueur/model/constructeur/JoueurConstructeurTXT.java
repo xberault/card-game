@@ -8,6 +8,7 @@ import app.joueur.model.JoueurModel;
 import app.joueur.model.strategie.IStrategieIA;
 import app.joueur.model.strategie.StrategieAleatoire;
 import app.joueur.model.vue.JoueurVUETXT;
+import app.joueur.model.vue.JoueurVueIATXT;
 import app.model.constructeur.JeuConstructreurTXT;
 
 import java.util.Scanner;
@@ -25,8 +26,11 @@ public class JoueurConstructeurTXT implements IJoueurConstructeur {
 
         IStrategieIA strategieIA = new StrategieAleatoire(); // TODO: 08/11/2021 Gérer la stratégie que l'IA doit adopter
 
-        JoueurModel joueurModel = new JoueurIA(strategieIA);
-        IJoueurVue joueurVue = new JoueurVUETXT();
+        JoueurIA joueurModel = new JoueurIA(strategieIA);
+        JoueurVueIATXT joueurVue = new JoueurVueIATXT(joueurModel);
+
+        joueurModel.ajouterObserverEtat(joueurControlleur);
+
         joueurControlleur.setModel(joueurModel);
         joueurControlleur.setVue(joueurVue);
 

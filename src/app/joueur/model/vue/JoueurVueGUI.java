@@ -5,7 +5,7 @@ import app.joueur.JoueurControlleur;
 import app.joueur.model.IJoueurVue;
 import app.joueur.model.JoueurModel;
 import app.model.Role;
-import app.model.action.Action;
+import app.model.action.IAction;
 
 public class JoueurVueGUI implements IJoueurVue {
     @Override
@@ -14,12 +14,12 @@ public class JoueurVueGUI implements IJoueurVue {
     }
 
     @Override
-    public Action demanderTourDeJeu(Action[] actionsDisponibles) {
+    public IAction demanderTourDeJeu(IAction[] actionsDisponibles) {
         return null;
     }
 
     @Override
-    public Action repondreAccusasion(Action[] actionsDisponibles) {
+    public IAction repondreAccusation(IAction[] actionsDisponibles) {
         return null;
     }
 

@@ -2,7 +2,7 @@ package app.joueur.model.etat;
 
 import app.joueur.model.JoueurModel;
 import app.model.ActionNonJouableException;
-import app.model.action.Action;
+import app.model.action.IAction;
 import app.model.action.action2.Accusation;
 import app.model.action.action2.ChoisirIdentite;
 import app.model.action.action2.JouerCarteHunt;
@@ -25,15 +25,15 @@ public class EtatAttente implements IEtat {
     }
 
     @Override
-    public void executerAction(Action action) throws ActionNonJouableException {
-        this.verifieJouable(action);
+    public void executerAction(IAction IAction) throws ActionNonJouableException {
+        this.verifieJouable(IAction);
 
         // TODO: 09/11/2021 Implémenter l'action
     }
 
     @Override
-    public Action[] getActionsDisponibles() {
-        return new Action[0];
+    public IAction[] getActionsDisponibles() {
+        return new IAction[0];
     }
 
     @Override
@@ -50,17 +50,17 @@ public class EtatAttente implements IEtat {
     /**
      * Son prochain état dé
      */
-    public IEtat getProchainEtat(Action action) {
+    public IEtat getProchainEtat(IAction IAction) {
         // TODO: 09/11/2021 Pas sûr que ce code soit utile :: possiblement enlever certain constructeurs de protected -> public
         // puisque c'est un getter particulier à l'état d'attente et qui demande une action
         IEtat nouvelEtat;
-        if (action instanceof Accusation) {
+        if (IAction instanceof Accusation) {
             nouvelEtat = new EtatAccusation(this.joueur);
-        } else if (action instanceof JouerCarteHunt) {
+        } else if (IAction instanceof JouerCarteHunt) {
             nouvelEtat = new EtatTourDeJeu(this.joueur);
-        } else if (action instanceof ChoisirIdentite) {
+        } else if (IAction instanceof ChoisirIdentite) {
             nouvelEtat = new EtatChoixIdentite(this.joueur);
-        } else if (action instanceof JouerCarteWitch) {
+        } else if (IAction instanceof JouerCarteWitch) {
             nouvelEtat = new EtatAccusation(this.joueur);
         } else {
             nouvelEtat = this; // ne devrait pas arriver

@@ -3,7 +3,7 @@ package app.joueur.model;
 import app.cartes.CarteRumeur;
 import app.joueur.model.vue.IEffetVue;
 import app.model.Role;
-import app.model.action.Action;
+import app.model.action.IAction;
 
 
 public interface IJoueurVue extends IEffetVue {
@@ -21,7 +21,7 @@ public interface IJoueurVue extends IEffetVue {
      * @param actionsDisponibles un tableau contenant toutes les actions actuellement réalisables par le joueur
      * @return l'action que le joueur aura choisi
      */
-    Action demanderTourDeJeu(Action[] actionsDisponibles);
+    IAction demanderTourDeJeu(IAction[] actionsDisponibles);
 
     /**
      * Demande à l'utilisateur quelle action il souhaite effectuer lors d'une accusation
@@ -29,7 +29,7 @@ public interface IJoueurVue extends IEffetVue {
      * @param actionsDisponibles un tableau contenant toutes les actions actuellement réalisables par le joueur
      * @return l'action que le joueur voudra jouer en réponse à l'accusation
      */
-    Action repondreAccusasion(Action[] actionsDisponibles);
+    IAction repondreAccusation(IAction[] actionsDisponibles);
 
     /**
      * TODO

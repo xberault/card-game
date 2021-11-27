@@ -5,7 +5,7 @@ import app.joueur.model.JoueurModel;
 /**
  * Action réalisée uniquement par le joueur
  */
-public abstract class Action1 implements Action {
+public abstract class Action1 implements IAction {
 
     /**
      * Texte qui décrit l'action représentée

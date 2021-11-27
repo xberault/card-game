@@ -1,5 +1,6 @@
 package app.model.action.action2;
 
+import app.cartes.CarteRumeur;
 import app.cartes.EffetNonJouableException;
 import app.joueur.model.JoueurModel;
 import app.model.action.Action2;
@@ -14,6 +15,6 @@ public class DefausserCarte extends Action2 {
 
     @Override
     public void executerAction(Object cible) throws EffetNonJouableException {
-
+        super.joueur.defausserCarte((CarteRumeur) cible);
     }
 }

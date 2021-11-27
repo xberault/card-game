@@ -2,7 +2,7 @@ package app.joueur.model.etat;
 
 import app.joueur.model.JoueurModel;
 import app.model.ActionNonJouableException;
-import app.model.action.Action;
+import app.model.action.IAction;
 import app.model.action.action1.ReleverIdentite;
 import app.model.action.action2.JouerCarteWitch;
 
@@ -20,15 +20,15 @@ public class EtatAccusation implements IEtat {
     }
 
     @Override
-    public void executerAction(Action action) throws ActionNonJouableException {
-        this.verifieJouable(action);
+    public void executerAction(IAction IAction) throws ActionNonJouableException {
+        this.verifieJouable(IAction);
         // TODO: 16/11/2021
     }
 
 
     @Override
-    public Action[] getActionsDisponibles() {
-        return new Action[]{
+    public IAction[] getActionsDisponibles() {
+        return new IAction[]{
                 new JouerCarteWitch(joueur),
                 new ReleverIdentite(joueur)
         };

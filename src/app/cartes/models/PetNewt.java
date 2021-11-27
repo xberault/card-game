@@ -2,6 +2,7 @@ package app.cartes.models;
 
 import app.Jeu;
 import app.cartes.CarteRumeur;
+import app.cartes.condition.ConditionCarteDefausse;
 import app.joueur.model.JoueurModel;
 import app.model.Couleur;
 
@@ -18,6 +19,7 @@ public class PetNewt extends CarteRumeur {
         // TODO: 21/11/2021 ajouter condition que tous les joueurs doivent avoir joué au moins 1 carte
         // cad l'effet hunt ne peut etre jouée en première carte de la partie
         super("Triton apprivoisé", descriptionHunt, descriptionWitch);
+        super.ajouterConditionHunt(new ConditionCarteDefausse());
     }
 
     @Override

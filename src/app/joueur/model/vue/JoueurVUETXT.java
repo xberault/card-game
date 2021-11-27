@@ -6,7 +6,7 @@ import app.joueur.JoueurControlleur;
 import app.joueur.model.IJoueurVue;
 import app.joueur.model.JoueurModel;
 import app.model.Role;
-import app.model.action.Action;
+import app.model.action.IAction;
 import app.model.constructeur.JeuConstructreurTXT;
 
 import java.io.IOException;
@@ -113,21 +113,21 @@ public class JoueurVUETXT implements IJoueurVue {
 
 
     @Override
-    public Action demanderTourDeJeu(Action[] actionsDisponibles) {
+    public IAction demanderTourDeJeu(IAction[] actionsDisponibles) {
         this.afficherJoueurActuel();
         this.afficherLesJoueurs();
         System.out.println("Quelle action désirez-vous effectuer ?");
-        return (Action) this.obtenirObject(actionsDisponibles);
+        return (IAction) this.obtenirObject(actionsDisponibles);
 
     }
 
     @Override
-    public Action repondreAccusasion(Action[] actionsDisponibles) {
+    public IAction repondreAccusation(IAction[] actionsDisponibles) {
         this.afficherJoueurActuel();
         this.afficherLesJoueurs();
         System.out.println("Vous venez d'être accusé, quelle action désirez-vous effectuer ?");
 
-        Action choix = (Action) this.obtenirObject(actionsDisponibles);
+        IAction choix = (IAction) this.obtenirObject(actionsDisponibles);
 
         demanderContinuation();
 
@@ -177,7 +177,7 @@ public class JoueurVUETXT implements IJoueurVue {
      *
      * @return un tableau contenant ces dits joueurs
      */
-    private JoueurModel[] getLesJoueursSansCourant() {
+    protected JoueurModel[] getLesJoueursSansCourant() {
         List<JoueurControlleur> lesJoueurs = Jeu.getInstance().getJoueursNonSorcieres();
         lesJoueurs = new ArrayList<>(lesJoueurs); // on effectue une copie des joueurs pour s'assurer de ne pas modifier des valeurs qu'on de devrait pas
         lesJoueurs.remove(JoueurControlleur.getControllerFromModel(Jeu.getInstance().getJoueurCourant()));

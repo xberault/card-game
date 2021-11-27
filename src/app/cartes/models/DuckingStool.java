@@ -4,7 +4,7 @@ import app.cartes.CarteRumeur;
 import app.joueur.JoueurControlleur;
 import app.joueur.model.JoueurModel;
 import app.model.Couleur;
-import app.model.action.Action;
+import app.model.action.IAction;
 import app.model.action.action1.ReleverIdentite;
 import app.model.action.action2.DefausserCarte;
 
@@ -34,12 +34,12 @@ public class DuckingStool extends CarteRumeur {
     @Override
     protected void pActiverEffetWitch() {
         JoueurModel jCible = super.joueur.getJoueurVue().demanderCibleAccusation();
-        Action actionChoix = super.joueur.getJoueurVue().demanderTourDeJeu(new Action[]{
+        IAction IActionChoix = super.joueur.getJoueurVue().demanderTourDeJeu(new IAction[]{
                 new ReleverIdentite(jCible),
                 new DefausserCarte(jCible)
         });
         int nbPointsGagnes = 0;
-        if (actionChoix instanceof ReleverIdentite) {
+        if (IActionChoix instanceof ReleverIdentite) {
             jCible.seRevele();
             super.joueur.getJoueurVue().afficherRoleJoueur(jCible);
             switch (jCible.getRole()) {
@@ -47,7 +47,7 @@ public class DuckingStool extends CarteRumeur {
                 case VILLAGEOIS -> ++nbPointsGagnes;
             }
             super.joueur.getModel().ajouterPoints(nbPointsGagnes);
-        } else if (actionChoix instanceof DefausserCarte) {
+        } else if (IActionChoix instanceof DefausserCarte) {
             CarteRumeur aDefausser = Objects.requireNonNull(JoueurControlleur.getControllerFromModel(jCible)).getJoueurVue().demanderDefausseCarte();
             jCible.defausserCarte(aDefausser);
         }

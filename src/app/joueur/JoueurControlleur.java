@@ -11,11 +11,14 @@ import app.joueur.model.etat.EtatChoixIdentite;
 import app.joueur.model.etat.EtatTourDeJeu;
 import app.joueur.model.etat.IEtat;
 import app.model.Role;
-import app.model.action.Action;
 import app.model.action.Action1;
 import app.model.action.Action2;
+import app.model.action.IAction;
 import app.model.action.action2.Accusation;
+import app.model.action.action2.ChoisirIdentite;
+import app.model.action.action2.DefausserCarte;
 import app.model.action.action2.JouerCarteHunt;
+import app.model.action.action2.JouerCarteWitch;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -51,7 +54,7 @@ public class JoueurControlleur implements PropertyChangeListener {
      */
     public void commencerTour() {
         try {
-            if (this.model.getRole() == Role.INDEFINI)         // TODO: 10/11/2021 CHECK que tout le monde ne joue pas le même role
+            if (this.model.getRole() == Role.INDEFINI)
                 this.model.changerEtat(new EtatChoixIdentite(this.model));
             else
                 this.model.changerEtat(new EtatTourDeJeu(this.model));
@@ -69,6 +72,9 @@ public class JoueurControlleur implements PropertyChangeListener {
      * On étudie alors la transition entre son ancien et son nouvel état
      */
     public void propertyChange(PropertyChangeEvent evt) {
+        if (Jeu.getInstance().partieFinie())
+            Jeu.getInstance().finirPartie();
+
         Jeu.printd("Changement d'etat: ");
         IEtat etat = (IEtat) evt.getNewValue();
         Jeu.printd("Nouvel etat: " + etat.toString());
@@ -96,7 +102,7 @@ public class JoueurControlleur implements PropertyChangeListener {
     private void gererChoixIdentite() {
         Jeu.printd("Le joueur " + this.model + " va choisir son identité");
         Role role = this.vue.demanderIdentite();
-        this.model.changerRole(role);
+        model.changerRole(role);
     }
 
     private void gererAttente() {
@@ -120,7 +126,7 @@ public class JoueurControlleur implements PropertyChangeListener {
 
         // edit 17/11/2021 la classe Accuser de Action représente maintenant cela
         // TODO: 23/11/2021 ici à implémenter mtn
-        Action action = this.vue.repondreAccusasion(this.model.getActionsDisponibles());
+        IAction action = this.vue.repondreAccusation(this.model.getActionsDisponibles());
         try {
             this.gererAction(action);
         } catch (EffetNonJouableException e) {
@@ -146,10 +152,10 @@ public class JoueurControlleur implements PropertyChangeListener {
      */
     private void gererTourDeJeu() {
         Jeu.printd("Le joueur " + this.model + " va jouer son tour");
-        Action action = this.vue.demanderTourDeJeu(this.model.getActionsDisponibles());
+        IAction IAction = this.vue.demanderTourDeJeu(this.model.getActionsDisponibles());
 
         try {
-            gererAction(action);
+            gererAction(IAction);
         } catch (EffetNonJouableException e) {
             // TODO: 21/11/2021 ne pas faire recommencer le tour mais simplement le choix
             vue.informerErreur("Les conditions requises pour jouer cette cartes ne sont pas remplies, merci de recommencer votre tour");
@@ -187,20 +193,33 @@ public class JoueurControlleur implements PropertyChangeListener {
      * @param action l'action qu'il a désiré effectué
      * @throws EffetNonJouableException quand sa carte ne remplit pas les conditions nécessaires
      */
-    private void gererAction(Action action) throws EffetNonJouableException {
+    private void gererAction(IAction action) throws EffetNonJouableException {
         Object target = null; // objet cible de l'action
-        if (action instanceof JouerCarteHunt) {
-            this.vue.afficherCartes(this.model.getCartesMain());
-            target = this.vue.demanderCarte(this.model.getCartesMain());
-        } else if (action instanceof Accusation) {
+
+        if (action instanceof Action1)
+            action.executerAction();
+        else if (action instanceof Action2) {
+            this.obtenirSetTargetAction2((Action2) action);
+            action.executerAction();
+        }
+
+    }
+
+    private void obtenirSetTargetAction2(Action2 action) {
+        Object target = null;
+        if (action instanceof Accusation) {
             Jeu.printd("Choix d'accuser");
             this.vue.afficherJoueurs();
             target = this.vue.demanderCibleAccusation();
+        } else if (action instanceof ChoisirIdentite)
+            target = this.vue.demanderIdentite();
+        else if (action instanceof DefausserCarte)
+            target = this.vue.demanderDefausseCarte();
+        else if (action instanceof JouerCarteHunt || action instanceof JouerCarteWitch) {
+            this.vue.afficherCartes(this.model.getCartesMain());
+            target = this.vue.demanderCarte(this.model.getCartesMain());
         }
-        if (action instanceof Action2)
-            ((Action2) action).executerAction(target);
-        else if (action instanceof Action1)
-            action.executerAction();
+        action.setCible(target);
     }
 
 }

@@ -2,7 +2,7 @@ package app.joueur.model.etat;
 
 import app.joueur.model.JoueurModel;
 import app.model.ActionNonJouableException;
-import app.model.action.Action;
+import app.model.action.IAction;
 import app.model.action.action2.Accusation;
 import app.model.action.action2.JouerCarteHunt;
 
@@ -17,16 +17,16 @@ public class EtatTourDeJeu implements IEtat {
     }
 
     @Override
-    public void executerAction(Action action) throws ActionNonJouableException {
-        this.verifieJouable(action);
+    public void executerAction(IAction IAction) throws ActionNonJouableException {
+        this.verifieJouable(IAction);
 
         // TODO: 09/11/2021 implémentation de l'action
 
     }
 
     @Override
-    public Action[] getActionsDisponibles() {
-        return new Action[]{
+    public IAction[] getActionsDisponibles() {
+        return new IAction[]{
                 new JouerCarteHunt(joueur), new Accusation(joueur)
         };
     }

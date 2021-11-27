@@ -7,6 +7,7 @@ import app.model.Role;
 import app.model.constructeur.JeuConstructeur;
 import app.model.constructeur.JeuConstructreurTXT;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -176,7 +177,7 @@ public class Jeu {
         }
     }
 
-    private boolean partieFinie() {
+    public boolean partieFinie() {
         int nbReveles = 0;
         for (JoueurControlleur j : this.joueurs) {
             if (j.getPoints() > 5)
@@ -185,6 +186,15 @@ public class Jeu {
                 ++nbReveles;
         }
         return nbReveles == (this.joueurs.size() - 1);
+    }
+
+    public void finirPartie() {
+        Jeu.printd("Partie fini gagnant " + joueurCourant);
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

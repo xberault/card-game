@@ -3,7 +3,7 @@ package app.model.action;
 import app.cartes.EffetNonJouableException;
 import app.joueur.model.JoueurModel;
 
-public abstract class Action2 implements Action {
+public abstract class Action2 implements IAction {
 
     /**
      * Cible de l'action à effectuer
@@ -23,6 +23,14 @@ public abstract class Action2 implements Action {
     protected Action2(JoueurModel joueur, String nom) {
         this.joueur = joueur;
         this.nom = nom;
+    }
+
+    public Object getCible() {
+        return this.cible;
+    }
+
+    public void setCible(Object cible) {
+        this.cible = cible;
     }
 
     @Override

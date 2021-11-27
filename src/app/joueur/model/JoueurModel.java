@@ -7,7 +7,7 @@ import app.joueur.model.etat.EtatAttente;
 import app.joueur.model.etat.EtatChoixIdentite;
 import app.joueur.model.etat.IEtat;
 import app.model.Role;
-import app.model.action.Action;
+import app.model.action.IAction;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -146,7 +146,7 @@ public abstract class JoueurModel {
     /**
      * @return un tableau contenant toutes les actions actuellement disponibles pour le joueur
      */
-    public Action[] getActionsDisponibles() {
+    public IAction[] getActionsDisponibles() {
         return this.etatActuel.getActionsDisponibles();
     }
 
