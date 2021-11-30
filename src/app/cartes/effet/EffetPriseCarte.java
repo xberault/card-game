@@ -24,7 +24,8 @@ public class EffetPriseCarte extends Effet1 {
     @Override
     protected void pActiver(JoueurModel jCible, JoueurModel jHote) {
         JoueurControlleur jHoteControlleur = JoueurControlleur.getControllerFromModel(jHote);
-        CarteRumeur aPrendre = jHoteControlleur.getJoueurVue().demanderRepriseCarte(jCible.getCartesMain());
+        assert jHoteControlleur != null;
+        CarteRumeur aPrendre = jHoteControlleur.getJoueurVue().demanderRepriseCarteJoueur(jCible.getCartesMain());
         aPrendre.changerProprietaire(jHoteControlleur);
     }
 }

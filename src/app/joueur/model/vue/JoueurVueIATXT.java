@@ -19,6 +19,7 @@ public class JoueurVueIATXT extends JoueurVUETXT {
     private final JoueurIA ia;
 
     public JoueurVueIATXT(JoueurIA joueurIA) {
+        super(joueurIA);
         this.ia = joueurIA;
     }
 
@@ -69,12 +70,12 @@ public class JoueurVueIATXT extends JoueurVUETXT {
         super.demanderContinuation();
         return carteRumeur;
     }
-
+/**
     @Override
     public CarteRumeur demanderRepriseCarte(CarteRumeur[] lesCartesDisponibles) {
         CarteRumeur carteRumeur = this.ia.demanderRepriseCarte(lesCartesDisponibles);
         super.demanderContinuation();
         return carteRumeur;
     }
-
+ */
 }

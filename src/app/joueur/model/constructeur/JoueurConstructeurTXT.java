@@ -59,7 +59,7 @@ public class JoueurConstructeurTXT implements IJoueurConstructeur {
     private JoueurControlleur creationJoueurHumain(String nom) {
         JoueurControlleur joueurControlleur = new JoueurControlleur();
         JoueurModel joueurModel = new JoueurHumain(nom);
-        IJoueurVue joueurVue = new JoueurVUETXT();
+        IJoueurVue joueurVue = new JoueurVUETXT(joueurModel);
         joueurControlleur.setModel(joueurModel);
         joueurControlleur.setVue(joueurVue);
 

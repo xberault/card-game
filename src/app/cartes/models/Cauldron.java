@@ -13,8 +13,9 @@ public class Cauldron extends CarteRumeur {
             Révèle votre identité
             Sorcière: le joueur avant vous prend le tour
             Villageois: vous choisissez le prochain joueur à jouer""";
-    private static final String descriptionWitch = "Le joueur qui vous a accusé doit défausser une carte aléatoire de sa main\n" +
-            "Vous jouez le prochain tour";
+    private static final String descriptionWitch = """
+            Le joueur qui vous a accusé doit défausser une carte aléatoire de sa main
+            Vous jouez le prochain tour""";
 
     public Cauldron() {
         super("Chaudron", descriptionHunt, descriptionWitch);

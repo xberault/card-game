@@ -22,9 +22,16 @@ public class JoueurVUETXT implements IJoueurVue {
      */
     private final Scanner sc;
 
-    public JoueurVUETXT() {
+    /**
+     * Joueur représenté par la vue
+     */
+    private final JoueurModel joueur;
+
+    public JoueurVUETXT(JoueurModel joueurModel) {
         this.sc = new Scanner(System.in);
+        this.joueur = joueurModel;
     }
+
 
     @Override
     public Role demanderIdentite() {
@@ -180,7 +187,7 @@ public class JoueurVUETXT implements IJoueurVue {
     protected JoueurModel[] getLesJoueursSansCourant() {
         List<JoueurControlleur> lesJoueurs = Jeu.getInstance().getJoueursNonSorcieres();
         lesJoueurs = new ArrayList<>(lesJoueurs); // on effectue une copie des joueurs pour s'assurer de ne pas modifier des valeurs qu'on de devrait pas
-        lesJoueurs.remove(JoueurControlleur.getControllerFromModel(Jeu.getInstance().getJoueurCourant()));
+        lesJoueurs.remove(JoueurControlleur.getControllerFromModel(this.joueur));
         return lesJoueurs.stream().map(JoueurControlleur::getModel).toArray(JoueurModel[]::new);
     }
 
@@ -202,7 +209,7 @@ public class JoueurVUETXT implements IJoueurVue {
      */
     private void afficherJoueurActuel() {
         JeuConstructreurTXT.viderConsole();
-        String nomJoueur = JeuConstructreurTXT.gras(Jeu.getInstance().getJoueurCourant().getNom());
+        String nomJoueur = JeuConstructreurTXT.gras(this.joueur.getNom());
         System.out.println("Au tour de " + nomJoueur + " de jouer son tour...");
     }
 
@@ -222,7 +229,7 @@ public class JoueurVUETXT implements IJoueurVue {
      * @param joueur celui qu'on veut afficher
      */
     private void affichageJoueur(JoueurModel joueur) {
-        if (joueur.equals(Jeu.getInstance().getJoueurCourant())) {
+        if (joueur.equals(this.joueur)) {
             System.out.println(JeuConstructreurTXT.gras("Vous: " + joueur.getRole()) +
                     (joueur.estRevele() ? " identité révélée" : " identité cachée")
                     + " et vous avez " + JeuConstructreurTXT.gras("" + joueur.getPoints()) + " points"
@@ -257,16 +264,26 @@ public class JoueurVUETXT implements IJoueurVue {
     @Override
     public CarteRumeur demanderDefausseCarte() {
         System.out.println("Quelle carte souhaitez-vous défausser de votre main ?");
-        CarteRumeur[] cartesDisponibles = Jeu.getInstance().getJoueurCourant().getCartesMain();
+        CarteRumeur[] cartesDisponibles = this.joueur.getCartesMain();
         return (CarteRumeur) this.obtenirObject(cartesDisponibles);
     }
 
     @Override
-    public CarteRumeur demanderRepriseCarte(CarteRumeur[] lesCartesDisponibles) {
+    public CarteRumeur demanderRepriseCartePersonnelle(CarteRumeur[] lesCartesDisponibles) {
         System.out.println("Quelle carte souhaitez-vous reprendre parmi les suivantes ?");
         CarteRumeur cartePrise = (CarteRumeur) this.obtenirObject(lesCartesDisponibles);
         this.demanderContinuation();
         return cartePrise;
+    }
+
+    @Override
+    public CarteRumeur demanderRepriseCarteJoueur(CarteRumeur[] lesCartesDisponibles) {
+        // int n'est pas un Object mais Integer si
+        Integer[] lesNumeroCartes = new Integer[lesCartesDisponibles.length];
+        for (int i = 1; i < lesCartesDisponibles.length + 1; ++i)
+            lesNumeroCartes[i] = i;
+        int indice = (int) this.obtenirObject(lesNumeroCartes);
+        return lesCartesDisponibles[indice];
     }
 
     @Override

@@ -6,6 +6,10 @@ import app.joueur.model.JoueurModel;
 import app.joueur.model.strategie.IStrategieIA;
 import app.model.Role;
 import app.model.action.IAction;
+import app.model.action.action2.JouerCarteHunt;
+import app.model.action.action2.JouerCarteWitch;
+
+import java.util.Arrays;
 
 // TODO: 10/11/2021 implémenter l'IA d'un joueur
 // celle-ci utilise une strategie qu'il faut également implémenter
@@ -48,7 +52,31 @@ public class JoueurIA extends JoueurModel {
     }
 
     public CarteRumeur demanderCarte(CarteRumeur[] lesCartesDisponibles) {
-        return this.strategie.choisirCarte(lesCartesDisponibles);
+        CarteRumeur choix = this.strategie.choisirCarte(lesCartesDisponibles);
+        if (!this.verifieCarteJouable(choix)) {
+            if (lesCartesDisponibles.length == 1)
+                return choix; // la carte n'est pas jouable, une exception sera levée plus tard
+            return demanderCarte(Arrays.stream(lesCartesDisponibles).filter(carteRumeur -> !carteRumeur.equals(choix)).toArray(CarteRumeur[]::new));
+        }
+        return choix;
+
+    }
+
+    /**
+     * Vérifie que la carte est jouable en fonction
+     *
+     * @param choix la carte choisie pour être jouée
+     * @return un booléen qui est à vrai lorsque la carte est jouable
+     */
+    private boolean verifieCarteJouable(CarteRumeur choix) {
+        IAction[] lesActions = super.getActionsDisponibles();
+        boolean estJouable = true;
+        for (IAction action : lesActions)
+            if (action instanceof JouerCarteHunt)
+                estJouable &= choix.effetHuntJouable();
+            else if (action instanceof JouerCarteWitch)
+                estJouable &= choix.effetWitchJouable();
+        return estJouable;
     }
 
     public JoueurModel demanderCibleAccusation(JoueurModel[] lesJoueursSansCourant) {

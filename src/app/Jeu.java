@@ -2,17 +2,15 @@ package app;
 
 import app.cartes.CarteRumeur;
 import app.joueur.JoueurControlleur;
+import app.joueur.model.ChangementEtatException;
 import app.joueur.model.JoueurModel;
+import app.joueur.model.etat.EtatAttente;
 import app.model.Role;
 import app.model.constructeur.JeuConstructeur;
 import app.model.constructeur.JeuConstructreurTXT;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 
 public class Jeu {
@@ -180,7 +178,7 @@ public class Jeu {
     public boolean partieFinie() {
         int nbReveles = 0;
         for (JoueurControlleur j : this.joueurs) {
-            if (j.getPoints() > 5)
+            if (j.getModel().getPoints() > 5)
                 return true;
             if (j.getModel().estRevele())
                 ++nbReveles;
@@ -190,9 +188,12 @@ public class Jeu {
 
     public void finirPartie() {
         Jeu.printd("Partie fini gagnant " + joueurCourant);
+
         try {
+            for (JoueurControlleur j : this.joueurs)
+                j.getModel().changerEtat(new EtatAttente(j.getModel()));
             System.in.read();
-        } catch (IOException e) {
+        } catch (IOException | ChangementEtatException e) {
             e.printStackTrace();
         }
     }
@@ -254,7 +255,7 @@ public class Jeu {
      * @return un tableau contenant tous ces joueurs
      */
     public JoueurControlleur[] getLesJoueursControlleurs() {
-        return this.joueurs.toArray(new JoueurControlleur[this.joueurs.size()]);
+        return this.joueurs.toArray(JoueurControlleur[]::new);
     }
 
     /**

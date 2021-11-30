@@ -5,20 +5,12 @@ import app.cartes.EffetNonJouableException;
 import app.joueur.model.ChangementEtatException;
 import app.joueur.model.IJoueurVue;
 import app.joueur.model.JoueurModel;
-import app.joueur.model.etat.EtatAccusation;
-import app.joueur.model.etat.EtatAttente;
-import app.joueur.model.etat.EtatChoixIdentite;
-import app.joueur.model.etat.EtatTourDeJeu;
-import app.joueur.model.etat.IEtat;
+import app.joueur.model.etat.*;
 import app.model.Role;
 import app.model.action.Action1;
 import app.model.action.Action2;
 import app.model.action.IAction;
-import app.model.action.action2.Accusation;
-import app.model.action.action2.ChoisirIdentite;
-import app.model.action.action2.DefausserCarte;
-import app.model.action.action2.JouerCarteHunt;
-import app.model.action.action2.JouerCarteWitch;
+import app.model.action.action2.*;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -171,12 +163,9 @@ public class JoueurControlleur implements PropertyChangeListener {
      *
      * @return un booléen qui est à vrai lorsque le joueur est humain.
      */
+    @Deprecated
     private boolean estHumain() {
         return this.model instanceof JoueurHumain;
-    }
-
-    public int getPoints() {
-        return this.model.getPoints();
     }
 
     public JoueurModel getModel() {

@@ -33,12 +33,25 @@ public interface IEffetVue {
 
     /**
      * Demande à l'utilisateur quelle carte il souhaite parmi les cartes défaussées
-     * Cette fonction peut être utilisée lorsqu'un joueur reprend des cartes de sa défausse personnelle ou celle d'un autre
+     * Cette fonction peut être utilisée lorsqu'un joueur reprend des cartes de sa défausse personnelle
      *
      * @param lesCartesDisponibles un tableau contenant toutes les cartes disponibles à la reprise
      * @return la carte qu'il souhaite reprendre
+     * @see #demanderRepriseCarteJoueur(CarteRumeur[])
      */
-    CarteRumeur demanderRepriseCarte(CarteRumeur[] lesCartesDisponibles);
+    CarteRumeur demanderRepriseCartePersonnelle(CarteRumeur[] lesCartesDisponibles);
+
+    /**
+     * Demande à l'utilisateur quelle carte il souhaite parmi les cartes défaussées
+     * Cette fonction peut être utilisée lorsqu'un joueur reprend de la défausse d'un autre joueur
+     * <p>
+     * Le joueur ne voit pas les cartes qui lui sont proposées
+     *
+     * @param lesCartesDisponibles un tableau contenant toutes les cartes disponibles à la reprise
+     * @return la carte qu'il souhaite reprendre
+     * @see #demanderRepriseCartePersonnelle(CarteRumeur[])
+     */
+    CarteRumeur demanderRepriseCarteJoueur(CarteRumeur[] lesCartesDisponibles);
 
     /**
      * Permet d'afficher le role du joueur passé en paramètre

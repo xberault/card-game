@@ -28,7 +28,7 @@ public class BlackCat extends CarteRumeur {
     @Override
     protected void pActiverEffetHunt() {
         CarteRumeur[] saDefausse = this.joueur.getModel().getCartesRumeursRevelees();
-        CarteRumeur aReprendre = this.joueur.getJoueurVue().demanderRepriseCarte(saDefausse);
+        CarteRumeur aReprendre = this.joueur.getJoueurVue().demanderRepriseCartePersonnelle(saDefausse);
         aReprendre.setEstJouee(false);
         // pas desoin de la défausser, c'est automatique
     }

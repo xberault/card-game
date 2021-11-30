@@ -8,10 +8,12 @@ import app.model.Couleur;
 
 public class HookedNose extends CarteRumeur {
 
-    private static final String descriptionHunt = "Choisissez le prochain joueur\n" +
-            "Avant son tour, prend une carte aléatoire de sa main";
-    private static final String descriptionWitch = "Vous prendrez une carte du prochain joueur qui vous accusera\n" +
-            "Vous jouez le prochain tour";
+    private static final String descriptionHunt = """
+            Choisissez le prochain joueur
+            "Avant son tour, prend une carte aléatoire de sa main""";
+    private static final String descriptionWitch = """
+            Vous prendrez une carte du prochain joueur qui vous accusera
+            "Vous jouez le prochain tour""";
 
     // TODO: 20/11/2021 EFFET GLOBAL à voir comment implémenter
 
@@ -36,7 +38,7 @@ public class HookedNose extends CarteRumeur {
 
         Jeu.getInstance().setProchainJoueur(prochainJoueur);
 
-        CarteRumeur cartePrise = joueur.getJoueurVue().demanderRepriseCarte(prochainJoueur.getModel().getCartesMain());
+        CarteRumeur cartePrise = joueur.getJoueurVue().demanderRepriseCarteJoueur(prochainJoueur.getModel().getCartesMain());
         cartePrise.changerProprietaire(super.joueur);
 
         joueur.getJoueurVue().afficherProchainJoueurTour(prochainJoueur.getModel());

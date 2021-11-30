@@ -69,7 +69,12 @@ public class JoueurVueGUI implements IJoueurVue {
     }
 
     @Override
-    public CarteRumeur demanderRepriseCarte(CarteRumeur[] lesCartesDisponibles) {
+    public CarteRumeur demanderRepriseCartePersonnelle(CarteRumeur[] lesCartesDisponibles) {
+        return null;
+    }
+
+    @Override
+    public CarteRumeur demanderRepriseCarteJoueur(CarteRumeur[] lesCartesDisponibles) {
         return null;
     }
 

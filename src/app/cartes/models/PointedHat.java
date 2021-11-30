@@ -7,8 +7,9 @@ import app.model.Couleur;
 
 public class PointedHat extends CarteRumeur {
 
-    private static final String descriptionHunt = "Remettez une carte de votre défausse dans la main\n" +
-            "Vous choisissez le prochain joueur";
+    private static final String descriptionHunt = """
+            Remettez une carte de votre défausse dans la main
+            "Vous choisissez le prochain joueur""";
     private static final String descriptionWitch = descriptionHunt;
 
     public PointedHat() {
@@ -25,7 +26,7 @@ public class PointedHat extends CarteRumeur {
 
     @Override
     protected void pActiverEffetWitch() {
-        super.joueur.getJoueurVue().demanderRepriseCarte(joueur.getModel().getCartesRumeursRevelees());
+        super.joueur.getJoueurVue().demanderRepriseCartePersonnelle(joueur.getModel().getCartesRumeursRevelees());
         super.choixProchainJoueur();
     }
 

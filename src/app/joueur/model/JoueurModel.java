@@ -116,14 +116,15 @@ public abstract class JoueurModel {
      * @param args        tous les paramètres éventuels permettant le déclenchement des effets
      */
     private void triggerEffets(IEtat etatAvant, IEtat etatNouveau, Object... args) throws NePeutPasEtreAccuseException {
-        if (this.effetsChangementEtat.isEmpty())
-            return;
+        // les supprimer dans la boucle créer un ConcurrentModificationException
+        List<IEffet> effetsASupprimer = new ArrayList<>();
         for (IEffet effet : this.effetsChangementEtat) {
             if (effet.estActivable(etatAvant, etatNouveau)) {
-                this.effetsChangementEtat.remove(effet);
+                effetsASupprimer.add(effet);
                 effet.activer(args);
             }
         }
+        effetsASupprimer.forEach(effet -> this.effetsChangementEtat.remove(effet));
     }
 
     /**
