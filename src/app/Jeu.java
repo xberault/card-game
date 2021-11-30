@@ -143,7 +143,6 @@ public class Jeu {
         Collections.shuffle(lesCartes);
         for (int i = 0; i < nbCartes; ++i)
             for (int j = 0; j < this.joueurs.size(); ++j) {
-                // TODO: 12/11/2021 check s'il faut utiliser le controlleur ou le modèle pour les cartes
                 JoueurControlleur joueur = this.joueurs.get(j);
                 CarteRumeur carteRumeur = lesCartes.get(i * this.joueurs.size() + j);
                 joueur.getModel().ajouterCarteRumeur(carteRumeur);
@@ -168,10 +167,15 @@ public class Jeu {
      * Effectue le tour du joueur courant tant que la partie n'est pas finie
      */
     private void mainLoop() {
+        JoueurControlleur joueurCourant;
+        boolean changementJoueur = false;
         while (!this.partieFinie()) {
-            this.joueurSuivant(); // TODO: 23/11/2021 que le joueur suivant soit celui accusé 
-            // TODO: 23/11/2021 devrait se faire automatiquement avec l'observer 
+            joueurCourant = this.joueurCourant;
+            // on change de joueur uniquement quand le tour du joueur n'a pas provoqué de changement de joueur
+            if (changementJoueur)
+                this.joueurSuivant(); // TODO: 23/11/2021 que le joueur suivant soit celui accusé
             this.joueurCourant.commencerTour();
+            changementJoueur = joueurCourant.equals(this.joueurCourant);
         }
     }
 
@@ -228,8 +232,7 @@ public class Jeu {
 
         int index = Math.floorMod(lesJoueursNonSorciers.indexOf(this.joueurCourant) + 1, lesJoueursNonSorciers.size());
         this.joueurCourant = lesJoueursNonSorciers.get(index);
-        Jeu.printd("Nouveau joueur courant: (" + index + " ; " + joueurCourant + " )");
-        // TODO: 23/11/2021  implémenter que joueur sorcière ne peut pas jouer son tour
+        Jeu.printd("Nouveau joueur courant: (" + index + " , " + joueurCourant + " )");
     }
 
     public JoueurModel getJoueurCourant() {

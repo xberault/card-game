@@ -2,18 +2,7 @@ package app.cartes;
 
 import app.Jeu;
 import app.cartes.condition.Condition;
-import app.cartes.models.AngryMob;
-import app.cartes.models.BlackCat;
-import app.cartes.models.Broomstick;
-import app.cartes.models.Cauldron;
-import app.cartes.models.DuckingStool;
-import app.cartes.models.EvilEye;
-import app.cartes.models.HookedNose;
-import app.cartes.models.PetNewt;
-import app.cartes.models.PointedHat;
-import app.cartes.models.TheInquisition;
-import app.cartes.models.Toad;
-import app.cartes.models.Wart;
+import app.cartes.models.*;
 import app.joueur.JoueurControlleur;
 import app.model.IColorable;
 
@@ -22,7 +11,6 @@ import java.util.Set;
 
 public abstract class CarteRumeur implements IColorable {
 
-    // TODO: 13/11/2021 ajouter les conditions préalables des fois / effets connexes des cartes
     /**
      * Joueur qui possède la carte
      */
@@ -84,7 +72,6 @@ public abstract class CarteRumeur implements IColorable {
                 new Wart()
         );
     }
-    // TODO: 12/11/2021 check s'il faut utiliser le controlleur ou le modèle pour les cartes
 
     public void setJoueur(JoueurControlleur joueur) {
         this.joueur = joueur;
@@ -138,9 +125,6 @@ public abstract class CarteRumeur implements IColorable {
             throw new EffetNonJouableException();
         this.pActiverEffetHunt();
         this.setEstJouee(true);
-        // TODO: 13/11/2021 activer l'effet
-
-        // TODO: 20/11/2021 peut-être créer une classe effet mais ça fait beaucoup
         // je pense plutot implémenter dans l'interface toutes les méthodes correspondants aux effets utiles.
     }
 

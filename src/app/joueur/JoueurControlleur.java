@@ -15,8 +15,6 @@ import app.model.action.action2.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-// TODO: 10/11/2021 gérer si le joueur est une IA ou non pour controller ce qu'on envoie à la vue
-
 public class JoueurControlleur implements PropertyChangeListener {
 
     /**
@@ -53,7 +51,6 @@ public class JoueurControlleur implements PropertyChangeListener {
         } catch (ChangementEtatException e) {
             Jeu.printd("Erreur changement d'etat");
             e.printStackTrace();
-            // TODO: 23/11/2021 handle mais ne devrait pas arriver actuellement
         }
     }
 
@@ -68,27 +65,26 @@ public class JoueurControlleur implements PropertyChangeListener {
             Jeu.getInstance().finirPartie();
 
         Jeu.printd("Changement d'etat: ");
-        IEtat etat = (IEtat) evt.getNewValue();
-        Jeu.printd("Nouvel etat: " + etat.toString());
+        IEtat nouvelEtat = (IEtat) evt.getNewValue();
+        Jeu.printd("Nouvel etat: " + nouvelEtat.toString());
         if (evt.getOldValue() instanceof EtatChoixIdentite) {
             Jeu.printd(model + " a fini de choisir son role");
             return;
         }
         // cette méthode permet d'imposer les actions disponibles au joueur en fonction de son état
-        if (EtatChoixIdentite.class.equals(etat.getClass())) {
+        if (nouvelEtat instanceof EtatChoixIdentite) {
             this.gererChoixIdentite();
-        } else if (EtatAttente.class.equals(etat.getClass())) {
+        } else if (nouvelEtat instanceof EtatAttente) {
             this.gererAttente();
-        } else if (EtatAccusation.class.equals(etat.getClass())) {
+            return;
+        } else if (nouvelEtat instanceof EtatAccusation) {
             this.gererAccusation();
-        } else if (EtatTourDeJeu.class.equals(etat.getClass())) {
+        } else if (nouvelEtat instanceof EtatTourDeJeu) {
             this.gererTourDeJeu();
         } else {
-            System.out.println("JoueurControlleur.propertyChange etat: " + etat.getClass().getName() + " n'est pas implémenté");
+            System.out.println("JoueurControlleur.propertyChange etat: " + nouvelEtat.getClass().getName() + " n'est pas implémenté");
         }
         this.model.prochainEtat();
-        // TODO: 09/11/2021 Implémenter les actions dans des méthodes individuelles
-
     }
 
     private void gererChoixIdentite() {
@@ -100,7 +96,6 @@ public class JoueurControlleur implements PropertyChangeListener {
     private void gererAttente() {
         Jeu.printd("Le joueur " + this.model + "est en train d'attendre");
         this.vue.faireAttendre();
-
     }
 
     @Override
@@ -113,11 +108,7 @@ public class JoueurControlleur implements PropertyChangeListener {
 
     private void gererAccusation() {
         Jeu.printd("Le joueur " + this.model + " vient d'être accusé");
-        // TODO: 10/11/2021 Peut-être créer une classe association(record java14+) pour représenter une accusation entre deux joueurs
-        // cette accusation on la ferait Jeu.register(accusation) ? into un jeu.pop(accusation) lors du get
 
-        // edit 17/11/2021 la classe Accuser de Action représente maintenant cela
-        // TODO: 23/11/2021 ici à implémenter mtn
         IAction action = this.vue.repondreAccusation(this.model.getActionsDisponibles());
         try {
             this.gererAction(action);

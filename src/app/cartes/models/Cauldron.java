@@ -37,7 +37,7 @@ public class Cauldron extends CarteRumeur {
         super.joueur.getModel().seRevele();
         JoueurControlleur prochainJoueur = null;
         switch (joueur.getModel().getRole()) {
-            case SORCIERE -> prochainJoueur = Jeu.getInstance().getJoueurAvant(super.joueur); // TODO: 20/11/2021
+            case SORCIERE -> prochainJoueur = Jeu.getInstance().getJoueurAvant(super.joueur);
             case VILLAGEOIS -> prochainJoueur = this.joueur.getJoueurVue().demanderProchainJoueur();
             default -> Jeu.printd("Erreur pActiverEffetHunt() de Cauldron dans switch role joueur");
         }

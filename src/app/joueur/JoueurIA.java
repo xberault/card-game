@@ -11,10 +11,6 @@ import app.model.action.action2.JouerCarteWitch;
 
 import java.util.Arrays;
 
-// TODO: 10/11/2021 implémenter l'IA d'un joueur
-// celle-ci utilise une strategie qu'il faut également implémenter
-
-
 public class JoueurIA extends JoueurModel {
 
     /**

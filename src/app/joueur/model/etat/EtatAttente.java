@@ -39,7 +39,10 @@ public class EtatAttente implements IEtat {
     @Override
     public IEtat getProchainEtat() {
         // TODO: 23/11/2021 peut-être check quand le joueur est accusé ici
-        return new EtatTourDeJeu(this.joueur);
+        // le prochain etat de l'attente sera toujours l'attente
+        // il a besoin d'un input pour en sortir
+        return this;
+        //return new EtatTourDeJeu(this.joueur);
     }
 
     @Override
@@ -48,8 +51,9 @@ public class EtatAttente implements IEtat {
     }
 
     /**
-     * Son prochain état dé
+     * Son prochain état est déterminé en fonction de l'action qu'il doit effectue
      */
+    @Deprecated
     public IEtat getProchainEtat(IAction IAction) {
         // TODO: 09/11/2021 Pas sûr que ce code soit utile :: possiblement enlever certain constructeurs de protected -> public
         // puisque c'est un getter particulier à l'état d'attente et qui demande une action

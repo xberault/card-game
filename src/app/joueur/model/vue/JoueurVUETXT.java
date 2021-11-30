@@ -156,13 +156,11 @@ public class JoueurVUETXT implements IJoueurVue {
                     "Effet Witch: " + carte.getDescriptionWitch() + "\n"
             );
         }
-        // TODO: 13/11/2021 demander action sur une carte -- regarder pour avoir des infos -- activer effet hunt de la carte
-        // TODO: 13/11/2021 ou demander s'il veut faire retour en arrière et accuser à nouveau 
+        // TODO: 13/11/2021 ou demander s'il veut faire retour en arrière et accuser à nouveau
     }
 
     @Override
     public CarteRumeur demanderCarte(CarteRumeur[] cartes) {
-        // TODO: 17/11/2021 améliorer affichage?
         return (CarteRumeur) this.obtenirObject(cartes);
     }
 

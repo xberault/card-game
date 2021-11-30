@@ -11,7 +11,7 @@ public class Broomstick extends CarteRumeur {
             Vous choisissez le prochain joueur à jouer""";
     private static final String descriptionWitch = "Vous jouez le prochain tour";
 
-    // TODO: 20/11/2021  voir comment implémenter cette condition ( sans rajouter un bolléen dans joueurModel..)
+    // TODO: 20/11/2021  voir comment implémenter cette condition ( sans rajouter un booléen dans joueurModel..)
     // peut-être creuser en ajouter des conditions d'activation de carte
 
     public Broomstick() {
