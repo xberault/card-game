@@ -34,7 +34,8 @@ public class AngryMob extends CarteRumeur {
     @Override
     protected void pActiverEffetHunt() {
         JoueurModel cible = super.joueur.getJoueurVue().demanderCibleAccusation();
-        cible.seRevele();
+        if (cible.estCiblable(this))
+            cible.seRevele();
         int nbPointGagne = 0;
         switch (cible.getRole()) {
             case VILLAGEOIS -> {

@@ -70,12 +70,28 @@ public class JoueurVueIATXT extends JoueurVUETXT {
         super.demanderContinuation();
         return carteRumeur;
     }
-/**
-    @Override
-    public CarteRumeur demanderRepriseCarte(CarteRumeur[] lesCartesDisponibles) {
+
+    /**
+     * Permet de demander une carte parmis une sélection indiféremment de si elles viennent de la main du joueur ou non
+     *
+     * @param lesCartesDisponibles
+     * @return
+     */
+    private CarteRumeur demanderRepriseCarte(CarteRumeur[] lesCartesDisponibles) {
         CarteRumeur carteRumeur = this.ia.demanderRepriseCarte(lesCartesDisponibles);
         super.demanderContinuation();
         return carteRumeur;
     }
- */
+
+    @Override
+    public CarteRumeur demanderRepriseCarteJoueur(CarteRumeur[] lesCartesDisponibles) {
+        // TODO: 30/11/2021
+        return this.demanderRepriseCarte(lesCartesDisponibles);
+    }
+
+    @Override
+    public CarteRumeur demanderRepriseCartePersonnelle(CarteRumeur[] lesCartesDisponibles) {
+        // TODO: 30/11/2021
+        return this.demanderRepriseCarte(lesCartesDisponibles);
+    }
 }

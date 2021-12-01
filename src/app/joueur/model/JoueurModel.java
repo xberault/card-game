@@ -1,6 +1,7 @@
 package app.joueur.model;
 
 import app.cartes.CarteRumeur;
+import app.cartes.condition.ConditionNonCible;
 import app.cartes.effet.IEffet;
 import app.cartes.effet.NePeutPasEtreAccuseException;
 import app.joueur.model.etat.EtatAttente;
@@ -66,6 +67,11 @@ public abstract class JoueurModel {
      */
     List<IEffet> effetsChangementEtat;
 
+    /**
+     * toutes les conditions à vérifier lorsqu'un joueur se fait cibler par une carte
+     */
+    List<ConditionNonCible> conditionCiblage;
+
     protected JoueurModel(String nom) {
         this.points = 0;
         this.nom = nom;
@@ -73,6 +79,7 @@ public abstract class JoueurModel {
         this.etatActuel = new EtatAttente(this);
         this.lesCartes = new ArrayList<>();
         this.effetsChangementEtat = new ArrayList<>();
+        this.conditionCiblage = new ArrayList<>();
 
         this.identiteRevele = false;
         this.pcs = new PropertyChangeSupport(this);
@@ -275,5 +282,31 @@ public abstract class JoueurModel {
         } catch (ChangementEtatException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Vérifie que le jouable est effectivement ciblable par la carte passée en paramètre
+     *
+     * @param carte la carterumeur dont on veut vérifier l'activation
+     * @return un booléen à true si le joueur est ciblable
+     */
+    public boolean estCiblable(CarteRumeur carte) {
+        for (ConditionNonCible c : this.conditionCiblage)
+            if (!c.estActivable(carte))
+                return false;
+        return true;
+    }
+
+    /**
+     * Ajoute une condition de non ciblage par une carte au joueur
+     *
+     * @param conditionNonCible la condition en question
+     */
+    public void ajouterNonCiblage(ConditionNonCible conditionNonCible) {
+        this.conditionCiblage.add(conditionNonCible);
+    }
+
+    public List<ConditionNonCible> getConditionCiblage() {
+        return this.conditionCiblage;
     }
 }

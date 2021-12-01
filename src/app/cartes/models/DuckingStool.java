@@ -1,5 +1,6 @@
 package app.cartes.models;
 
+import app.Jeu;
 import app.cartes.CarteRumeur;
 import app.joueur.JoueurControlleur;
 import app.joueur.model.JoueurModel;
@@ -30,7 +31,7 @@ public class DuckingStool extends CarteRumeur {
     }
 
     @Override
-    protected void pActiverEffetWitch() {
+    protected void pActiverEffetHunt() {
         JoueurModel jCible = super.joueur.getJoueurVue().demanderCibleAccusation();
         IAction IActionChoix = super.joueur.getJoueurVue().demanderTourDeJeu(new IAction[]{
                 new ReleverIdentite(jCible),
@@ -52,7 +53,9 @@ public class DuckingStool extends CarteRumeur {
     }
 
     @Override
-    protected void pActiverEffetHunt() {
-        this.pActiverEffetWitch();
+    protected void pActiverEffetWitch() {
+        JoueurControlleur jCible = super.joueur.getJoueurVue().demanderProchainJoueur();
+        super.joueur.getJoueurVue().afficherProchainJoueurTour(jCible.getModel());
+        Jeu.getInstance().setProchainJoueur(jCible);
     }
 }

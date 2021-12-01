@@ -113,7 +113,10 @@ public class Jeu {
     private void initialiserJoueurs() {
         this.joueurs = this.constructeur.initJoueur();
         this.initialiserCartesJoueurs();
-        this.setJoueurCourant(this.joueurs.get(0));
+
+        // on choisit aléatoirement le premier joueur
+        int idPremierJoueur = (int) Math.floor((Math.random() * this.joueurs.size()));
+        this.setJoueurCourant(this.joueurs.get(idPremierJoueur));
 
     }
 

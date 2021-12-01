@@ -2,6 +2,7 @@ package app.cartes.models;
 
 import app.Jeu;
 import app.cartes.CarteRumeur;
+import app.cartes.condition.ConditionNonCible;
 import app.joueur.JoueurControlleur;
 import app.model.Couleur;
 
@@ -34,6 +35,7 @@ public class Broomstick extends CarteRumeur {
         // TODO: 20/11/2021 implémentation condition
         JoueurControlleur prochainJoueur = this.joueur.getJoueurVue().demanderProchainJoueur();
         Jeu.getInstance().setProchainJoueur(prochainJoueur);
+        this.joueur.getModel().ajouterNonCiblage(new ConditionNonCible(AngryMob.class, this));
 
     }
 }

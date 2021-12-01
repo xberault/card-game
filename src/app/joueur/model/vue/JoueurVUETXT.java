@@ -2,6 +2,7 @@ package app.joueur.model.vue;
 
 import app.Jeu;
 import app.cartes.CarteRumeur;
+import app.cartes.condition.ConditionNonCible;
 import app.joueur.JoueurControlleur;
 import app.joueur.model.IJoueurVue;
 import app.joueur.model.JoueurModel;
@@ -168,11 +169,17 @@ public class JoueurVUETXT implements IJoueurVue {
     public JoueurModel demanderCibleAccusation() {
         // get tous les joueurs
         // enlever le joueur actuel
-        JoueurModel[] lesJoueurs = getLesJoueursSansCourant();
+        List<JoueurModel> lesJoueurs = List.of(getLesJoueursSansCourant());
         System.out.println("Quel joueur souhaitez-vous accuser ?");
 
+        List<JoueurModel> jARetirer = new ArrayList<>();
+        for (JoueurModel j : lesJoueurs)
+            if (j.estRevele())
+                jARetirer.add(j);
+        jARetirer.forEach(lesJoueurs::remove); // TODO: 01/12/2021 refactor ici
 
-        JoueurModel joueur = this.obtenirObjetJoueurs(lesJoueurs);
+
+        JoueurModel joueur = this.obtenirObjetJoueurs(lesJoueurs.toArray(JoueurModel[]::new));
         demanderContinuation();
         return joueur;
     }
@@ -233,13 +240,17 @@ public class JoueurVUETXT implements IJoueurVue {
                     + " et vous avez " + JeuConstructreurTXT.gras("" + joueur.getPoints()) + " points"
             );
         } else {
-            System.out.println(
+            System.out.print(
                     joueur.getNom() + " " +
                             (joueur.estRevele() ?
                                     "en tant que: " + JeuConstructreurTXT.gras(joueur.getRole().name())
                                     : JeuConstructreurTXT.gras("ROLE INCONNU")
                             ) + " possède " + joueur.getPoints() + " points"
             );
+            List<ConditionNonCible> conditionNonCibleList = joueur.getConditionCiblage();
+            if (!conditionNonCibleList.isEmpty())
+                conditionNonCibleList.forEach(cdt -> System.out.print(" / " + cdt.getDescription()));
+            System.out.println();
         }
     }
 
@@ -278,8 +289,8 @@ public class JoueurVUETXT implements IJoueurVue {
     public CarteRumeur demanderRepriseCarteJoueur(CarteRumeur[] lesCartesDisponibles) {
         // int n'est pas un Object mais Integer si
         Integer[] lesNumeroCartes = new Integer[lesCartesDisponibles.length];
-        for (int i = 1; i < lesCartesDisponibles.length + 1; ++i)
-            lesNumeroCartes[i] = i;
+        for (int i = 0; i < lesCartesDisponibles.length; )
+            lesNumeroCartes[i] = ++i;
         int indice = (int) this.obtenirObject(lesNumeroCartes);
         return lesCartesDisponibles[indice];
     }
