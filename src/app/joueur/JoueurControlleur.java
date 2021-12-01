@@ -61,8 +61,12 @@ public class JoueurControlleur implements PropertyChangeListener {
      * On étudie alors la transition entre son ancien et son nouvel état
      */
     public void propertyChange(PropertyChangeEvent evt) {
-        if (Jeu.getInstance().partieFinie())
-            Jeu.getInstance().finirPartie();
+        // TODO: 01/12/2021 peut-être implémenter les pts / un autre attribut pour gérer ceci automatiquement
+        if (Jeu.getInstance().mancheFinie()) {
+            Jeu.getInstance().finirManche();
+            return;
+        }
+
 
         Jeu.printd("Changement d'etat: ");
         IEtat nouvelEtat = (IEtat) evt.getNewValue();
@@ -84,6 +88,8 @@ public class JoueurControlleur implements PropertyChangeListener {
         } else {
             System.out.println("JoueurControlleur.propertyChange etat: " + nouvelEtat.getClass().getName() + " n'est pas implémenté");
         }
+        Jeu.printd("fin de tour");
+        this.vue.finirTour();
         this.model.prochainEtat();
     }
 

@@ -42,10 +42,8 @@ public class JoueurVUETXT implements IJoueurVue {
         Role[] lesRolesDisponibles = Role.getRolesJouables();
         // Role rep = this.obtenirRole(lesRolesDisponibles);
         // System.out.println("Vous avez choisi d'incarner " + JeuConstructreurTXT.gras(rep.name()) + " pour la partie à venir");
-        Role choix = this.obtenirRole(lesRolesDisponibles);
 
-        this.demanderContinuation();
-        return choix;
+        return this.obtenirRole(lesRolesDisponibles);
     }
 
     /**
@@ -135,11 +133,7 @@ public class JoueurVUETXT implements IJoueurVue {
         this.afficherLesJoueurs();
         System.out.println("Vous venez d'être accusé, quelle action désirez-vous effectuer ?");
 
-        IAction choix = (IAction) this.obtenirObject(actionsDisponibles);
-
-        demanderContinuation();
-
-        return choix;
+        return (IAction) this.obtenirObject(actionsDisponibles);
     }
 
     @Override
@@ -179,9 +173,7 @@ public class JoueurVUETXT implements IJoueurVue {
         jARetirer.forEach(lesJoueurs::remove); // TODO: 01/12/2021 refactor ici
 
 
-        JoueurModel joueur = this.obtenirObjetJoueurs(lesJoueurs.toArray(JoueurModel[]::new));
-        demanderContinuation();
-        return joueur;
+        return this.obtenirObjetJoueurs(lesJoueurs.toArray(JoueurModel[]::new));
     }
 
     /**
@@ -190,7 +182,7 @@ public class JoueurVUETXT implements IJoueurVue {
      * @return un tableau contenant ces dits joueurs
      */
     protected JoueurModel[] getLesJoueursSansCourant() {
-        List<JoueurControlleur> lesJoueurs = Jeu.getInstance().getJoueursNonSorcieres();
+        List<JoueurControlleur> lesJoueurs = Jeu.getInstance().getJoueursEncorePresents();
         lesJoueurs = new ArrayList<>(lesJoueurs); // on effectue une copie des joueurs pour s'assurer de ne pas modifier des valeurs qu'on de devrait pas
         lesJoueurs.remove(JoueurControlleur.getControllerFromModel(this.joueur));
         return lesJoueurs.stream().map(JoueurControlleur::getModel).toArray(JoueurModel[]::new);
@@ -199,12 +191,16 @@ public class JoueurVUETXT implements IJoueurVue {
     @Override
     public void afficherJoueurs() {
         // TODO: 17/11/2021 peut-être factoriser cette fonction
-        this.afficherJoueurActuel();
+        this.afficherLesJoueurs();
     }
 
     @Override
     public void informerErreur(String msgErreur) {
         System.out.println(msgErreur);
+    }
+
+    @Override
+    public void finirTour() {
         this.demanderContinuation();
     }
 
@@ -267,7 +263,6 @@ public class JoueurVUETXT implements IJoueurVue {
     @Override
     public void afficherProchainJoueurTour(JoueurModel joueur) {
         System.out.println(JeuConstructreurTXT.gras(joueur.getNom()) + " sera bien le prochain joueur à jouer son tour");
-        this.demanderContinuation();
     }
 
     @Override
@@ -280,9 +275,7 @@ public class JoueurVUETXT implements IJoueurVue {
     @Override
     public CarteRumeur demanderRepriseCartePersonnelle(CarteRumeur[] lesCartesDisponibles) {
         System.out.println("Quelle carte souhaitez-vous reprendre parmi les suivantes ?");
-        CarteRumeur cartePrise = (CarteRumeur) this.obtenirObject(lesCartesDisponibles);
-        this.demanderContinuation();
-        return cartePrise;
+        return (CarteRumeur) this.obtenirObject(lesCartesDisponibles);
     }
 
     @Override
@@ -299,8 +292,6 @@ public class JoueurVUETXT implements IJoueurVue {
     public void afficherRoleJoueur(JoueurModel joueur) {
         System.out.println("Le rôle de " + JeuConstructreurTXT.gras(joueur.getNom()) + " est " +
                 JeuConstructreurTXT.couleur(joueur.getRole(), joueur.getRole().toString()));
-        this.demanderContinuation();
-
     }
 
     /**
@@ -309,8 +300,9 @@ public class JoueurVUETXT implements IJoueurVue {
     protected void demanderContinuation() {
         System.out.print("Appuyez sur entrée pour continuer...");
         try {
+            //noinspection ResultOfMethodCallIgnored
             System.in.read();
-        } catch (IOException e) {
+        } catch (IOException ignored) {
         }
     }
 }

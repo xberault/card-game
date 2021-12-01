@@ -54,6 +54,11 @@ public class JoueurVueGUI implements IJoueurVue {
     }
 
     @Override
+    public void finirTour() {
+
+    }
+
+    @Override
     public JoueurControlleur demanderProchainJoueur() {
         return null;
     }

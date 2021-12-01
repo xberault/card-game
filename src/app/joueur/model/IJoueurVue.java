@@ -70,4 +70,9 @@ public interface IJoueurVue extends IEffetVue {
      * @param msgErreur le message à lui afficher
      */
     void informerErreur(String msgErreur);
+
+    /**
+     * Informe le joueur que son tour est fini
+     */
+    void finirTour();
 }

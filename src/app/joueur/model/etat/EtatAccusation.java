@@ -2,6 +2,7 @@ package app.joueur.model.etat;
 
 import app.joueur.model.JoueurModel;
 import app.model.ActionNonJouableException;
+import app.model.Role;
 import app.model.action.IAction;
 import app.model.action.action1.ReleverIdentite;
 import app.model.action.action2.JouerCarteWitch;
@@ -39,7 +40,12 @@ public class EtatAccusation implements IEtat {
     }
 
     @Override
+    /**
+     * Si c'était une sorcière et qu'il s'est révélé, le joueur se verra finir la manche
+     */
     public IEtat getProchainEtat() {
+        if (this.joueur.estRevele() && this.joueur.getRole().equals(Role.SORCIERE))
+            return new EtatFinManche(this.joueur);
         return new EtatAttente(this.joueur);
     }
 

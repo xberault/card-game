@@ -9,6 +9,7 @@ import java.util.Arrays;
 /***
  * Représente l'état d'un joueur au cours de la partie
  */
+// TODO: 01/12/2021 un etat manche finie pour les joueurs pourrait être judicieux 
 public interface IEtat {
     /**
      * Permet l'exécution d'une action en fonction de l'état du joueur

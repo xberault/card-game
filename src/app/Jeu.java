@@ -5,7 +5,7 @@ import app.joueur.JoueurControlleur;
 import app.joueur.model.ChangementEtatException;
 import app.joueur.model.JoueurModel;
 import app.joueur.model.etat.EtatAttente;
-import app.model.Role;
+import app.joueur.model.etat.EtatFinManche;
 import app.model.constructeur.JeuConstructeur;
 import app.model.constructeur.JeuConstructreurTXT;
 
@@ -25,6 +25,15 @@ public class Jeu {
      * Nombre de cartes rumeur au total dans la partie
      */
     private static final int nbCartesRumeur = 12;
+
+    /**
+     * Nombre maximum de points obtenable par une joueur par partie
+     * Une fois ce nombre atteint/dépassé, la partie s'arrête
+     *
+     * @see #finirPartie()
+     * @see #finirManche()
+     */
+    private static final int NB_POINTS_MAX = 5;
 
     /**
      * Contient toutes les cartes défaussées au cours de la partie
@@ -51,12 +60,14 @@ public class Jeu {
     private JoueurControlleur joueurCourant;
 
     /**
-     * Indique si l'on est actuelement en train de débuger l'application
+     * Indique si l'on est actuellement en train de déboguer l'application
+     *
+     * @see #printd(String)  pour l'utilisation effective de cette fonction
      */
     public static boolean DEBUG = false;
 
     /**
-     * Affiche le string passé en paramètre uniquement si le mode de déboggage est activé
+     * Affiche le string passé en paramètre uniquement si le mode de débogage est activé
      *
      * @param str la chaine de caractère à afficher
      */
@@ -182,7 +193,14 @@ public class Jeu {
         }
     }
 
-    public boolean partieFinie() {
+    /**
+     * Indique si la manche de jeu actuelle est finie ou non
+     * <p>
+     * Elle est fini quand : // TODO: 01/12/2021
+     *
+     * @return un booléen à true quand la manche est finie
+     */
+    public boolean mancheFinie() {
         int nbReveles = 0;
         for (JoueurControlleur j : this.joueurs) {
             if (j.getModel().getPoints() > 5)
@@ -193,16 +211,67 @@ public class Jeu {
         return nbReveles == (this.joueurs.size() - 1);
     }
 
-    public void finirPartie() {
-        Jeu.printd("Partie fini gagnant " + joueurCourant);
+    /**
+     * Gère la fin d'une manche
+     */
+    public void finirManche() {
+        this.attributionPointGagnant(this.joueurCourant);
+        Jeu.printd("Manche fini gagnant " + joueurCourant);
+        this.resetEtatJoueurs();
+        if (this.partieFinie())
+            this.finirPartie();
+        // et on est maintenant reparti dans mainLoop
 
+    }
+
+    /**
+     * Gère la fin de la partie
+     */
+    private void finirPartie() {
+        Jeu.printd("Partie fini gagnant " + joueurCourant);
+    }
+
+    /**
+     * Indique si la partie est actuellement finie
+     * Ceci est uniquement le cas lorsque un des joueurs possède plus de {@value NB_POINTS_MAX}points
+     *
+     * @return un booléen à true lorsque la partie est effectivement finie, false sinon
+     */
+    private boolean partieFinie() {
+        return this.joueurs.stream()
+                .anyMatch(joueurControlleur -> joueurControlleur.getModel().getPoints() >= Jeu.NB_POINTS_MAX);
+    }
+
+    /**
+     * Repasse tous les joueurs en état d'attente
+     */
+    private void resetEtatJoueurs() {
         try {
             for (JoueurControlleur j : this.joueurs)
                 j.getModel().changerEtat(new EtatAttente(j.getModel()));
+            //noinspection ResultOfMethodCallIgnored
             System.in.read();
         } catch (IOException | ChangementEtatException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Attribue les points au joueur ayant gagné le round suivant les règles suivantes
+     * <p>
+     * Son rôle:
+     * - Villageois : +1point
+     * - Sorcière : +2points
+     *
+     * @param jGagnant le joueur ayant gagné la manche
+     */
+    private void attributionPointGagnant(JoueurControlleur jGagnant) {
+        int nbPointsGagnes = 0;
+        switch (jGagnant.getModel().getRole()) {
+            case SORCIERE -> nbPointsGagnes += 2;
+            case VILLAGEOIS -> ++nbPointsGagnes;
+        }
+        jGagnant.getModel().ajouterPoints(nbPointsGagnes);
     }
 
     /**
@@ -217,13 +286,15 @@ public class Jeu {
      * Ceci implique qu'aucune sorcière s'étant révélée se soit présent
      *
      * @return une liste contenant tous ces joueurs non sorcieres révélées
+     * @see EtatFinManche
      */
-    public List<JoueurControlleur> getJoueursNonSorcieres() {
-        List<JoueurControlleur> lesJoueursNonSorciers = new ArrayList<>();
+    public List<JoueurControlleur> getJoueursEncorePresents() {
+        List<JoueurControlleur> lesJoueursPresents = new ArrayList<>();
         for (JoueurControlleur j : this.joueurs)
-            if (!((j.getModel().estRevele()) && j.getModel().getRole().equals(Role.SORCIERE)))
-                lesJoueursNonSorciers.add(j);
-        return lesJoueursNonSorciers;
+            if (!(j.getModel().getEtat() instanceof EtatFinManche))
+                //if (!((j.getModel().estRevele()) && j.getModel().getRole().equals(Role.SORCIERE)))
+                lesJoueursPresents.add(j);
+        return lesJoueursPresents;
     }
 
     /**
@@ -231,7 +302,7 @@ public class Jeu {
      */
     public void joueurSuivant() {
 
-        List<JoueurControlleur> lesJoueursNonSorciers = this.getJoueursNonSorcieres();
+        List<JoueurControlleur> lesJoueursNonSorciers = this.getJoueursEncorePresents();
 
         int index = Math.floorMod(lesJoueursNonSorciers.indexOf(this.joueurCourant) + 1, lesJoueursNonSorciers.size());
         this.joueurCourant = lesJoueursNonSorciers.get(index);
@@ -271,7 +342,7 @@ public class Jeu {
      * @return le joueur qui joue avant
      */
     public JoueurControlleur getJoueurAvant(JoueurControlleur joueur) {
-        List<JoueurControlleur> lesJoueursNonSorcieres = this.getJoueursNonSorcieres();
+        List<JoueurControlleur> lesJoueursNonSorcieres = this.getJoueursEncorePresents();
         JoueurControlleur prev = null;
         for (JoueurControlleur j : lesJoueursNonSorcieres) {
             if (Objects.nonNull(prev) && joueur.equals(j))
@@ -290,7 +361,7 @@ public class Jeu {
     public void setProchainJoueur(JoueurControlleur joueur) {
         // Doit prendre en compte l'éxécution de #joueurSuivant() à chaque tour
         // on choisit donc le joueur avant lui
-        List<JoueurControlleur> lesJoueursNonSorcieres = this.getJoueursNonSorcieres();
+        List<JoueurControlleur> lesJoueursNonSorcieres = this.getJoueursEncorePresents();
         int index = Math.floorMod(lesJoueursNonSorcieres.indexOf(joueur) - 1, lesJoueursNonSorcieres.size());
         this.joueurCourant = lesJoueursNonSorcieres.get(index);
     }

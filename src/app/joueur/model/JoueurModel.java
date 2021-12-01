@@ -309,4 +309,8 @@ public abstract class JoueurModel {
     public List<ConditionNonCible> getConditionCiblage() {
         return this.conditionCiblage;
     }
+
+    public IEtat getEtat() {
+        return this.etatActuel;
+    }
 }
