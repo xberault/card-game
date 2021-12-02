@@ -33,7 +33,6 @@ public class JeuConstructreurTXT implements JeuConstructeur {
     public JeuConstructreurTXT() {
         this.sc = new Scanner(System.in);
         this.joueurConstructeur = new JoueurConstructeurTXT();
-
     }
 
     /**

@@ -12,4 +12,9 @@ public class EtatFinManche extends EtatAttente {
     public EtatFinManche(JoueurModel joueur) {
         super(joueur);
     }
+
+    @Override
+    public String toString() {
+        return "EtatFinManche{}";
+    }
 }

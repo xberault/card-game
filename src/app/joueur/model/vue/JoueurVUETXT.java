@@ -163,7 +163,7 @@ public class JoueurVUETXT implements IJoueurVue {
     public JoueurModel demanderCibleAccusation() {
         // get tous les joueurs
         // enlever le joueur actuel
-        List<JoueurModel> lesJoueurs = List.of(getLesJoueursSansCourant());
+        List<JoueurModel> lesJoueurs = new ArrayList<>(List.of(getLesJoueursSansCourant()));
         System.out.println("Quel joueur souhaitez-vous accuser ?");
 
         List<JoueurModel> jARetirer = new ArrayList<>();

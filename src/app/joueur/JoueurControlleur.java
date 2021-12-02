@@ -62,11 +62,6 @@ public class JoueurControlleur implements PropertyChangeListener {
      */
     public void propertyChange(PropertyChangeEvent evt) {
         // TODO: 01/12/2021 peut-être implémenter les pts / un autre attribut pour gérer ceci automatiquement
-        if (Jeu.getInstance().mancheFinie()) {
-            Jeu.getInstance().finirManche();
-            return;
-        }
-
 
         Jeu.printd("Changement d'etat: ");
         IEtat nouvelEtat = (IEtat) evt.getNewValue();
@@ -75,10 +70,16 @@ public class JoueurControlleur implements PropertyChangeListener {
             Jeu.printd(model + " a fini de choisir son role");
             return;
         }
-        // cette méthode permet d'imposer les actions disponibles au joueur en fonction de son état
-        if (nouvelEtat instanceof EtatChoixIdentite) {
+        if (nouvelEtat instanceof EtatChoixIdentite)
             this.gererChoixIdentite();
-        } else if (nouvelEtat instanceof EtatAttente) {
+        else if (Jeu.getInstance().mancheFinie()) {
+            Jeu.getInstance().finirManche();
+            return;
+        }
+
+        // cette méthode permet d'imposer les actions disponibles au joueur en fonction de son état
+
+        else if (nouvelEtat instanceof EtatAttente) {
             this.gererAttente();
             return;
         } else if (nouvelEtat instanceof EtatAccusation) {

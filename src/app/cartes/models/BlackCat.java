@@ -6,7 +6,7 @@ import app.cartes.condition.ConditionCarteDefausse;
 import app.model.Couleur;
 
 public class BlackCat extends CarteRumeur {
-    private static final String descriptionHunt = "Vous reprenez une carte de votre défausse. Défaussez BlackCat";
+    private static final String descriptionHunt = "Vous reprenez une carte de votre défausse. Défaussez Chat noir";
     private static final String descriptionWitch = "Vous jouez le prochain tour";
 
     public BlackCat() {

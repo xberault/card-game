@@ -14,10 +14,19 @@ import java.util.Objects;
  */
 public class EtatAccusation implements IEtat {
 
+    /**
+     * Joueur ciblé par l'accusation, celui qui est dans cet etat
+     */
     private final JoueurModel joueur;
 
-    public EtatAccusation(JoueurModel joueur) {
-        this.joueur = joueur;
+    /**
+     * Joueur ayant provoqué l'entré dans cet état de joueur
+     */
+    private final JoueurModel jSource;
+
+    public EtatAccusation(JoueurModel jCible, JoueurModel jSource) {
+        this.joueur = jCible;
+        this.jSource = jSource;
     }
 
     @Override
@@ -69,5 +78,14 @@ public class EtatAccusation implements IEtat {
     @Override
     public String toString() {
         return "EtatAccusation{}";
+    }
+
+    /**
+     * Le joueur ayant provoqué l'entré dans l'état d'accusation du joueur
+     *
+     * @return le model de ce joueur
+     */
+    public JoueurModel getJoueurSource() {
+        return this.jSource;
     }
 }

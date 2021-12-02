@@ -4,7 +4,7 @@ import app.cartes.CarteRumeur;
 import app.joueur.JoueurControlleur;
 import app.joueur.model.ChangementEtatException;
 import app.joueur.model.JoueurModel;
-import app.joueur.model.etat.EtatAttente;
+import app.joueur.model.etat.EtatChoixIdentite;
 import app.joueur.model.etat.EtatFinManche;
 import app.model.constructeur.JeuConstructeur;
 import app.model.constructeur.JeuConstructreurTXT;
@@ -247,8 +247,10 @@ public class Jeu {
      */
     private void resetEtatJoueurs() {
         try {
-            for (JoueurControlleur j : this.joueurs)
-                j.getModel().changerEtat(new EtatAttente(j.getModel()));
+            for (JoueurControlleur j : this.joueurs) {
+                j.getModel().changerEtat(new EtatChoixIdentite(j.getModel()));
+            }
+
             //noinspection ResultOfMethodCallIgnored
             System.in.read();
         } catch (IOException | ChangementEtatException e) {
@@ -302,10 +304,10 @@ public class Jeu {
      */
     public void joueurSuivant() {
 
-        List<JoueurControlleur> lesJoueursNonSorciers = this.getJoueursEncorePresents();
+        List<JoueurControlleur> lesJoueursPresents = this.getJoueursEncorePresents();
 
-        int index = Math.floorMod(lesJoueursNonSorciers.indexOf(this.joueurCourant) + 1, lesJoueursNonSorciers.size());
-        this.joueurCourant = lesJoueursNonSorciers.get(index);
+        int index = Math.floorMod(lesJoueursPresents.indexOf(this.joueurCourant) + 1, lesJoueursPresents.size());
+        this.joueurCourant = lesJoueursPresents.get(index);
         Jeu.printd("Nouveau joueur courant: (" + index + " , " + joueurCourant + " )");
     }
 

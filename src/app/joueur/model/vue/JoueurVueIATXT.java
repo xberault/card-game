@@ -50,7 +50,6 @@ public class JoueurVueIATXT extends JoueurVUETXT {
     @Override
     public JoueurModel demanderCibleAccusation() {
         JoueurModel cible = this.ia.demanderCibleAccusation(super.getLesJoueursSansCourant());
-        super.demanderContinuation();
         return cible;
     }
 
@@ -59,27 +58,23 @@ public class JoueurVueIATXT extends JoueurVUETXT {
     public JoueurControlleur demanderProchainJoueur() {
         JoueurModel joueurModel = this.ia.demanderProchainJoueur(super.getLesJoueursSansCourant());
 
-        super.afficherProchainJoueurTour(joueurModel);
-
         return JoueurControlleur.getControllerFromModel(joueurModel);
     }
 
     @Override
     public CarteRumeur demanderDefausseCarte() {
         CarteRumeur carteRumeur = this.ia.demanderDefausseCarte();
-        super.demanderContinuation();
         return carteRumeur;
     }
 
     /**
      * Permet de demander une carte parmis une sélection indiféremment de si elles viennent de la main du joueur ou non
      *
-     * @param lesCartesDisponibles
-     * @return
+     * @param lesCartesDisponibles un tableau contenant toutes les cartes rumeurs accessibles au joueur
+     * @return la carte qu'il a choisi
      */
     private CarteRumeur demanderRepriseCarte(CarteRumeur[] lesCartesDisponibles) {
         CarteRumeur carteRumeur = this.ia.demanderRepriseCarte(lesCartesDisponibles);
-        super.demanderContinuation();
         return carteRumeur;
     }
 

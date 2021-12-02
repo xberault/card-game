@@ -3,6 +3,8 @@ package app.cartes.models;
 import app.Jeu;
 import app.cartes.CarteRumeur;
 import app.joueur.JoueurControlleur;
+import app.joueur.model.etat.EtatAccusation;
+import app.joueur.model.etat.IEtat;
 import app.model.Couleur;
 
 import java.util.Objects;
@@ -28,7 +30,11 @@ public class Cauldron extends CarteRumeur {
 
     @Override
     protected void pActiverEffetWitch() {
-        // TODO: 20/11/2021 implémenter 1re partie de l'effet
+        IEtat etatJoueur = super.joueur.getModel().getEtat();
+        if (etatJoueur instanceof EtatAccusation) {
+            CarteRumeur aPrendre = super.joueur.getJoueurVue().demanderRepriseCarteJoueur(((EtatAccusation) etatJoueur).getJoueurSource().getCartesMain());
+            aPrendre.changerProprietaire(super.joueur);
+        }
         Jeu.getInstance().setProchainJoueur(this.joueur);
     }
 

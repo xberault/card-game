@@ -25,7 +25,7 @@ public class Accusation extends Action2 {
     public void executerAction(Object cible) {
         JoueurModel jCible = (JoueurModel) cible;
         try {
-            jCible.changerEtat(new EtatAccusation(jCible), jCible, super.joueur);
+            jCible.changerEtat(new EtatAccusation(jCible, super.joueur), jCible, super.joueur);
             if (jCible.estRevele()) {
                 if (jCible.getRole().equals(Role.SORCIERE))
                     this.joueur.ajouterPoints(1);
