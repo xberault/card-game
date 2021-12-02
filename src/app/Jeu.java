@@ -215,11 +215,11 @@ public class Jeu {
      * Gère la fin d'une manche
      */
     public void finirManche() {
+        if (this.partieFinie())
+            this.finirPartie();
         this.attributionPointGagnant(this.joueurCourant);
         Jeu.printd("Manche fini gagnant " + joueurCourant);
         this.resetEtatJoueurs();
-        if (this.partieFinie())
-            this.finirPartie();
         // et on est maintenant reparti dans mainLoop
 
     }

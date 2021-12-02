@@ -74,6 +74,8 @@ public class JoueurControlleur implements PropertyChangeListener {
             this.gererChoixIdentite();
         else if (Jeu.getInstance().mancheFinie()) {
             Jeu.getInstance().finirManche();
+            this.vue.finirTour();
+            // TODO: 02/12/2021 meilleure gestion fin de partie pour l'informer au joueur 
             return;
         }
 

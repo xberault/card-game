@@ -141,8 +141,10 @@ public abstract class JoueurModel {
      */
     public void changerRole(Role role) {
         // vérification que le joueur ait la possibilité de changer de role
-        if (this.etatActuel instanceof EtatChoixIdentite)
+        if (this.etatActuel instanceof EtatChoixIdentite) {
             this.role = role;
+            this.identiteRevele = false;
+        }
     }
 
     /**
