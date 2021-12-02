@@ -285,7 +285,7 @@ public class JoueurVUETXT implements IJoueurVue {
         for (int i = 0; i < lesCartesDisponibles.length; )
             lesNumeroCartes[i] = ++i;
         int indice = (int) this.obtenirObject(lesNumeroCartes);
-        return lesCartesDisponibles[indice];
+        return lesCartesDisponibles[indice-1];
     }
 
     @Override

@@ -249,7 +249,11 @@ public class Jeu {
         try {
             for (JoueurControlleur j : this.joueurs) {
                 j.getModel().changerEtat(new EtatChoixIdentite(j.getModel()));
+                j.getModel().viderCartes();
+                j.getModel().viderNonCiblage();
             }
+            this.initialiserCartesJoueurs();
+            this.initialiserDefausse();
 
             //noinspection ResultOfMethodCallIgnored
             System.in.read();

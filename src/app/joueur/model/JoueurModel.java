@@ -308,6 +308,14 @@ public abstract class JoueurModel {
         this.conditionCiblage.add(conditionNonCible);
     }
 
+    public void viderNonCiblage(){
+        this.conditionCiblage.clear();
+    }
+
+    public void viderCartes(){
+        this.lesCartes.clear();
+    }
+
     public List<ConditionNonCible> getConditionCiblage() {
         return this.conditionCiblage;
     }
