@@ -46,14 +46,14 @@ public class EtatAttente implements IEtat {
         return this.joueur;
     }
 
-    /**
-     * Son prochain état est déterminé en fonction de l'action qu'il doit effectue
-     */
-    @Deprecated
-    public IEtat getProchainEtat(IAction IAction) {
-        return null;
-        // TODO: 09/11/2021 Pas sûr que ce code soit utile :: possiblement enlever certain constructeurs de protected -> public
-        // puisque c'est un getter particulier à l'état d'attente et qui demande une action
+//    /**
+//     * Son prochain état est déterminé en fonction de l'action qu'il doit effectue
+//     */
+//    @Deprecated
+//    public IEtat getProchainEtat(IAction IAction) {
+//        return null;
+//        // TODO: 09/11/2021 Pas sûr que ce code soit utile :: possiblement enlever certain constructeurs de protected -> public
+//        // puisque c'est un getter particulier à l'état d'attente et qui demande une action
 //        IEtat nouvelEtat;
 //        if (IAction instanceof Accusation) {
 //            nouvelEtat = new EtatAccusation(jCible, this.joueur);
@@ -68,7 +68,7 @@ public class EtatAttente implements IEtat {
 //        }
 //        System.out.println("Nouvel état pour le joueur: " + nouvelEtat);
 //        return nouvelEtat;
-    }
+//    }
 
     @Override
     public boolean equals(Object o) {

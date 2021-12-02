@@ -100,16 +100,16 @@ public class JoueurVUETXT implements IJoueurVue {
         return lesJoueurs[idCible];
     }
 
-    /**
-     * Affiche à l'utilisateur les rôles qu'il peut choisir
-     *
-     * @param lesRoles tous les roles disponibles
-     */
-    @Deprecated
-    private void afficherRolesDisponibles(Role[] lesRoles) {
-        System.out.println("Quel rôle désirez-vous jouer ?");
-        this.afficherContenuObjetListe(lesRoles);
-    }
+//    /**
+//     * Affiche à l'utilisateur les rôles qu'il peut choisir
+//     *
+//     * @param lesRoles tous les roles disponibles
+//     */
+//    @Deprecated
+//    private void afficherRolesDisponibles(Role[] lesRoles) {
+//        System.out.println("Quel rôle désirez-vous jouer ?");
+//        this.afficherContenuObjetListe(lesRoles);
+//    }
 
     private void afficherContenuObjetListe(Object[] objects) {
         for (int i = 0; i < objects.length; ++i)

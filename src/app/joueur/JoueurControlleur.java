@@ -158,15 +158,15 @@ public class JoueurControlleur implements PropertyChangeListener {
         Jeu.getInstance().joueurSuivant();
     }
 
-    /**
-     * Permet de savoir si le joueur est controlé par ou IA ou non
-     *
-     * @return un booléen qui est à vrai lorsque le joueur est humain.
-     */
-    @Deprecated
-    private boolean estHumain() {
-        return this.model instanceof JoueurHumain;
-    }
+//    /**
+//     * Permet de savoir si le joueur est controlé par ou IA ou non
+//     *
+//     * @return un booléen qui est à vrai lorsque le joueur est humain.
+//     */
+//    @Deprecated
+//    private boolean estHumain() {
+//        return this.model instanceof JoueurHumain;
+//    }
 
     public JoueurModel getModel() {
         return model;

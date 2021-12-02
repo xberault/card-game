@@ -11,9 +11,4 @@ public class JeuConstructeurGUI implements JeuConstructeur {
         return null;
     }
 
-    @Override
-    public void demarrerPartie() {
-        // TODO: 08/11/2021  
-
-    }
 }

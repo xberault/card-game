@@ -12,6 +12,5 @@ public interface JeuConstructeur {
      */
     List<JoueurControlleur> initJoueur();
 
-    @Deprecated
-    void demarrerPartie();
+//    void demarrerPartie();
 }

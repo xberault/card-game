@@ -120,8 +120,4 @@ public class JeuConstructreurTXT implements JeuConstructeur {
         return nbJoueurIA;
     }
 
-    @Override
-    public void demarrerPartie() {
-        // TODO: 08/11/2021  
-    }
 }
