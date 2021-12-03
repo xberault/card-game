@@ -2,6 +2,7 @@ package app.cartes.models;
 
 import app.Jeu;
 import app.cartes.CarteRumeur;
+import app.cartes.EffetNonJouableException;
 import app.cartes.effet.EffetPriseCarte;
 import app.joueur.JoueurControlleur;
 import app.joueur.model.etat.EtatAccusation;
@@ -29,9 +30,12 @@ public class HookedNose extends CarteRumeur {
     }
 
     @Override
-    protected void pActiverEffetWitch() {
+    protected void pActiverEffetWitch() throws EffetNonJouableException {
         IEtat etatJoueur = super.joueur.getModel().getEtat();
         if (etatJoueur instanceof EtatAccusation) {
+            if( ((EtatAccusation) etatJoueur).getJoueurSource().getCartesMain().length == 0 ){
+                throw new EffetNonJouableException();
+            }
             CarteRumeur cartePrise = super.joueur.getJoueurVue().demanderRepriseCarteJoueur(((EtatAccusation) etatJoueur).getJoueurSource().getCartesMain());
             cartePrise.changerProprietaire(super.joueur);
         }
@@ -39,9 +43,11 @@ public class HookedNose extends CarteRumeur {
     }
 
     @Override
-    protected void pActiverEffetHunt() {
+    protected void pActiverEffetHunt() throws EffetNonJouableException {
         JoueurControlleur prochainJoueur = this.joueur.getJoueurVue().demanderProchainJoueur();
-
+        if(prochainJoueur.getModel().getCartesMain().length == 0){
+            throw new EffetNonJouableException();
+        }
         Jeu.getInstance().setProchainJoueur(prochainJoueur);
 
         CarteRumeur cartePrise = joueur.getJoueurVue().demanderRepriseCarteJoueur(prochainJoueur.getModel().getCartesMain());

@@ -204,7 +204,7 @@ public abstract class JoueurModel {
     public CarteRumeur[] getCartesMain() {
         List<CarteRumeur> lesCartesMain = new ArrayList<>(this.lesCartes); // on fait une copie
         lesCartesMain.removeAll(List.of(this.getCartesRumeursRevelees()));
-        return lesCartesMain.toArray(new CarteRumeur[0]);
+        return lesCartesMain.toArray(new CarteRumeur[lesCartesMain.size()]);
     }
 
 

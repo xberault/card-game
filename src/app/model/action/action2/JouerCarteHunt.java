@@ -21,8 +21,10 @@ public class JouerCarteHunt extends Action2 {
         CarteRumeur carte = (CarteRumeur) cible;
         try {
             carte.activerEffetHunt();
-        } catch (CarteDejaJoueeException e) {
+        } catch (CarteDejaJoueeException e){
             e.printStackTrace();
+        } catch (EffetNonJouableException e) {
+            throw new EffetNonJouableException();
         }
     }
 }

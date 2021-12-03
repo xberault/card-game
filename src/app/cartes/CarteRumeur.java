@@ -146,14 +146,16 @@ public abstract class CarteRumeur implements IColorable {
     /**
      * Partie à imlémenter pour les cartes
      * Permet l'activation réelle de l'effet witch
+     * @throws EffetNonJouableException
      */
-    protected abstract void pActiverEffetWitch();
+    protected abstract void pActiverEffetWitch() throws EffetNonJouableException;
 
     /**
      * Partie à implémenter pour les cartes
      * Permet l'activation réelle de l'effet hunt
+     * @throws EffetNonJouableException
      */
-    protected abstract void pActiverEffetHunt();
+    protected abstract void pActiverEffetHunt() throws EffetNonJouableException;
 
     /**
      * Vérifie si la carte a déjà été joué
