@@ -122,7 +122,8 @@ public class JoueurControlleur implements PropertyChangeListener {
         try {
             this.gererAction(action);
         } catch (EffetNonJouableException e) {
-            e.printStackTrace();
+            vue.informerErreur("Les conditions requises pour jouer cette carte ne sont pas remplies, merci de recommencer votre tour");
+            this.gererAccusation();
         }
     }
 
@@ -150,7 +151,7 @@ public class JoueurControlleur implements PropertyChangeListener {
             gererAction(IAction);
         } catch (EffetNonJouableException e) {
             // TODO: 21/11/2021 ne pas faire recommencer le tour mais simplement le choix
-            vue.informerErreur("Les conditions requises pour jouer cette cartes ne sont pas remplies, merci de recommencer votre tour");
+            vue.informerErreur("Les conditions requises pour jouer cette carte ne sont pas remplies, merci de recommencer votre tour");
             this.gererTourDeJeu();
             return;
         }

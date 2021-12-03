@@ -16,12 +16,14 @@ public class JouerCarteWitch extends Action2 {
     }
 
     @Override
-    public void executerAction(Object cible) {
+    public void executerAction(Object cible) throws EffetNonJouableException {
         CarteRumeur carte = (CarteRumeur) cible;
         try {
             carte.activerEffetWitch();
-        } catch (CarteDejaJoueeException | EffetNonJouableException e) {
+        } catch (CarteDejaJoueeException e){
             e.printStackTrace();
+        } catch (EffetNonJouableException e) {
+            throw new EffetNonJouableException();
         }
     }
 }
