@@ -1,5 +1,6 @@
 package app.joueur.model;
 
+import app.Jeu;
 import app.cartes.CarteRumeur;
 import app.cartes.condition.ConditionNonCible;
 import app.cartes.effet.IEffet;
@@ -244,7 +245,7 @@ public abstract class JoueurModel {
      * @param carte la carte à défausser
      */
     public void defausserCarte(CarteRumeur carte) {
-        carte.setEstJouee(true);
+        Jeu.getInstance().ajouterADefausse(carte);
     }
 
     /**

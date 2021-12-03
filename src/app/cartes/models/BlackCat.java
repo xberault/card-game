@@ -6,7 +6,7 @@ import app.cartes.condition.ConditionCarteDefausse;
 import app.model.Couleur;
 
 public class BlackCat extends CarteRumeur {
-    private static final String descriptionHunt = "Vous reprenez une carte de votre défausse. Défaussez Chat noir";
+    private static final String descriptionHunt = "Vous reprenez une carte de la défausse. Défaussez Chat noir";
     private static final String descriptionWitch = "Vous jouez le prochain tour";
 
     public BlackCat() {
@@ -27,9 +27,8 @@ public class BlackCat extends CarteRumeur {
 
     @Override
     protected void pActiverEffetHunt() {
-        CarteRumeur[] saDefausse = this.joueur.getModel().getCartesRumeursRevelees();
-        CarteRumeur aReprendre = this.joueur.getJoueurVue().demanderRepriseCartePersonnelle(saDefausse);
-        aReprendre.setEstJouee(false);
-        // pas desoin de la défausser, c'est automatique
+        CarteRumeur aReprendre = super.joueur.getJoueurVue().demanderRepriseCartePersonnelle(Jeu.getInstance().getDefausse().toArray(new CarteRumeur[Jeu.getInstance().getDefausse().size()]));
+        joueur.getModel().ajouterCarteRumeur(aReprendre);
+        joueur.getModel().defausserCarte(this);
     }
 }

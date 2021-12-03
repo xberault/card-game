@@ -2,7 +2,7 @@ package app.cartes.models;
 
 import app.Jeu;
 import app.cartes.CarteRumeur;
-import app.cartes.condition.ConditionCarteDefausse;
+import app.cartes.condition.ConditionCartesReveleeJoueurs;
 import app.joueur.model.JoueurModel;
 import app.model.Couleur;
 
@@ -12,7 +12,7 @@ import java.util.List;
 public class PetNewt extends CarteRumeur {
 
     private static final String descriptionHunt = """
-            Prenez une carte dans la défausse de  n'importe quel joueur
+            Prenez une carte révélée de n'importe quel joueur
             "Vous choisissez le prochain joueur""";
     private static final String descriptionWitch = "Vous jouez le prochain tour";
 
@@ -20,7 +20,7 @@ public class PetNewt extends CarteRumeur {
         // TODO: 21/11/2021 ajouter condition que tous les joueurs doivent avoir joué au moins 1 carte
         // cad l'effet hunt ne peut etre jouée en première carte de la partie
         super("Triton apprivoisé", descriptionHunt, descriptionWitch);
-        super.ajouterConditionHunt(new ConditionCarteDefausse());
+        super.ajouterConditionHunt(new ConditionCartesReveleeJoueurs());
     }
 
     @Override
@@ -36,11 +36,11 @@ public class PetNewt extends CarteRumeur {
 
     @Override
     protected void pActiverEffetHunt() {
-        List<CarteRumeur> lesCartesDefausses = new ArrayList<>();
+        List<CarteRumeur> lesCartesRevelees = new ArrayList<>();
         JoueurModel[] lesJoueurs = Jeu.getInstance().getLesJoueurs();
         for (JoueurModel joueur : lesJoueurs)
-            lesCartesDefausses.addAll(List.of(joueur.getCartesRumeursRevelees()));
-        CarteRumeur choix = super.joueur.getJoueurVue().demanderRepriseCarteJoueur(lesCartesDefausses.toArray(CarteRumeur[]::new));
+            lesCartesRevelees.addAll(List.of(joueur.getCartesRumeursRevelees()));
+        CarteRumeur choix = super.joueur.getJoueurVue().demanderRepriseCartePersonnelle(lesCartesRevelees.toArray(CarteRumeur[]::new));
         choix.changerProprietaire(super.joueur);
 
         super.choixProchainJoueur();

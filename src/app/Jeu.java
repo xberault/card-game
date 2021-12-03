@@ -163,6 +163,12 @@ public class Jeu {
                 carteRumeur.setJoueur(joueur);
             }
 
+        // Il y a deux cartes dans la défausse dès le début quand il y a 5 joueurs
+        if (this.joueurs.size()==5){
+            this.defausse.add(lesCartes.get(lesCartes.size()-1));
+            this.defausse.add(lesCartes.get(lesCartes.size()-2));
+        }
+
     }
 
     /**
@@ -252,8 +258,8 @@ public class Jeu {
                 j.getModel().viderCartes();
                 j.getModel().viderNonCiblage();
             }
-            this.initialiserCartesJoueurs();
             this.initialiserDefausse();
+            this.initialiserCartesJoueurs();
 
             //noinspection ResultOfMethodCallIgnored
             System.in.read();
@@ -285,6 +291,14 @@ public class Jeu {
      */
     private void initialiserDefausse() {
         this.defausse = new ArrayList<>();
+    }
+
+    public List<CarteRumeur> getDefausse(){
+        return this.defausse;
+    }
+
+    public void ajouterADefausse(CarteRumeur carte){
+        this.defausse.add(carte);
     }
 
     /**

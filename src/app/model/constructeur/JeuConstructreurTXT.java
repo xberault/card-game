@@ -65,6 +65,8 @@ public class JeuConstructreurTXT implements JeuConstructeur {
      * Permet de vider l'affichage de System.out
      */
     public static void viderConsole() {
+        if(Jeu.DEBUG)
+            return;
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }

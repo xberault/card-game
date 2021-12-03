@@ -28,7 +28,7 @@ public class TheInquisition extends CarteRumeur {
     @Override
     protected void pActiverEffetWitch() {
         CarteRumeur aDefausse = super.joueur.getJoueurVue().demanderDefausseCarte();
-        super.joueur.getModel().retirerCarte(aDefausse);
+        super.joueur.getModel().defausserCarte(aDefausse);
         Jeu.getInstance().setProchainJoueur(super.joueur);
     }
 

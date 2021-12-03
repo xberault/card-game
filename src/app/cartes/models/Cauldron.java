@@ -32,8 +32,8 @@ public class Cauldron extends CarteRumeur {
     protected void pActiverEffetWitch() {
         IEtat etatJoueur = super.joueur.getModel().getEtat();
         if (etatJoueur instanceof EtatAccusation) {
-            CarteRumeur aPrendre = super.joueur.getJoueurVue().demanderRepriseCarteJoueur(((EtatAccusation) etatJoueur).getJoueurSource().getCartesMain());
-            aPrendre.changerProprietaire(super.joueur);
+            CarteRumeur aDefausser = super.joueur.getJoueurVue().demanderRepriseCarteJoueur(((EtatAccusation) etatJoueur).getJoueurSource().getCartesMain());
+            ((EtatAccusation) etatJoueur).getJoueurSource().defausserCarte(aDefausser);
         }
         Jeu.getInstance().setProchainJoueur(this.joueur);
     }

@@ -1,5 +1,6 @@
 package app.cartes.condition;
 
+import app.Jeu;
 import app.joueur.model.JoueurModel;
 
 /**
@@ -7,11 +8,11 @@ import app.joueur.model.JoueurModel;
  */
 public class ConditionCarteDefausse extends Condition {
     public ConditionCarteDefausse() {
-        super("Avoir au moins une carte dans la défausse");
+        super("La défausse contient au moins une carte");
     }
 
     @Override
     public boolean estActivable(JoueurModel joueur) {
-        return joueur.getCartesRumeursRevelees().length > 0;
+        return Jeu.getInstance().getDefausse().size() > 0;
     }
 }
