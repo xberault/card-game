@@ -49,6 +49,7 @@ public class DuckingStool extends CarteRumeur {
         } else if (IActionChoix instanceof DefausserCarte) {
             CarteRumeur aDefausser = Objects.requireNonNull(JoueurControlleur.getControllerFromModel(jCible)).getJoueurVue().demanderDefausseCarte();
             jCible.defausserCarte(aDefausser);
+            Jeu.getInstance().setProchainJoueur(JoueurControlleur.getControllerFromModel(jCible));
         }
     }
 
