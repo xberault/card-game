@@ -245,11 +245,12 @@ public abstract class JoueurModel {
      * @param carte la carte à défausser
      */
     public void defausserCarte(CarteRumeur carte) {
+        this.lesCartes.remove(carte);
         Jeu.getInstance().ajouterADefausse(carte);
     }
 
     /**
-     * Permet de retirer une carte spécifique à la fois de la défausse du joueur et de sa main
+     * Permet de retirer une carte spécifique de la main du joueur
      *
      * @param carteRumeur la carte à retirer
      */
