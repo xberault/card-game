@@ -30,19 +30,23 @@ public class HookedNose extends CarteRumeur {
 
     @Override
     protected void pActiverEffetWitch() {
-        joueur.getModel().ajouterEffetChangementEtat(new EffetPriseCarte(joueur.getModel()));
-        Jeu.getInstance().setProchainJoueur(this.joueur);
-    }
-
-    @Override
-    protected void pActiverEffetHunt() {
         IEtat etatJoueur = super.joueur.getModel().getEtat();
         if (etatJoueur instanceof EtatAccusation) {
             CarteRumeur cartePrise = super.joueur.getJoueurVue().demanderRepriseCarteJoueur(((EtatAccusation) etatJoueur).getJoueurSource().getCartesMain());
             cartePrise.changerProprietaire(super.joueur);
         }
+        Jeu.getInstance().setProchainJoueur(this.joueur);
+    }
 
+    @Override
+    protected void pActiverEffetHunt() {
         JoueurControlleur prochainJoueur = this.joueur.getJoueurVue().demanderProchainJoueur();
+
         Jeu.getInstance().setProchainJoueur(prochainJoueur);
+
+        CarteRumeur cartePrise = joueur.getJoueurVue().demanderRepriseCarteJoueur(prochainJoueur.getModel().getCartesMain());
+        cartePrise.changerProprietaire(super.joueur);
+
+        joueur.getJoueurVue().afficherProchainJoueurTour(prochainJoueur.getModel());
     }
 }
