@@ -42,7 +42,7 @@ public class PetNewt extends CarteRumeur {
             lesCartesRevelees.addAll(List.of(joueur.getCartesRumeursRevelees()));
         CarteRumeur choix = super.joueur.getJoueurVue().demanderRepriseCartePersonnelle(lesCartesRevelees.toArray(CarteRumeur[]::new));
         choix.changerProprietaire(super.joueur);
-
+        choix.setEstJouee(false);
         super.choixProchainJoueur();
     }
 }

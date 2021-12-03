@@ -231,7 +231,7 @@ public abstract class JoueurModel {
         for (CarteRumeur carte : this.lesCartes)
             if (carte.estRevelee())
                 cartesRevelees.add(carte);
-        return cartesRevelees.toArray(new CarteRumeur[0]);
+        return cartesRevelees.toArray(new CarteRumeur[cartesRevelees.size()]);
     }
 
 
