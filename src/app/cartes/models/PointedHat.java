@@ -26,7 +26,8 @@ public class PointedHat extends CarteRumeur {
 
     @Override
     protected void pActiverEffetWitch() {
-        super.joueur.getJoueurVue().demanderRepriseCartePersonnelle(joueur.getModel().getCartesRumeursRevelees());
+        CarteRumeur choix = super.joueur.getJoueurVue().demanderRepriseCartePersonnelle(joueur.getModel().getCartesRumeursRevelees());
+        choix.setEstJouee(false);
         super.choixProchainJoueur();
     }
 
