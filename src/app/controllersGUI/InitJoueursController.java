@@ -67,7 +67,7 @@ public class InitJoueursController {
             nouvellePage(nbj,nbjIA);
 
             Button button = new Button("Suivant");
-            button.setOnAction(e -> creationJoueurs());
+            button.setOnAction(e -> creationJoueurs(nbjIA));
             this.grid.add(button,0,2);
         }
     }
@@ -97,7 +97,7 @@ public class InitJoueursController {
 
     }
 
-    public void creationJoueurs(){
+    public void creationJoueurs(int nbjIA){
         // TODO 01/01/2022
         // refuser les noms vide
         for (Node enfant:this.grid.getChildren()){
@@ -109,6 +109,9 @@ public class InitJoueursController {
                 }
             }
         }
-        Platform.exit();
+        for (int i = 0; i < nbjIA; i++) {
+            this.listejoueurs.add(this.joueurConstructeur.creerJoueurIA());
+        }
+        grid.getScene().getWindow().hide();
     }
 }
