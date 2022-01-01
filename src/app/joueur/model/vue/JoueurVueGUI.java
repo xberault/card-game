@@ -8,6 +8,16 @@ import app.model.Role;
 import app.model.action.IAction;
 
 public class JoueurVueGUI implements IJoueurVue {
+
+    /**
+     * Joueur représenté par la vue
+     */
+    private final JoueurModel joueur;
+
+    public JoueurVueGUI(JoueurModel joueurModel){
+        this.joueur=joueurModel;
+    }
+
     @Override
     public Role demanderIdentite() {
         return null;

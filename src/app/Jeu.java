@@ -7,7 +7,11 @@ import app.joueur.model.JoueurModel;
 import app.joueur.model.etat.EtatChoixIdentite;
 import app.joueur.model.etat.EtatFinManche;
 import app.model.constructeur.JeuConstructeur;
+import app.model.constructeur.JeuConstructeurGUI;
 import app.model.constructeur.JeuConstructreurTXT;
+import javafx.application.Application;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 
 import java.io.IOException;
 import java.util.*;
@@ -67,6 +71,11 @@ public class Jeu {
     public static boolean DEBUG = false;
 
     /**
+     * Indique si on utilise l'appilcation en mode interface graphique ou non
+     */
+    public static boolean GUI = false;
+
+    /**
      * Affiche le string passé en paramètre uniquement si le mode de débogage est activé
      *
      * @param str la chaine de caractère à afficher
@@ -109,12 +118,22 @@ public class Jeu {
     public static void main(String[] args) {
 
         Jeu.DEBUG = Arrays.stream(args).anyMatch("debug"::equalsIgnoreCase);
+        Jeu.GUI = Arrays.stream(args).anyMatch("gui"::equalsIgnoreCase);
 
         Jeu.printd("Le jeu est lancé en mode de débogage");
+        Jeu jeu;
 
-
-        Jeu jeu = Jeu.getInstance(new JeuConstructreurTXT());
-        jeu.demarrer();
+        if (Jeu.GUI){
+            jeu = Jeu.getInstance(new JeuConstructeurGUI());
+            Application.launch(JeuConstructeurGUI.class);
+        }
+        else{
+            jeu = Jeu.getInstance(new JeuConstructreurTXT());
+            jeu.demarrer();
+        }
+        // TODO voir une autre manière de lancer l'application
+        // La méthode launch bloquais l'accès à la méthode démarrer
+        // J'ai déplacé l'appel de la méthode dans le constructeur du GUI mais doit y avoir un manière moins sale de le faire
     }
 
     /**
@@ -384,5 +403,16 @@ public class Jeu {
         List<JoueurControlleur> lesJoueursNonSorcieres = this.getJoueursEncorePresents();
         int index = Math.floorMod(lesJoueursNonSorcieres.indexOf(joueur) - 1, lesJoueursNonSorcieres.size());
         this.joueurCourant = lesJoueursNonSorcieres.get(index);
+    }
+
+    /**
+     * Permet de changer scene de la fenêtre de jeu
+     *
+     * @param root le fichier fxml charger avec FXMLLoader
+     */
+    public void changerFenetre(Parent root){
+        if (Jeu.GUI){
+            ((JeuConstructeurGUI)this.constructeur).changerFenetre(root);
+        }
     }
 }
