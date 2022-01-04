@@ -1,11 +1,19 @@
 package app.joueur.model.vue;
 
 import app.cartes.CarteRumeur;
+import app.controllersGUI.DemandeRoleController;
+import app.controllersGUI.InitJoueursController;
 import app.joueur.JoueurControlleur;
 import app.joueur.model.IJoueurVue;
 import app.joueur.model.JoueurModel;
+import app.joueur.model.constructeur.JoueurConstructeurGUI;
 import app.model.Role;
 import app.model.action.IAction;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class JoueurVueGUI implements IJoueurVue {
 
@@ -20,6 +28,19 @@ public class JoueurVueGUI implements IJoueurVue {
 
     @Override
     public Role demanderIdentite() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/app/vuesGUI/DemandeRole.fxml"));
+            VBox root = loader.load();
+            Stage inner = new Stage();
+            inner.setScene(new Scene(root));
+            DemandeRoleController controller = loader.getController();
+            controller.setJoueurNom( this.joueur.getNom());
+
+            inner.showAndWait();
+            return controller.getRole();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return null;
     }
 

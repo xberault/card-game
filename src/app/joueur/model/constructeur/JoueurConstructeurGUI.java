@@ -7,15 +7,8 @@ import app.joueur.model.IJoueurVue;
 import app.joueur.model.JoueurModel;
 import app.joueur.model.strategie.IStrategieIA;
 import app.joueur.model.strategie.StrategieAleatoire;
-import app.joueur.model.vue.JoueurVUETXT;
 import app.joueur.model.vue.JoueurVueGUI;
 import app.joueur.model.vue.JoueurVueIATXT;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class JoueurConstructeurGUI implements IJoueurConstructeur {
     @Override
