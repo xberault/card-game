@@ -38,8 +38,10 @@ public class DemandeRoleController {
         switch (choix){
             case "Villageois":
                 role =  Role.getRolesJouables()[0];
+                break;
             case "Sorcière":
                 role =  Role.getRolesJouables()[1];
+                break;
         }
         jName.getScene().getWindow().hide();
     }

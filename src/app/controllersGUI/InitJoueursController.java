@@ -83,7 +83,7 @@ public class InitJoueursController {
     }
 
     public void ajouterChampsNoms(Pane parent, int joueurs){
-        for (int i = 0; i < joueurs; ++i) {
+        for (int i = 0; i < joueurs; i++) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/app/vuesGUI/NouveauJoueur.fxml"));
                 HBox box = loader.load();

@@ -129,7 +129,6 @@ public class Jeu {
         }
         else{
             jeu = Jeu.getInstance(new JeuConstructreurTXT());
-            jeu.demarrer();
         }
         // TODO voir une autre manière de lancer l'application
         // La méthode launch bloquais l'accès à la méthode démarrer
@@ -199,7 +198,12 @@ public class Jeu {
             joueurCourant = j;
             j.commencerTour();
         }
-        this.mainLoop();
+        if (!Jeu.GUI){
+            this.mainLoop();
+        }
+        else{
+            this.joueurSuivant();
+        }
     }
 
     /**
@@ -346,6 +350,9 @@ public class Jeu {
         int index = Math.floorMod(lesJoueursPresents.indexOf(this.joueurCourant) + 1, lesJoueursPresents.size());
         this.joueurCourant = lesJoueursPresents.get(index);
         Jeu.printd("Nouveau joueur courant: (" + index + " , " + joueurCourant + " )");
+        if(Jeu.GUI){
+            this.joueurCourant.commencerTour();
+        }
     }
 
     public JoueurModel getJoueurCourant() {
@@ -403,6 +410,9 @@ public class Jeu {
         List<JoueurControlleur> lesJoueursNonSorcieres = this.getJoueursEncorePresents();
         int index = Math.floorMod(lesJoueursNonSorcieres.indexOf(joueur) - 1, lesJoueursNonSorcieres.size());
         this.joueurCourant = lesJoueursNonSorcieres.get(index);
+        if(Jeu.GUI){
+            Jeu.getInstance().joueurSuivant();
+        }
     }
 
     /**

@@ -1,8 +1,8 @@
 package app.joueur.model.vue;
 
+import app.Jeu;
 import app.cartes.CarteRumeur;
-import app.controllersGUI.DemandeRoleController;
-import app.controllersGUI.InitJoueursController;
+import app.controllersGUI.*;
 import app.joueur.JoueurControlleur;
 import app.joueur.model.IJoueurVue;
 import app.joueur.model.JoueurModel;
@@ -15,6 +15,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class JoueurVueGUI implements IJoueurVue {
 
     /**
@@ -22,8 +26,19 @@ public class JoueurVueGUI implements IJoueurVue {
      */
     private final JoueurModel joueur;
 
+    private GridPane vue;
+
+    private InterfaceJoueurController vueController;
+
     public JoueurVueGUI(JoueurModel joueurModel){
         this.joueur=joueurModel;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/app/vuesGUI/InterfaceJoueur.fxml"));
+        try {
+            this.vue = loader.load();
+            this.vueController = loader.getController();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -66,17 +81,44 @@ public class JoueurVueGUI implements IJoueurVue {
 
     @Override
     public CarteRumeur demanderCarte(CarteRumeur[] cartes) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/app/vuesGUI/DemandeCarte.fxml"));
+            VBox root = loader.load();
+            Stage inner = new Stage();
+            inner.setScene(new Scene(root));
+            DemandeCarteController controller = loader.getController();
+            controller.initChoix(this.joueur.getCartesMain());
+
+            inner.showAndWait();
+            return controller.getResult();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return null;
     }
 
     @Override
     public JoueurModel demanderCibleAccusation() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/app/vuesGUI/DemandeJoueur.fxml"));
+            VBox root = loader.load();
+            Stage inner = new Stage();
+            inner.setScene(new Scene(root));
+            DemandeJoueurController controller = loader.getController();
+            ArrayList<JoueurModel> adversaires = new ArrayList<>(Arrays.asList(Jeu.getInstance().getLesJoueurs()));
+            adversaires.remove(adversaires.indexOf(this.joueur));
+            controller.initChoix(adversaires);
+
+            inner.showAndWait();
+            return controller.getResult();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return null;
     }
 
     @Override
     public void afficherJoueurs() {
-
     }
 
     @Override
@@ -91,6 +133,21 @@ public class JoueurVueGUI implements IJoueurVue {
 
     @Override
     public JoueurControlleur demanderProchainJoueur() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/app/vuesGUI/DemandeJoueur.fxml"));
+            VBox root = loader.load();
+            Stage inner = new Stage();
+            inner.setScene(new Scene(root));
+            DemandeJoueurController controller = loader.getController();
+            ArrayList<JoueurModel> adversaires = new ArrayList<>(Arrays.asList(Jeu.getInstance().getLesJoueurs()));
+            adversaires.remove(adversaires.indexOf(this.joueur));
+            controller.initChoix(adversaires);
+
+            inner.showAndWait();
+            return JoueurControlleur.getControllerFromModel(controller.getResult());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -106,16 +163,33 @@ public class JoueurVueGUI implements IJoueurVue {
 
     @Override
     public CarteRumeur demanderRepriseCartePersonnelle(CarteRumeur[] lesCartesDisponibles) {
-        return null;
+        return demanderCarte(lesCartesDisponibles);
     }
 
     @Override
     public CarteRumeur demanderRepriseCarteJoueur(CarteRumeur[] lesCartesDisponibles) {
-        return null;
+        return demanderCarte(lesCartesDisponibles);
     }
 
     @Override
     public void afficherRoleJoueur(JoueurModel joueur) {
 
+    }
+
+    public void afficherInterface(){
+        ArrayList<JoueurModel> adversaires = new ArrayList<>(Arrays.asList(Jeu.getInstance().getLesJoueurs()));
+        adversaires.remove(adversaires.indexOf(this.joueur));
+        this.vueController.afficherAdversaires(adversaires);
+        try {
+            this.vueController.afficherMain(this.joueur);
+            this.vueController.afficherDefausse(Jeu.getInstance().getDefausse());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Jeu.getInstance().changerFenetre(this.vue);
+    }
+
+    public void afficherActions(IAction[] actionsDisponibles){
+        this.vueController.afficherActions(actionsDisponibles);
     }
 }

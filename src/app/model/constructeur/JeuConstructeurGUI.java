@@ -61,7 +61,7 @@ public class JeuConstructeurGUI extends Application implements JeuConstructeur  
         stage.setTitle("Witch Hunt");
         this.stage = stage;
         BorderPane root = new BorderPane();
-        Scene scene = new Scene(root, 1260, 720);
+        Scene scene = new Scene(root, 1920, 1080);
         this.stage.setScene(scene);
         stage.show();
         Jeu.getInstance().demarrer();
@@ -72,5 +72,6 @@ public class JeuConstructeurGUI extends Application implements JeuConstructeur  
      */
     public void changerFenetre(Parent root){
         this.stage.getScene().setRoot(root);
+        this.stage.show();
     }
 }

@@ -24,7 +24,7 @@ public class JouerCarteHunt extends Action2 {
         } catch (CarteDejaJoueeException e){
             e.printStackTrace();
         } catch (EffetNonJouableException e) {
-            throw new EffetNonJouableException();
+            e.printStackTrace();
         }
     }
 }

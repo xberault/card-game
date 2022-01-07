@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+
+<?import javafx.scene.layout.VBox?>
+<GridPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controllersGUI.InterfaceJoueurController">
+   <columnConstraints>
+      <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+   </rowConstraints>
+   <children>
+      <HBox fx:id="defausse" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <VBox fx:id="cartes" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <VBox fx:id="actions" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+      <VBox fx:id="j1" prefHeight="100.0" prefWidth="200.0" />
+      <VBox fx:id="j2" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" />
+      <VBox fx:id="j3" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" />
+      <VBox fx:id="j4" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1" />
+      <VBox fx:id="j5" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+   </children>
+</GridPane>

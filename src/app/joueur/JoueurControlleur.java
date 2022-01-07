@@ -6,6 +6,7 @@ import app.joueur.model.ChangementEtatException;
 import app.joueur.model.IJoueurVue;
 import app.joueur.model.JoueurModel;
 import app.joueur.model.etat.*;
+import app.joueur.model.vue.JoueurVueGUI;
 import app.model.Role;
 import app.model.action.Action1;
 import app.model.action.Action2;
@@ -144,19 +145,25 @@ public class JoueurControlleur implements PropertyChangeListener {
      * Transmet l'action soumise par le joueur pour son tour de jeu
      */
     private void gererTourDeJeu() {
-        Jeu.printd("Le joueur " + this.model + " va jouer son tour");
-        IAction IAction = this.vue.demanderTourDeJeu(this.model.getActionsDisponibles());
+        if (!Jeu.GUI) {
+            Jeu.printd("Le joueur " + this.model + " va jouer son tour");
+            IAction IAction = this.vue.demanderTourDeJeu(this.model.getActionsDisponibles());
 
-        try {
-            gererAction(IAction);
-        } catch (EffetNonJouableException e) {
-            // TODO: 21/11/2021 ne pas faire recommencer le tour mais simplement le choix
-            vue.informerErreur("Les conditions requises pour jouer cette carte ne sont pas remplies, merci de recommencer votre tour");
-            this.gererTourDeJeu();
-            return;
+            try {
+                gererAction(IAction);
+            } catch (EffetNonJouableException e) {
+                // TODO: 21/11/2021 ne pas faire recommencer le tour mais simplement le choix
+                vue.informerErreur("Les conditions requises pour jouer cette carte ne sont pas remplies, merci de recommencer votre tour");
+                this.gererTourDeJeu();
+                return;
+            }
+
+            Jeu.getInstance().joueurSuivant();
         }
-
-        Jeu.getInstance().joueurSuivant();
+        else{
+            ((JoueurVueGUI)this.vue).afficherInterface();
+            ((JoueurVueGUI)this.vue).afficherActions(this.model.getActionsDisponibles());
+        }
     }
 
 //    /**
@@ -170,7 +177,7 @@ public class JoueurControlleur implements PropertyChangeListener {
 //    }
 
     public JoueurModel getModel() {
-        return model;
+        return this.model;
     }
 
     public IJoueurVue getJoueurVue() {
