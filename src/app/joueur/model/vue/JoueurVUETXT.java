@@ -201,7 +201,9 @@ public class JoueurVUETXT implements IJoueurVue {
 
     @Override
     public void finirTour() {
-        this.demanderContinuation();
+        if(!Jeu.GUI){
+            this.demanderContinuation();
+        }
     }
 
     /**

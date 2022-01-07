@@ -1,5 +1,6 @@
 package app.controllersGUI;
 
+import app.Jeu;
 import app.cartes.CarteRumeur;
 import app.cartes.EffetNonJouableException;
 import app.joueur.model.JoueurModel;
@@ -25,6 +26,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class InterfaceJoueurController {
@@ -113,6 +115,7 @@ public class InterfaceJoueurController {
 
     public void afficherDefausse(List<CarteRumeur> defausse) throws IOException {
         this.defausse.getChildren().clear();
+        this.defausse.setStyle("-fx-background-color: mistyrose");
         for (CarteRumeur carteD:defausse) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/app/vuesGUI/Carte.fxml"));
             VBox carte = loader.load();
@@ -123,10 +126,17 @@ public class InterfaceJoueurController {
     }
 
     public void afficherActions(IAction[] actionsDisponibles){
+        this.actions.getChildren().clear();
         for (IAction action:actionsDisponibles) {
             Button button = new Button();
             if (action instanceof Accusation){
+                JoueurModel proprio = this.joueur;
                 button.setText("Accuser un joueur");
+                button.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override public void handle(ActionEvent e) {
+
+                        selectionAdversaire(action,proprio);
+                    }});
             }
             else if (action instanceof JouerCarteHunt){
                 JoueurModel proprio = this.joueur;
@@ -139,11 +149,23 @@ public class InterfaceJoueurController {
 
             }
             else if (action instanceof JouerCarteWitch){
+                JoueurModel proprio = this.joueur;
                 button.setText("Jouer l'effet Witch d'une carte");
+                button.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override public void handle(ActionEvent e) {
+
+                        selectionCartesMain(action,proprio);
+                    }});
 
             }
             else if (action instanceof DefausserCarte){
+                JoueurModel proprio = this.joueur;
                 button.setText("Defausser une carte");
+                button.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override public void handle(ActionEvent e) {
+
+                        selectionCartesMain(action,proprio);
+                    }});
 
             }
             else if (action instanceof ReleverIdentite){
@@ -169,43 +191,23 @@ public class InterfaceJoueurController {
         }catch (Exception e){
             e.printStackTrace();
         }
-
-
-        /* HBox cartes = (HBox) ((VBox) (this.cartes.getChildren().get(0))).getChildren().get(1);
-        for (Node carte:cartes.getChildren()) {
-            String nomCarte = ((Label) (((VBox) carte).getChildren().get(0))).getText();
-            Button button = new Button(nomCarte);
-
-            CarteRumeur carteRumeur=null;
-            for (CarteRumeur cMain:proprietaire.getCartesMain()) {
-                if(cMain.getNom()==nomCarte){
-                    carteRumeur = cMain;
-                }
-            }
-            if (carteRumeur!=null){
-                ((Action2) action).setCible(carteRumeur);
-            }
-
-            button.setOnAction(new EventHandler<ActionEvent>() {
-                @Override public void handle(ActionEvent e) {
-                    try {
-                        action.executerAction();
-                        retirerBoutonsCartes(cartes);
-                    } catch (EffetNonJouableException ex) {
-                        ex.printStackTrace();
-                    }
-                }});
-            ((VBox) carte).getChildren().add(button);
-
-        }*/
-
     }
 
-    public void retirerBoutonsCartes(HBox root){
-        for (Node node:root.getChildren()) {
-            if(node instanceof Button){
-                root.getChildren().remove(node);
-            }
+    public void selectionAdversaire(IAction action, JoueurModel proprietaire){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/app/vuesGUI/DemandeJoueur.fxml"));
+            VBox root = loader.load();
+            Stage inner = new Stage();
+            inner.setScene(new Scene(root));
+            DemandeJoueurController controller = loader.getController();
+            ArrayList<JoueurModel> adversaires = new ArrayList<>(Arrays.asList(Jeu.getInstance().getLesJoueurs()));
+            adversaires.remove(adversaires.indexOf(this.joueur));
+            controller.initChoix(adversaires);
+
+            inner.showAndWait();
+            ((Action2) action).executerAction(controller.getResult());
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 }

@@ -9,6 +9,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class AdversaireController {
 
@@ -48,7 +50,11 @@ public class AdversaireController {
     }
 
     public void initCartes(JoueurModel joueur){
-        for (CarteRumeur carteJ:joueur.getCartesMain()){
+        ArrayList<CarteRumeur> cartesJoueur = new ArrayList<>();
+        cartesJoueur.addAll(Arrays.asList(joueur.getCartesMain()));
+        cartesJoueur.addAll(Arrays.asList(joueur.getCartesRumeursRevelees()));
+
+        for (CarteRumeur carteJ:cartesJoueur){
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/app/vuesGUI/Carte.fxml"));
                 VBox carte = loader.load();
@@ -62,7 +68,10 @@ public class AdversaireController {
     }
 
     public void initCartesAdversaire(JoueurModel joueur){
-        for (CarteRumeur carteJ:joueur.getCartesMain()){
+        ArrayList<CarteRumeur> cartesJoueur = new ArrayList<>();
+        cartesJoueur.addAll(Arrays.asList(joueur.getCartesMain()));
+        cartesJoueur.addAll(Arrays.asList(joueur.getCartesRumeursRevelees()));
+        for (CarteRumeur carteJ:cartesJoueur){
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/app/vuesGUI/Carte.fxml"));
                 VBox carte = loader.load();

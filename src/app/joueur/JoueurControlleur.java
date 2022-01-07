@@ -117,14 +117,22 @@ public class JoueurControlleur implements PropertyChangeListener {
     }
 
     private void gererAccusation() {
-        Jeu.printd("Le joueur " + this.model + " vient d'être accusé");
+        if (!Jeu.GUI){
+            Jeu.printd("Le joueur " + this.model + " vient d'être accusé");
 
-        IAction action = this.vue.repondreAccusation(this.model.getActionsDisponibles());
-        try {
-            this.gererAction(action);
-        } catch (EffetNonJouableException e) {
-            vue.informerErreur("Les conditions requises pour jouer cette carte ne sont pas remplies, merci de recommencer votre tour");
-            this.gererAccusation();
+            IAction action = this.vue.repondreAccusation(this.model.getActionsDisponibles());
+            try {
+                this.gererAction(action);
+            } catch (EffetNonJouableException e) {
+                vue.informerErreur("Les conditions requises pour jouer cette carte ne sont pas remplies, merci de recommencer votre tour");
+                this.gererAccusation();
+            }
+        }
+        else{
+            if (this.vue instanceof JoueurVueGUI){
+                ((JoueurVueGUI)this.vue).afficherInterface();
+                ((JoueurVueGUI)this.vue).afficherActions(this.model.getActionsDisponibles());
+            }
         }
     }
 
@@ -161,8 +169,10 @@ public class JoueurControlleur implements PropertyChangeListener {
             Jeu.getInstance().joueurSuivant();
         }
         else{
-            ((JoueurVueGUI)this.vue).afficherInterface();
-            ((JoueurVueGUI)this.vue).afficherActions(this.model.getActionsDisponibles());
+            if (this.vue instanceof JoueurVueGUI){
+                ((JoueurVueGUI)this.vue).afficherInterface();
+                ((JoueurVueGUI)this.vue).afficherActions(this.model.getActionsDisponibles());
+            }
         }
     }
 

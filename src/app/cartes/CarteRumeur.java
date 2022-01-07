@@ -123,8 +123,8 @@ public abstract class CarteRumeur implements IColorable {
         verifieJouee();
         if (!this.effetHuntJouable())
             throw new EffetNonJouableException();
-        this.pActiverEffetHunt();
         this.setEstJouee(true);
+        this.pActiverEffetHunt();
         // je pense plutot implémenter dans l'interface toutes les méthodes correspondants aux effets utiles.
     }
 
@@ -138,8 +138,8 @@ public abstract class CarteRumeur implements IColorable {
         verifieJouee();
         if (!this.effetWitchJouable())
             throw new EffetNonJouableException();
-        this.pActiverEffetWitch();
         this.setEstJouee(true);
+        this.pActiverEffetWitch();
         // TODO: 13/11/2021 activer l'effet
     }
 

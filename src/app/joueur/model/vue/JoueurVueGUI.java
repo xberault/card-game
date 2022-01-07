@@ -66,6 +66,8 @@ public class JoueurVueGUI implements IJoueurVue {
 
     @Override
     public IAction repondreAccusation(IAction[] actionsDisponibles) {
+        afficherInterface();
+        afficherActions(actionsDisponibles);
         return null;
     }
 
@@ -158,7 +160,7 @@ public class JoueurVueGUI implements IJoueurVue {
 
     @Override
     public CarteRumeur demanderDefausseCarte() {
-        return null;
+        return demanderCarte(this.joueur.getCartesMain());
     }
 
     @Override

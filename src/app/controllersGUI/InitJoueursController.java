@@ -38,6 +38,8 @@ public class InitJoueursController {
 
     private JoueurConstructeurGUI joueurConstructeur;
 
+    private Label errorMessageNoms;
+
 
     public InitJoueursController(){
     }
@@ -58,8 +60,9 @@ public class InitJoueursController {
     @FXML
     public void handleNbJoueurs(){
         if (nbJoueursIA.getValue() > nbJoueurs.getValue()){
-            // TODO 01/01/2022
-            // montrer erreur
+            this.errorMessageNoms = new Label("Il ne peux pas avoir plus d'IA que de joueurs !");
+            this.errorMessageNoms.setStyle("-fx-text-fill: red");
+            this.grid.add(errorMessageNoms,1,2);
         }
         else {
             int nbj = this.nbJoueurs.getValue();
@@ -78,6 +81,8 @@ public class InitJoueursController {
         this.grid.add(joueursH,0,0);
         Label labelJ = new Label("Nom des Joueurs");
         joueursH.getChildren().add(labelJ);
+        this.errorMessageNoms = new Label();
+        this.grid.add(errorMessageNoms,1,0);
 
         ajouterChampsNoms(joueursH,j-jIA);
     }
@@ -89,7 +94,7 @@ public class InitJoueursController {
                 HBox box = loader.load();
                 parent.getChildren().add(box);
                 CreationJoueurController controller = loader.getController();
-                controller.initJoueur(i);
+                controller.initJoueur(i+1);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -98,20 +103,30 @@ public class InitJoueursController {
     }
 
     public void creationJoueurs(int nbjIA){
-        // TODO 01/01/2022
-        // refuser les noms vide
+        firstloop:
         for (Node enfant:this.grid.getChildren()){
             if(enfant instanceof VBox){
                 if (((VBox) enfant).getChildren().get(0) instanceof Label && ((Label) ((VBox) enfant).getChildren().get(0)).getText()=="Nom des Joueurs"){
                     for (int i = 0; i < ((VBox) enfant).getChildren().size()-1; i++) {
-                        this.listejoueurs.add(this.joueurConstructeur.creerJoueurHumain( ((TextField) ( (HBox) ( (VBox) enfant).getChildren().get(i+1) ).getChildren().get(1)).getText()));
+                        String text = ((TextField) ( (HBox) ( (VBox) enfant).getChildren().get(i+1) ).getChildren().get(1)).getText();
+                        if (text==""){
+                            this.errorMessageNoms.setText("Les noms ne doivent pas être vide !");
+                            this.errorMessageNoms.setStyle("-fx-text-fill: red");
+                            this.listejoueurs.clear();
+                            break firstloop;
+                        }
+                        else {
+                            this.listejoueurs.add(this.joueurConstructeur.creerJoueurHumain(text));
+                        }
                     }
                 }
             }
         }
-        for (int i = 0; i < nbjIA; i++) {
-            this.listejoueurs.add(this.joueurConstructeur.creerJoueurIA());
+        if (!this.listejoueurs.isEmpty()) {
+            for (int i = 0; i < nbjIA; i++) {
+                this.listejoueurs.add(this.joueurConstructeur.creerJoueurIA());
+            }
+            grid.getScene().getWindow().hide();
         }
-        grid.getScene().getWindow().hide();
     }
 }
