@@ -170,6 +170,14 @@ public class InterfaceJoueurController {
             }
             else if (action instanceof ReleverIdentite){
                 button.setText("Révéler votre identité");
+                button.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override public void handle(ActionEvent e) {
+                        try {
+                            action.executerAction();
+                        } catch (EffetNonJouableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }});
 
             }
 

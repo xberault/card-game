@@ -5,9 +5,11 @@ import app.cartes.CarteRumeur;
 import app.cartes.condition.ConditionNonCible;
 import app.cartes.effet.IEffet;
 import app.cartes.effet.NePeutPasEtreAccuseException;
+import app.joueur.JoueurControlleur;
 import app.joueur.model.etat.EtatAttente;
 import app.joueur.model.etat.EtatChoixIdentite;
 import app.joueur.model.etat.IEtat;
+import app.joueur.model.vue.JoueurVueGUI;
 import app.model.Role;
 import app.model.action.IAction;
 
@@ -154,6 +156,10 @@ public abstract class JoueurModel {
     public void seRevele() {
         // TODO: 13/11/2021 Peut-être mettre un observer sur ce booléen; à voir
         this.identiteRevele = true;
+        if (Jeu.GUI){
+            ((JoueurVueGUI) JoueurControlleur.getControllerFromModel(this).getJoueurVue()).afficherActions(getActionsDisponibles());
+            Jeu.getInstance().joueurSuivant();
+        }
     }
 
     /**

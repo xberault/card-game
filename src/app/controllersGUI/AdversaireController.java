@@ -34,7 +34,7 @@ public class AdversaireController {
     }
 
     public void initInfo(JoueurModel joueur){
-        this.joueur.setText(joueur.getNom()+ " Role: " + joueur.getRole().name());
+        this.joueur.setText(joueur.getNom()+ " Role: " + joueur.getRole().name()+" Points: "+joueur.getPoints());
     }
 
     public void initInfoAdversaire(JoueurModel joueur){
@@ -45,8 +45,9 @@ public class AdversaireController {
         else {
             role = joueur.getRole().name();
         }
+        String points = " Points: "+joueur.getPoints();
 
-        this.joueur.setText(joueur.getNom()+ " Role: " +role);
+        this.joueur.setText(joueur.getNom()+ " Role: " +role+points);
     }
 
     public void initCartes(JoueurModel joueur){

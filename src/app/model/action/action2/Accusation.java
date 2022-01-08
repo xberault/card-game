@@ -27,8 +27,10 @@ public class Accusation extends Action2 {
         try {
             jCible.changerEtat(new EtatAccusation(jCible, super.joueur), jCible, super.joueur);
             if (jCible.estRevele()) {
-                if (jCible.getRole().equals(Role.SORCIERE))
+                if (jCible.getRole().equals(Role.SORCIERE)) {
                     this.joueur.ajouterPoints(1);
+                    Jeu.getInstance().setProchainJoueur(JoueurControlleur.getControllerFromModel(jCible));
+                }
                 else
                     Jeu.getInstance().setProchainJoueur(JoueurControlleur.getControllerFromModel(jCible));
             }

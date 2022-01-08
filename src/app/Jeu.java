@@ -129,6 +129,7 @@ public class Jeu {
         }
         else{
             jeu = Jeu.getInstance(new JeuConstructreurTXT());
+            Jeu.getInstance().demarrer();
         }
         // TODO voir une autre manière de lancer l'application
         // La méthode launch bloquais l'accès à la méthode démarrer

@@ -61,6 +61,19 @@ public class JoueurVueGUI implements IJoueurVue {
 
     @Override
     public IAction demanderTourDeJeu(IAction[] actionsDisponibles) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/app/vuesGUI/DemandeAction.fxml"));
+            VBox root = loader.load();
+            Stage inner = new Stage();
+            inner.setScene(new Scene(root));
+            DemandeActionController controller = loader.getController();
+            controller.initChoix(actionsDisponibles);
+
+            inner.showAndWait();
+            return controller.getResult();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -89,7 +102,7 @@ public class JoueurVueGUI implements IJoueurVue {
             Stage inner = new Stage();
             inner.setScene(new Scene(root));
             DemandeCarteController controller = loader.getController();
-            controller.initChoix(this.joueur.getCartesMain());
+            controller.initChoix(cartes);
 
             inner.showAndWait();
             return controller.getResult();
@@ -170,7 +183,20 @@ public class JoueurVueGUI implements IJoueurVue {
 
     @Override
     public CarteRumeur demanderRepriseCarteJoueur(CarteRumeur[] lesCartesDisponibles) {
-        return demanderCarte(lesCartesDisponibles);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/app/vuesGUI/DemandeCarteCachee.fxml"));
+            VBox root = loader.load();
+            Stage inner = new Stage();
+            inner.setScene(new Scene(root));
+            DemandeCarteCacheeController controller = loader.getController();
+            controller.initChoix(lesCartesDisponibles);
+
+            inner.showAndWait();
+            return controller.getResult();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
