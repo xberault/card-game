@@ -86,7 +86,11 @@ public class JoueurControlleur implements PropertyChangeListener {
             this.gererAttente();
             return;
         } else if (nouvelEtat instanceof EtatAccusation) {
+            if (Jeu.GUI){
+                ((JoueurVueGUI) this.vue).setAccuser(((EtatAccusation) nouvelEtat).getJoueurSource());
+            }
             this.gererAccusation();
+
         } else if (nouvelEtat instanceof EtatTourDeJeu) {
             this.gererTourDeJeu();
         } else {
@@ -132,6 +136,7 @@ public class JoueurControlleur implements PropertyChangeListener {
             if (this.vue instanceof JoueurVueGUI){
                 ((JoueurVueGUI)this.vue).afficherInterface();
                 ((JoueurVueGUI)this.vue).afficherActions(this.model.getActionsDisponibles());
+
             }
         }
     }

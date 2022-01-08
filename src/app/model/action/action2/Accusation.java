@@ -29,7 +29,7 @@ public class Accusation extends Action2 {
             if (jCible.estRevele()) {
                 if (jCible.getRole().equals(Role.SORCIERE)) {
                     this.joueur.ajouterPoints(1);
-                    Jeu.getInstance().setProchainJoueur(JoueurControlleur.getControllerFromModel(jCible));
+                    Jeu.getInstance().setProchainJoueur(JoueurControlleur.getControllerFromModel(joueur));
                 }
                 else
                     Jeu.getInstance().setProchainJoueur(JoueurControlleur.getControllerFromModel(jCible));

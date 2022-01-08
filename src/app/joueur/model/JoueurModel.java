@@ -157,7 +157,12 @@ public abstract class JoueurModel {
         // TODO: 13/11/2021 Peut-être mettre un observer sur ce booléen; à voir
         this.identiteRevele = true;
         if (Jeu.GUI){
-            ((JoueurVueGUI) JoueurControlleur.getControllerFromModel(this).getJoueurVue()).afficherActions(getActionsDisponibles());
+            if (this.getRole().equals(Role.SORCIERE)) {
+                ((JoueurVueGUI) JoueurControlleur.getControllerFromModel(this).getJoueurVue()).getAccuser().ajouterPoints(1);
+                Jeu.getInstance().setProchainJoueur(JoueurControlleur.getControllerFromModel(((JoueurVueGUI) JoueurControlleur.getControllerFromModel(this).getJoueurVue()).getAccuser()));
+            }
+            else
+                Jeu.getInstance().setProchainJoueur(JoueurControlleur.getControllerFromModel(this));
             Jeu.getInstance().joueurSuivant();
         }
     }

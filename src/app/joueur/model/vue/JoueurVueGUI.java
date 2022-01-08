@@ -29,6 +29,7 @@ public class JoueurVueGUI implements IJoueurVue {
     private GridPane vue;
 
     private InterfaceJoueurController vueController;
+    private JoueurModel accuser;
 
     public JoueurVueGUI(JoueurModel joueurModel){
         this.joueur=joueurModel;
@@ -219,5 +220,13 @@ public class JoueurVueGUI implements IJoueurVue {
 
     public void afficherActions(IAction[] actionsDisponibles){
         this.vueController.afficherActions(actionsDisponibles);
+    }
+
+    public JoueurModel getAccuser() {
+        return this.accuser;
+    }
+
+    public void setAccuser(JoueurModel joueurSource) {
+        this.accuser = joueurSource;
     }
 }
