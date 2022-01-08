@@ -156,7 +156,7 @@ public abstract class JoueurModel {
     public void seRevele() {
         // TODO: 13/11/2021 Peut-être mettre un observer sur ce booléen; à voir
         this.identiteRevele = true;
-        if (Jeu.GUI){
+        if (Jeu.GUI && JoueurControlleur.getControllerFromModel(this).getJoueurVue() instanceof JoueurVueGUI){
             if (this.getRole().equals(Role.SORCIERE)) {
                 ((JoueurVueGUI) JoueurControlleur.getControllerFromModel(this).getJoueurVue()).getAccuser().ajouterPoints(1);
                 Jeu.getInstance().setProchainJoueur(JoueurControlleur.getControllerFromModel(((JoueurVueGUI) JoueurControlleur.getControllerFromModel(this).getJoueurVue()).getAccuser()));
