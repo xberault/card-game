@@ -86,7 +86,7 @@ public class JoueurControlleur implements PropertyChangeListener {
             this.gererAttente();
             return;
         } else if (nouvelEtat instanceof EtatAccusation) {
-            if (Jeu.GUI){
+            if (Jeu.GUI && this.vue instanceof JoueurVueGUI){
                 ((JoueurVueGUI) this.vue).setAccuser(((EtatAccusation) nouvelEtat).getJoueurSource());
             }
             this.gererAccusation();
@@ -121,7 +121,7 @@ public class JoueurControlleur implements PropertyChangeListener {
     }
 
     private void gererAccusation() {
-        if (!Jeu.GUI){
+        if (!Jeu.GUI || !(this.vue instanceof JoueurVueGUI)){
             Jeu.printd("Le joueur " + this.model + " vient d'être accusé");
 
             IAction action = this.vue.repondreAccusation(this.model.getActionsDisponibles());
@@ -158,7 +158,7 @@ public class JoueurControlleur implements PropertyChangeListener {
      * Transmet l'action soumise par le joueur pour son tour de jeu
      */
     private void gererTourDeJeu() {
-        if (!Jeu.GUI) {
+        if (!Jeu.GUI|| !(this.vue instanceof JoueurVueGUI)) {
             Jeu.printd("Le joueur " + this.model + " va jouer son tour");
             IAction IAction = this.vue.demanderTourDeJeu(this.model.getActionsDisponibles());
 

@@ -35,13 +35,15 @@ public class DemandeJoueurController {
     }
 
     public void handleNext(){
-        String choix =  ( (RadioButton) ((RadioButton) this.root.getChildren().get(1)).getToggleGroup().getSelectedToggle()).getText();
-        for (int i = 0; i < this.joueurs.size(); i++) {
-            if (this.joueurs.get(i).getNom()==choix){
-                this.result=this.joueurs.get(i);
+        if (!((((RadioButton) this.root.getChildren().get(1)).getToggleGroup().getSelectedToggle() ==null))){
+            String choix =  ( (RadioButton) ((RadioButton) this.root.getChildren().get(1)).getToggleGroup().getSelectedToggle()).getText();
+            for (int i = 0; i < this.joueurs.size(); i++) {
+                if (this.joueurs.get(i).getNom()==choix){
+                    this.result=this.joueurs.get(i);
+                }
             }
+            root.getScene().getWindow().hide();
         }
-        root.getScene().getWindow().hide();
     }
 
     public JoueurModel getResult(){
