@@ -74,4 +74,8 @@ public class JeuConstructeurGUI extends Application implements JeuConstructeur  
         this.stage.getScene().setRoot(root);
         this.stage.show();
     }
+
+    public void fermerFenetre() {
+        this.stage.close();
+    }
 }

@@ -245,11 +245,16 @@ public class Jeu {
      * Gère la fin d'une manche
      */
     public void finirManche() {
-        if (this.partieFinie())
+        if (this.partieFinie()) {
             this.finirPartie();
+            return;
+        }
         this.attributionPointGagnant(this.joueurCourant);
         Jeu.printd("Manche fini gagnant " + joueurCourant);
         this.resetEtatJoueurs();
+        if (GUI){
+            this.joueurSuivant();
+        }
         // et on est maintenant reparti dans mainLoop
 
     }
@@ -259,6 +264,9 @@ public class Jeu {
      */
     private void finirPartie() {
         Jeu.printd("Partie fini gagnant " + joueurCourant);
+        if(GUI){
+            this.fermerFenetre();
+        }
     }
 
     /**
@@ -286,7 +294,9 @@ public class Jeu {
             this.initialiserCartesJoueurs();
 
             //noinspection ResultOfMethodCallIgnored
-            System.in.read();
+            if (!GUI){
+                System.in.read();
+            }
         } catch (IOException | ChangementEtatException e) {
             e.printStackTrace();
         }
@@ -425,5 +435,9 @@ public class Jeu {
         if (Jeu.GUI){
             ((JeuConstructeurGUI)this.constructeur).changerFenetre(root);
         }
+    }
+
+    public void fermerFenetre(){
+        ((JeuConstructeurGUI)this.constructeur).fermerFenetre();
     }
 }
